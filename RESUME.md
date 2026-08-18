@@ -2,8 +2,6 @@
 
 Strategy and transformation leader with 10+ years of experience driving digital innovation, operational scale, and cross-functional alignment across enterprise and community organizations.
 
-📞 (808) 294-3457
-✉️ jennifer.kumura@gmail.com
 📍 Honolulu, HI
 🔗 [linkedin.com/in/jenniferkumura](https://linkedin.com/in/jenniferkumura)
 
