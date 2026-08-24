@@ -36,3 +36,7 @@ Default to concise, direct answers. Expand into a fuller walkthrough only when a
 ## Nested AGENTS.md
 
 If a subfolder later gets its own `AGENTS.md` (e.g. inside a specific `capabilities/<name>/`), it takes precedence over this file for anything inside that folder.
+
+## Excel formatting
+
+Before building any model.xlsx, follow docs/standards/excel-formatting.md
