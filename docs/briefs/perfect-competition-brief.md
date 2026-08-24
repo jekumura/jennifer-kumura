@@ -2,7 +2,7 @@
 type: brief
 engagement: perfect-competition
 capability: marginal-analysis
-date: 2026-08-24
+date: 2026-08-23
 status: committed          # committed | superseded
 hypothesis: "Tomato-heavy mix; the labor penalty does not close the revenue gap"
 ---
@@ -15,7 +15,7 @@ I'm deciding how to fill 64 beds across three crops — tomatoes, carrots, mescl
 
 I face the market as a price taker — the price per bed for each crop is a flat line I can't move, so there's no way to "sell my way out" of a bad allocation. Decided badly, I either push a crop past the point where its next bed costs more (in labor and fertilizer) than it earns, or I leave beds idle that would still have cleared a profit — either way I'm leaving money on the table against $20,000 of fixed costs that don't care how I planted.
 
-**Fixed:** 64 total beds, per-crop caps (20 tomatoes / 20 carrots / 30 mesclun), 36-week season, $20,000 fixed cost, each crop's market price, fertilizer $/bed, base labor hrs/wk/bed, and how fast that labor requirement grows per additional bed. Also fixed: my own 720 field hours, and the terms for temp labor — up to 4 workers, $25,000 flat each, 1,440 hours each.
+**Fixed:** 64 total beds, per-crop max (20 tomatoes / 20 carrots / 30 mesclun), 36-week season, $20,000 fixed cost, each crop's market price, fertilizer $ per bed, base labor hrs/wk/bed, and how fast that labor requirement grows per additional bed. Also fixed: my own 720 field hours, and the terms for temp labor — up to 4 workers, $25,000 flat each, 1,440 hours each.
 
 **Chosen:** how many beds of each crop to plant, and how many temp workers to hire.
 
@@ -30,14 +30,12 @@ I face the market as a price taker — the price per bed for each crop is a flat
 
 ## Hypothesis
 
-I expect the optimal mix to sit tomato-heavy, close to its 20-bed cap, because tomatoes start with a per-labor-hour advantage large enough that the diminishing-returns penalty doesn't catch up before the cap does.
+My hypothesis is that the mesclun would take up the largest number of beds due to its higher price per bed and lowest diminishing returns rate, then carrots, then tomatoes. Tomatoes would take the least number of beds because of its high diminishing returns, high labor rates, and high cost of fertilizer per bed.
 
-At bed one, before any penalty: tomatoes clear roughly $70/labor-hour in contribution (90 season-hours/bed, ~$6,358 contribution/bed at temp wages), against roughly $38/hour for carrots and $23/hour for mesclun. That's a 2–3x head start.
-
-Tomatoes also carry the steepest penalty — 10%/bed versus 2.5% for carrots and 1.25% for mesclun — so this is the real test: does the fastest-growing penalty erase the biggest advantage before the cap binds? Working the compounding forward, tomatoes' marginal cost (labor + fertilizer) doesn't cross the $8,800 price until somewhere around the 17th–18th bed of its 20-bed cap. If that's roughly right, most of the tomato allocation stays worth planting — the penalty bites late, not early.
 
 ## How I would know I was wrong
-
-- The optimizer lands on materially fewer than ~15 tomato beds (say, under 10). That would mean the penalty bites much earlier than my back-of-envelope crossover around bed 17–18, and the head start doesn't survive it.
-- Total labor hours (6,480 cap), not tomatoes' own diminishing returns, turns out to be the binding constraint — i.e., moving an hour off tomatoes onto carrots or mesclun raises total contribution. That would mean hours are worth more spread out than concentrated, which is the opposite of "tomato-heavy."
-- The $25,000 fixed cost of a 3rd or 4th temp worker isn't recovered by the extra tomato hours it buys — meaning the honest optimum caps out on fewer hired workers, which caps tomatoes below where I'm expecting.
+- Carrots end up with more beds than mesclun (even if tomatoes are still last). That would mean mesclun's price-per-bed edge doesn't survive its own diminishing returns curve — i.e., mesclun's marginal return per bed falls off fast enough, early enough, that carrots' flatter (even if lower) curve overtakes it before the bed cap binds. This kills the "mesclun wins because of price + low diminishing returns" claim specifically, separate from whether tomatoes are last.
+- Tomatoes stay last even when I equalize fertilizer cost across all three crops. If I zero out the fertilizer-cost gap and tomatoes still land in roughly the same (small) allocation, then fertilizer cost isn't actually doing the explanatory work I credited it with — the diminishing returns curve alone accounts for the gap, and "high fertilizer cost" was padding, not a real driver.
+- Tomatoes stay last even when I equalize labor rate across all three crops. Same logic — if flattening the labor-cost difference doesn't move tomatoes off the bottom, labor rate wasn't a load-bearing part of the mechanism either, and the ranking is being driven almost entirely by the diminishing returns curve shape, not the three-factor story I've written.
+- Mesclun's marginal per-bed return crosses below carrots' before mesclun reaches [X] beds — pin an actual number here from your curves. Without a specific crossover point, "mesclun wins because lowest diminishing returns" can absorb almost any result. Naming the bed count where you'd expect the crossover to happen (analogous to your 17–18 tomato crossover) is what turns this into something checkable rather than a plausible-sounding story after the fact.
+- Total labor hours or total bed count (whichever cap binds first) turns out to reward a more even split across all three crops rather than a lopsided mesclun-heavy one — i.e., moving a bed from mesclun to carrots raises total contribution at the optimum. That would mean the "biggest crop" framing is wrong not because of ranking but because concentration itself is suboptimal, which is a different kind of wrong than getting the order backwards.
