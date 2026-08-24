@@ -18,7 +18,8 @@ three crops (tomatoes, carrots, mesclun) and how many temp workers (0–4) to
 hire for the 36-week season — a one-shot decision with no mid-season
 correction. The objective is to maximize total season contribution
 (revenue − labor cost − fertilizer cost) net of temp-worker hiring costs and
-the $20,000 fixed cost. Audience: the grower making the planting call.
+the two fixed-cost lines ($20,000 general + $50,000 farmer salary — see §3).
+Audience: the grower making the planting call.
 
 ---
 
@@ -43,27 +44,43 @@ Per `docs/standards/excel-formatting.md`:
 
 ## 3. Data Inputs
 
-Values the brief states explicitly are filled in. Values the brief
-identifies as fixed/known but doesn't state a number for are left blank —
-pull those from the case materials, don't infer them.
+All values below are now sourced from the case materials (crop economics
+table) supplied for this engagement.
 
 | Named Range | Source | Value | Unit |
 |-------------|--------|-------|------|
 | `Total_Beds` | Brief | 64 | beds |
-| `Tomato_Bed_Cap` | Brief | 20 | beds |
-| `Carrot_Bed_Cap` | Brief | 20 | beds |
-| `Mesclun_Bed_Cap` | Brief | 30 | beds |
+| `Tomato_Bed_Cap` | Case materials | 20 | beds |
+| `Carrot_Bed_Cap` | Case materials | 20 | beds |
+| `Mesclun_Bed_Cap` | Case materials | 30 | beds |
 | `Season_Weeks` | Brief | 36 | weeks |
 | `Fixed_Cost` | Brief | 20,000 | $ |
+| `Farmer_Salary` | Case materials | 50,000 | $/season |
+| `Farmer_Implied_Wage` | Case materials | 34.72 | $/hr |
 | `Own_Labor_Hours` | Brief | 720 | hrs |
 | `Temp_Worker_Max` | Brief | 4 | workers |
 | `Temp_Worker_Flat_Cost` | Brief | 25,000 | $/worker |
 | `Temp_Worker_Hours` | Brief | 1,440 | hrs/worker |
-| `Temp_Wage_Per_Hour` | Brief | 17.36 | $/hr |
-| `Tomato_Price` / `Carrot_Price` / `Mesclun_Price` | Case materials | *(blank)* | $/bed |
-| `Tomato_Fertilizer_Per_Bed` / `Carrot_Fertilizer_Per_Bed` / `Mesclun_Fertilizer_Per_Bed` | Case materials | *(blank)* | $/bed |
-| `Tomato_Base_Labor_Hrs_Wk_Bed` / `Carrot_Base_Labor_Hrs_Wk_Bed` / `Mesclun_Base_Labor_Hrs_Wk_Bed` | Case materials | *(blank)* | hrs/wk/bed |
-| `Tomato_Diminishing_Rate` / `Carrot_Diminishing_Rate` / `Mesclun_Diminishing_Rate` | Case materials | *(blank)* | %/bed |
+| `Temp_Wage_Per_Hour` | Case materials | 17.36 | $/hr |
+| `Tomato_Price` | Case materials | 8,800 | $/bed |
+| `Carrot_Price` | Case materials | 2,094 | $/bed |
+| `Mesclun_Price` | Case materials | 2,700 | $/bed |
+| `Tomato_Fertilizer_Per_Bed` | Case materials | 880 | $/bed |
+| `Carrot_Fertilizer_Per_Bed` | Case materials | 440 | $/bed |
+| `Mesclun_Fertilizer_Per_Bed` | Case materials | 880 | $/bed |
+| `Tomato_Base_Labor_Hrs_Wk_Bed` | Case materials | 2.50 | hrs/wk/bed |
+| `Carrot_Base_Labor_Hrs_Wk_Bed` | Case materials | 0.833 | hrs/wk/bed |
+| `Mesclun_Base_Labor_Hrs_Wk_Bed` | Case materials | 1.25 | hrs/wk/bed |
+| `Tomato_Diminishing_Rate` | Case materials | 10.00% | %/bed |
+| `Carrot_Diminishing_Rate` | Case materials | 2.50% | %/bed |
+| `Mesclun_Diminishing_Rate` | Case materials | 1.25% | %/bed |
+
+`Farmer_Salary` and `Farmer_Implied_Wage` describe the farmer's own
+compensation ($50,000/season, half her time in the field = 720 hours,
+implying $34.72/hr across all her working hours — twice the temp wage).
+Since this salary is paid regardless of the planting decision, it's a
+**second fixed-cost line, separate from `Fixed_Cost`** — not a per-hour
+charge against `Own_Labor_Hours` (see §4's marginal-wage logic, unchanged).
 
 ## 4. Derived Inputs
 
@@ -122,8 +139,8 @@ replace it.
 - `Temp_Workers_Hired` is a non-negative integer `<= Temp_Worker_Max`
 - `Total_Labor_Hours_Needed <= Own_Labor_Hours + Temp_Workers_Hired × Temp_Worker_Hours`
 - Check cell: `Summary` net profit reconciles to
-  `SUM(crop contribution) − Temp_Hiring_Cost − Fixed_Cost` computed
-  independently on `Calculations`.
+  `SUM(crop contribution) − Temp_Hiring_Cost − Fixed_Cost − Farmer_Salary`
+  computed independently on `Calculations`.
 
 ---
 
