@@ -1,6 +1,8 @@
 # jennifer-kumura
 
-Personal working repo for strategy and transformation engagements — a place to run each engagement through a repeatable cycle (brief → build → analyze → decide), build up reusable analytical capabilities along the way, and keep a record of what AI helped with. See [AGENTS.md](./AGENTS.md) for the full AI working conventions.
+Jennifer Kumura is a strategy and transformation leader with over 10 years of experience in human-centered design. She has professional experience in both Seattle and the San Francisco Bay Area. She is currently based on Honolulu and is a Digital Transformation Lead at Servco Pacific Inc. She also co-founded and leads UXHI, Hawaiʻi's largest UX and product design community.
+
+This is a personal working repo for strategy and transformation engagements — a place to run each engagement through a repeatable cycle (brief → build → analyze → decide), build up reusable analytical capabilities along the way, and keep a record of what AI helped with. See [AGENTS.md](./AGENTS.md) for the full AI working conventions.
 
 ## Repo structure
 
