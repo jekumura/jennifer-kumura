@@ -30,7 +30,7 @@ I face the market as a price taker — the price per bed for each crop is a flat
 
 ## Hypothesis
 
-My hypothesis is that the mesclun would take up the largest number of beds due to its higher price per bed and lowest diminishing returns rate, then carrots, then tomatoes (28 beds of mesclun, 20 beds of carrots, 16 beds of tomatoes). Tomatoes would take the least number of beds because of its high diminishing returns, high labor rates, and high cost of fertilizer per bed.
+My hypothesis is that the mesclun would take up the largest number of beds due to its higher price per bed and lowest diminishing returns rate, then carrots, then tomatoes (~45% beds of mesclun, ~30% beds of carrots, ~25% beds of tomatoes). Tomatoes would take the least number of beds because of its high diminishing returns, high labor rates, and high cost of fertilizer per bed. The mechanism that I would use is optimize P = MC, which means to allocate the next bed to whichever crop currently has the highest marginal profit (price minus its MC at that bed count) and continuing until we run out of beds.
 
 
 ## How I would know I was wrong
