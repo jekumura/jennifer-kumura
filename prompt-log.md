@@ -1,6 +1,4 @@
-# Prompt Log
-
-[Placeholder — running record of AI sessions that mattered.]
+# Prompt Log - running record of AI sessions that mattered.
 
 ## 2026-08-24 — Crop economics data filled into the spec
 
