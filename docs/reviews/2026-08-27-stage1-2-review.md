@@ -1,7 +1,7 @@
 <!-- PR TARGET: https://github.com/jekumura/jennifer-kumura | Stage 1.2 (8 pts) -->
 # Stage 1.2 review — spec, build, audit
 
-**You scored 50 out of 100 (F). I am holding it rather than entering it — see below.**
+**You scored 50 out of 100 (F), which would be 7.50 of the 15 points for this stage. I am holding it rather than entering it — see below.**
 
 **Spec:** [`capabilities/marginal-analysis/spec.md`](https://github.com/jekumura/jennifer-kumura/blob/main/capabilities/marginal-analysis/spec.md)
 
@@ -50,6 +50,14 @@ My advice: build to the case convention so the check figures are reachable, and 
 Building the Summary panel so it reports its own hypothesis verdict — and letting it print FAILS rather than quietly adjusting the hypothesis to match — is a better instinct than most of what I graded this week. The defects above are ordinary modeling errors that everyone makes; the habit of building something that can tell you that you were wrong is the rarer thing, and you already have it.
 
 Your docs/standards/excel-formatting.md, written before anyone asked for it, is what the rest of the cohort will wish they had in two weeks.
+
+### A note on the point value, new as of today
+
+This stage is now worth **15 points** rather than the 8 in the stage brief, and **Stage 1.3** — the analysis, the memo, and the prompt log — is now worth **15** as well. Cases 2 and 3 have been dropped for this cohort, so Case 1 *is* the case.
+
+In practice: this stage and the next one are together worth **30 of the 35 points** on the case. Stage 0 and Stage 1.1 are 2.5 each. The weight has moved onto the build and the analysis, which is where the work actually is.
+
+Nothing about the grading changes — the score is still out of 100 and converted at the end. The stage brief and the case page still show the old numbers; they have not been updated yet.
 
 ---
 
