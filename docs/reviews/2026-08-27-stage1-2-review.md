@@ -3,7 +3,7 @@
 
 **Spec:** [`capabilities/marginal-analysis/spec.md`](https://github.com/jekumura/jennifer-kumura/blob/main/capabilities/marginal-analysis/spec.md)
 
-> Graded early. Stage 1.2 is not due until 11 September and nothing was required yet — you are one of only two people in the cohort with a spec and a working workbook, so this is formative feedback well ahead of the deadline. I am not entering this score. There are two costing defects in the workbook, and once they are fixed the model should land somewhere very different. Fix them before the deadline and the stage is re-graded from scratch.
+> Graded early. Stage 1.2 is still open and nothing was required yet — you are one of only two people in the cohort with a spec and a working workbook, so this is formative feedback well ahead of the deadline. I am not entering this score. There are two costing defects in the workbook, and once they are fixed the model should land somewhere very different. Fix them before the deadline and the stage is re-graded from scratch.
 
 | Criterion | Where it stands |
 |---|---|
