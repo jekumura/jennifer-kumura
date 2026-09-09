@@ -84,12 +84,19 @@ charge against `Own_Labor_Hours` (see §4's marginal-wage logic, unchanged).
 
 ## 4. Derived Inputs
 
-- **Per-bed labor hours (compounding diminishing returns):**
-  `Marginal_Labor_Hrs(crop, n) = {Crop}_Base_Labor_Hrs_Wk_Bed × Season_Weeks × (1 + {Crop}_Diminishing_Rate)^(n-1)`
+- **Cumulative labor hours for a crop at q beds (Adam's case-materials
+  formula — authoritative):**
+  `Cumulative_Labor_Hrs(crop, q) = q × {Crop}_Base_Labor_Hrs_Wk_Bed × Season_Weeks × (1 + {Crop}_Diminishing_Rate)^q`
   — applied to labor hours only, per the brief's assumption; price and
-  fertilizer per bed stay flat regardless of bed count.
-- **Cumulative labor hours for a crop at N beds:**
-  `Cumulative_Labor_Hrs(crop, N) = SUM(Marginal_Labor_Hrs(crop, 1..N))`
+  fertilizer per bed stay flat regardless of bed count. Note this is a
+  closed-form total for all `q` beds together, not a sum of independently
+  compounding per-bed amounts.
+- **Marginal (incremental) labor hours for the q-th bed** — needed for the
+  per-bed marginal-cost/crossover analysis in §5, derived as the discrete
+  difference of the cumulative formula above (not compounded independently
+  per bed):
+  `Marginal_Labor_Hrs(crop, q) = Cumulative_Labor_Hrs(crop, q) − Cumulative_Labor_Hrs(crop, q-1)`
+  `= {Crop}_Base_Labor_Hrs_Wk_Bed × Season_Weeks × (1 + {Crop}_Diminishing_Rate)^(q-1) × (1 + q × {Crop}_Diminishing_Rate)`
 - **Marginal wage (shared-pool, step function):** per the brief's assumption
   that "an hour is an hour... the relevant marginal wage is whichever
   source is cheaper at the margin" —
