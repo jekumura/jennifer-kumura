@@ -1,5 +1,27 @@
 # Prompt Log - running record of AI sessions that mattered.
 
+## 2026-09-09 — Spec gap review, Farm Profit Lab validation, model.xlsx built
+
+Asked to evaluate the marginal-analysis spec for guessed-at gaps and
+undefined terms (no rewrite), then implement the recommended fixes.
+Separately, asked to run five required validation checks against the
+model's acceptance criteria (optimal mix, season profit, standalone P≈MC
+points) and record findings in spec.md. The first validation pass exposed
+a real bug: the spec's own `Marginal_Wage` formula (free farmer hours,
+then paid temp hours) didn't reproduce the acceptance criteria at all. A
+Farm Profit Lab PDF export (the case's reference implementation) resolved
+it — the farmer's hours are the *expensive* tier ($34.72/hr), temp hours
+are *cheaper* ($17.36/hr) once 720 hours are exhausted, the exact reverse
+of what was specced, and there's no $25,000-per-worker lumpy hiring fee in
+the validated model (still an open discrepancy against the brief, which
+states one). Fixed §3/§4/§5/§6/§7/§8 accordingly, then rebuilt
+`capabilities/marginal-analysis/model.xlsx` from the corrected spec —
+which caught a second bug live (a naive "count of profitable beds" formula
+overcounted past a marginal-profit dip caused by the wage-tier flip).
+Final validated result: Tomatoes 10 / Carrots 20 / Mesclun 30, $42,775
+profit, matching the $42,762 target; the greedy P=MC walk and the Solver
+optimum now agree exactly.
+
 ## 2026-08-24 — Crop economics data filled into the spec
 
 Supplied the case-materials crop economics table (price, fertilizer, labor
