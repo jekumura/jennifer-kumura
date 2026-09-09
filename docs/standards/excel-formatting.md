@@ -46,9 +46,17 @@ input through a chain of formulas, it's black and locked. If a cell's value
 came from typing it in — a given price, a case assumption, a driver you're
 testing — it's blue and unlocked.
 
-### Enforcing it, not just color-coding it
+### Sheet protection (optional)
 
-Color alone gets overwritten by accident. Lock it down:
+The color coding above is the baseline and always applies. Sheet protection
+is an optional extra layer on top of it — a hard stop instead of just a
+visual hint — not a requirement. Workbooks in this repo ship **unprotected**
+by default, so every cell stays directly editable for exploring, testing
+inputs, and adjusting Solver decision cells without an unprotect step.
+
+If a specific workbook calls for the hard stop (e.g. handing it to someone
+else to fill in, or a model where an accidental overwrite would be costly to
+untangle), turn it on deliberately:
 
 1. Select the entire sheet (Ctrl+A) → `Format Cells` → `Protection` tab →
    make sure **Locked** is checked. (This is the default for every cell, but
@@ -56,15 +64,13 @@ Color alone gets overwritten by accident. Lock it down:
 2. Select only the input cells (the ones that should stay blue/editable) →
    `Format Cells` → `Protection` → **uncheck** Locked.
 3. `Review` → `Protect Sheet`. Now formula cells physically can't be typed
-   into without unprotecting the sheet first — a hard stop, not just a
-   visual hint.
+   into without unprotecting the sheet first.
 4. Apply the font color (blue for unlocked/input, default black for
    everything else) as the last step, so it visually matches what's actually
    locked.
 
-This means a reviewer — or you, six weeks later — can tell what's safe to
-change just by glancing at the color, and can't accidentally break a formula
-even if they try.
+Either way, a reviewer — or you, six weeks later — can tell what's safe to
+change just by glancing at the color, whether or not protection is turned on.
 
 ## Documentation
 
