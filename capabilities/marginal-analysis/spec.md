@@ -306,3 +306,39 @@ the decision doc.
 
 - [`docs/briefs/perfect-competition-brief.md`](../../docs/briefs/perfect-competition-brief.md) — engagement brief (problem framing, fixed/chosen variables, assumptions, hypothesis, falsification criteria)
 - [`docs/standards/excel-formatting.md`](../../docs/standards/excel-formatting.md) — workbook build conventions
+
+---
+
+## 11. Validation Findings (2026-09-09)
+
+Ran the five required checks against the formulas in this spec (§4-§5),
+computed directly in Python — not against the workbook, since `model.xlsx`
+still reflects the pre-formula-swap spec and hasn't been regenerated yet.
+Acceptance criteria: optimal mix Tomatoes 10 / Carrots 20 / Mesclun 30
+(60 beds), season profit $42,762, standalone P≈MC points Tomatoes ~10 /
+Carrots ~10 / Mesclun ~6.
+
+| # | Check | What I found | What I did |
+|---|-------|---------------|------------|
+| 1 | q=1 by hand (tomato) | `Cumulative_Labor_Hrs(tomato,1) = 1×2.5×36×1.10 = 99.0` — matches exactly. | **Pass.** No action. |
+| 2 | Cross-check against the Farm Profit Lab | I don't have access to the Farm Profit Lab (no URL/credentials/export in this repo or given to me). | **Could not run.** Need the tool's output (or access to it) to compare an intermediate marginal cost. |
+| 3 | Two Solver starting points, 0/0/0 and 20/0/0 | Simulated with single-step hill-climbing (since I can't drive Excel Solver's UI directly): **0/0/0 converges to a local optimum at Tomatoes 4/Carrots 0/Mesclun 4, $38,960** — 6.3% below the true global optimum I found by exhaustive search (Tomatoes 6/Carrots 12/Mesclun 13, $41,583). **20/0/0 is infeasible at the start** — 20 tomato beds alone need ~12,110 labor hours, almost double the 6,480-hour max capacity even with all 4 temp workers hired. | **Real finding, not a nuisance, per the check's own framing.** A naive greedy/local search stalls well short of the true optimum, and a plausible-looking starting point (max out the highest-value crop) is infeasible outright. Flagging for the actual Excel Solver run: don't trust a single starting point, and expect GRG Nonlinear to struggle from an infeasible seed. |
+| 4 | The check figures | **Fail, on both figures.** Exhaustively searching the full integer decision space under this spec's current cost model (§4: `Marginal_Wage` = $0 up to 720 shared hours, then $17.36/hr; ≤4 temp workers), the true optimum is **Tomatoes 6 / Carrots 12 / Mesclun 13 ($41,583)** — close to the target profit (within 2.8%) but a substantially different allocation (31 beds, not 60). The stated optimal mix, Tomatoes 10/Carrots 20/Mesclun 30, evaluates to **−$12,226 contribution** under this spec — not $42,762. The standalone P≈MC crossovers also don't reproduce ~10/~10/~6: under the spec's current per-crop `Marginal_Wage` rule (§4 — $0 until that crop's *own* cumulative hours pass 720), tomato crosses around bed 11 (close to ~10), but carrot and mesclun never cross within their caps at all (both stay profitable to 20 and 30 beds respectively) — their own hours never reach 720 in isolation. I also tried the crossover with `Temp_Wage_Per_Hour` (17.36) applied uniformly (no 720 threshold) — tomato still ~11, but carrot and mesclun still never cross. I tried `Farmer_Implied_Wage` (34.72) applied uniformly — that produces crossovers at tomato~6, carrot~11, mesclun~7, which is closer for carrot/mesclun but now tomato is off. No single wage assumption I tested reproduces all three target crossovers together. | **Did not patch the spec.** None of the wage-rate variants I tried (the step function as currently specced, uniform temp wage, uniform farmer wage) reproduce the target numbers, and the close-but-not-exact profit match at a very different bed count (31 vs 60) rules out a simple rounding fix — I checked carrot's rounded 0.833 hrs/wk/bed against the unrounded 5/6 and it barely moves the answer. This needs the actual formula/assumption from the Farm Profit Lab or Adam's materials for the standalone and joint cost calculations before I change anything — see open question below. |
+| 5 | Formulas, not pasted values | Not yet checkable — `model.xlsx` hasn't been regenerated against the current spec (v1.2), so there's nothing to spot-check yet. | **Deferred** until the workbook is rebuilt, which I'm holding off on until check 4 is resolved (rebuilding now would bake in a cost model that already fails its own acceptance criteria). |
+
+**Bottom line:** Check 1 passes cleanly. Checks 2 and 5 couldn't be run (no
+Farm Profit Lab access; no current workbook to inspect). Check 3 surfaced a
+real local-optimum and infeasible-start-point risk, independent of the
+check-4 question. **Check 4 is the one that matters most, and it fails**:
+this spec's cost model (§4's shared-pool `Marginal_Wage` step function)
+does not reproduce either the stated optimal mix or the standalone
+crossover points, even though it gets the achievable maximum profit into
+the right neighborhood. I did not guess at a fix, per the "fix the spec,
+don't patch the workbook" rule — patching would mean picking one of the
+three wage assumptions I tried above with no real basis for preferring it.
+
+**Open question:** what wage/cost assumption does the Farm Profit Lab (or
+Adam's materials) actually use for (a) the standalone per-crop P≈MC
+crossover and (b) the joint labor-cost calculation? Once that's confirmed,
+I'll update §4 accordingly, re-run all five checks, and only then rebuild
+`model.xlsx`.
