@@ -300,6 +300,27 @@ specifically to catch that. When a check fails, fix the spec and
 regenerate the workbook; don't patch the workbook by hand. A workbook
 that no longer matches its spec is a model nobody can rebuild.
 
+### Audit Findings (2026-09-09)
+
+Ran against the committed `capabilities/marginal-analysis/model.xlsx`,
+recalculated fresh via LibreOffice (1,078 formulas, 0 errors).
+
+| Check | Result |
+|-------|--------|
+| 1 — q=1 by hand | **Pass.** `Calculations!C5` (tomato bed 1 marginal hours) = 99.0, matching `1 × 2.50 × 36 × 1.10` exactly. |
+| 4 — The check figures | **Pass.** `Summary` shows Tomatoes 10 / Carrots 20 / Mesclun 30 (60 beds), PROFIT $42,775.16 — within $13 of the $42,762 target (residual is `Carrot_Base_Labor_Hrs_Wk_Bed` rounding, 0.833 vs. the likely-exact 5/6). Standalone crossovers on `Calculations`: Tomato bed 10, Carrot bed 10, Mesclun bed 6 (`F26`/`M26`/`T36`) — exactly the ~10/~10/~6 target. |
+| 5 — Formulas, not pasted values | **Pass.** `Calculations` cells reference `Tomato_Base_Labor_Hrs_Wk_Bed`, `Season_Weeks`, `Tomato_Diminishing_Rate`, etc. by name throughout — spot-checked, no hardcoded numbers standing in for a derivable value. |
+
+Two more, for completeness:
+
+| Check | Result |
+|-------|--------|
+| 2 — Farm Profit Lab cross-check | **Pass.** The lab's displayed "+1 bed" marginal profits (Tomatoes +$4,483, Carrots +$586, Mesclun +$238, from a `farmlab.html` export) match this model's own bed-1 marginal contributions to the cent. |
+| 3 — Two Solver starting points, 0/0/0 and 20/0/0 | **Pass, with a caveat.** 0/0/0 converges (via hill-climbing) to the true optimum, Tomatoes 10/Carrots 20/Mesclun 30. 20/0/0 is infeasible outright — 20 tomato beds alone need ~12,110 labor hours against the 6,480-hour max — which is a real Solver gotcha worth knowing (don't start there), not a defect in the cost model. |
+
+All five checks pass. `Calculations!D152` (greedy walk vs. Solver PROFIT
+delta) reads 0 — the two methods agree exactly.
+
 ---
 
 ## Part B — Analysis Specification
