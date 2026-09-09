@@ -2,8 +2,8 @@
 type: spec
 capability: marginal-analysis
 engagement: perfect-competition
-date: 2026-08-24
-version: 1.0
+date: 2026-09-09
+version: 1.1
 status: draft
 ---
 
@@ -125,12 +125,37 @@ answer, because:
    *marginal* value of the hours it unlocks across all three crops
    combined, not any single crop's curve.
 
+### The brief's stated mechanism: a P = MC greedy walk
+
+The brief's Hypothesis section names a specific allocation mechanism,
+distinct from the standalone per-crop crossover above: **allocate the next
+bed to whichever crop currently has the highest marginal profit** (price
+minus that crop's marginal cost at its current bed count), and repeat until
+beds run out. This interleaves all three crops bed-by-bed instead of
+solving each crop's curve in isolation — it is the mechanism behind the
+brief's current hypothesis (mesclun and carrots each saturating their own
+bed caps, tomatoes taking the remainder).
+
+The model must compute this greedy walk explicitly (as its own labeled
+scenario, separate from both the standalone crossover and the Solver
+optimum) because it is **not guaranteed to match the true joint optimum**:
+a bed-by-bed walk that only compares "is this crop's next bed still
+profitable?" never explicitly weighs the $25,000 lumpy cost of crossing
+into a new temp-worker hour bracket — it only ever "sees" the flat
+`Temp_Wage_Per_Hour` rate per hour, never the fixed hiring fee. A greedy
+walk can therefore keep adding beds well past the point where the *true*,
+fully-costed allocation would stop. Report the greedy walk's resulting
+allocation and its total contribution (correctly re-costed with the actual
+number of temp workers that allocation requires) alongside the Solver
+optimum, so the two can be compared directly.
+
 The actual optimum requires jointly solving beds-per-crop and
 temp-workers-hired via the `Solver` tab (integer/non-linear constraints:
 per-crop bed caps, total bed cap, total labor hours, integer 0–4 temp
 workers), maximizing total contribution. The per-crop crossover formulas
-above exist to sanity-check Solver's output against intuition, not to
-replace it.
+and the greedy walk above both exist to sanity-check Solver's output
+against intuition — and against the brief's own stated hypothesis and
+mechanism — not to replace it.
 
 ## 6. Validation Rules
 
@@ -148,12 +173,16 @@ replace it.
 
 ## 7. Analysis Requirements
 
-The current hypothesis (brief, "Hypothesis" section) is that the optimal
-mix ranks **mesclun > carrots > tomatoes** by bed count — mesclun largest
-on higher price/bed plus the lowest diminishing-returns rate, tomatoes
-smallest on the combination of high diminishing returns, high labor rate,
-and high fertilizer cost. The analysis must check each of the brief's five
-falsification conditions directly against Solver's output:
+The current hypothesis (brief frontmatter: "mesclun-max and carrot max mix;
+exhaust the highest marginal profit crops up until their limits") is that
+**mesclun and carrots each saturate their own bed caps** — mesclun ~45% =
+30 beds (its cap), carrots ~30% = 20 beds (its cap) — with tomatoes taking
+the remaining ~25% (~10 beds), on the combination of high diminishing
+returns, high labor rate, and high fertilizer cost. The stated mechanism is
+the P = MC greedy walk described in §5. The analysis must check each of the
+brief's five falsification conditions directly against Solver's output (and
+against the greedy-walk scenario, since the hypothesis's mechanism and the
+Solver optimum are not guaranteed to agree — see §5):
 
 1. Does carrots end up with **more** beds than mesclun? If so, mesclun's
    price + low-diminishing-returns edge doesn't survive its own curve.
@@ -163,9 +192,10 @@ falsification conditions directly against Solver's output:
 3. Zero out the labor-rate gap across crops and re-solve — do tomatoes
    still land last? If yes, labor rate wasn't load-bearing either, and the
    ranking is driven by the diminishing-returns curve shape alone.
-4. At what bed count does mesclun's marginal per-bed return cross *below*
-   carrots'? Report the actual number (analogous to a tomato-style
-   crossover bed) rather than leaving the claim unfalsifiable.
+4. Does mesclun's marginal per-bed return survive all the way to its
+   **30-bed cap**? If its marginal return crosses *below* carrots' before
+   bed 30, the mesclun-max claim is falsified — the brief now pins this
+   threshold to mesclun's own cap rather than leaving it open.
 5. At the optimum, does moving one bed from mesclun to carrots raise total
    contribution? If so, the binding constraint (labor hours or total beds)
    rewards a more even split, not mesclun-heavy concentration.
@@ -184,15 +214,19 @@ hour, one more temp worker).
 - Final beds-per-crop allocation and temp-worker hiring decision.
 - Explicit verdict on the hypothesis: confirmed, or which of the five
   falsification conditions in §7 tripped and what that implies about the
-  "mesclun wins on price + low diminishing returns, tomatoes lose on all
-  three factors" story.
+  "mesclun-max and carrot-max mix, exhausting the highest-marginal-profit
+  crops up to their limits" story.
+- Explicit comparison of the greedy P=MC walk (§5) against the Solver
+  optimum — if they diverge, say by how much and why (the lumpy $25,000
+  temp-worker cost is the leading candidate explanation, per §5).
 - Sensitivity notes from §8 (what changes the recommendation if a
   constraint were relaxed).
 
 ## 10. Output Format
 
-1. Allocation table (beds per crop, temp workers hired).
-2. Total contribution and net profit.
+1. Allocation table (beds per crop, temp workers hired) — Solver optimum
+   and greedy P=MC walk (§5), side by side.
+2. Total contribution and net profit for both.
 3. Hypothesis verdict against each of the five §7 checks.
 4. Binding constraint and its sensitivity (§8).
 
