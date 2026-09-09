@@ -3,7 +3,7 @@ type: spec
 capability: marginal-analysis
 engagement: perfect-competition
 date: 2026-09-09
-version: 1.3
+version: 1.4
 status: committed
 ---
 
@@ -69,11 +69,18 @@ table) supplied for this engagement.
 | `Carrot_Fertilizer_Per_Bed` | Case materials | 440 | $/bed |
 | `Mesclun_Fertilizer_Per_Bed` | Case materials | 880 | $/bed |
 | `Tomato_Base_Labor_Hrs_Wk_Bed` | Case materials | 2.50 | hrs/wk/bed |
-| `Carrot_Base_Labor_Hrs_Wk_Bed` | Case materials | 0.833 | hrs/wk/bed |
+| `Carrot_Base_Labor_Hrs_Wk_Bed` | Derived — case defines it as tomato's rate ÷ 3 | `= Tomato_Base_Labor_Hrs_Wk_Bed / 3` (0.8333...) | hrs/wk/bed |
 | `Mesclun_Base_Labor_Hrs_Wk_Bed` | Case materials | 1.25 | hrs/wk/bed |
 | `Tomato_Diminishing_Rate` | Case materials | 10.00% | %/bed |
 | `Carrot_Diminishing_Rate` | Case materials | 2.50% | %/bed |
 | `Mesclun_Diminishing_Rate` | Case materials | 1.25% | %/bed |
+
+**Correction (v1.4):** `Carrot_Base_Labor_Hrs_Wk_Bed` was previously entered
+as `0.833` — the displayed, rounded value — rather than derived from the
+case's own definition (carrot labor = tomato labor ÷ 3 = 0.8333...). Same
+class of error as a hardcoded formula constant: a displayed number treated
+as an exact input. Now a formula referencing `Tomato_Base_Labor_Hrs_Wk_Bed`
+directly, so it can't drift out of sync if that input ever changes.
 
 **Correction (v1.3, per §6's Farm Profit Lab cross-check):** earlier
 drafts of this spec treated `Own_Labor_Hours` as a $0-marginal-cost,
@@ -87,6 +94,29 @@ There is no $0 tier, and there is no separate `Farmer_Salary` fixed-cost
 line — her compensation is fully captured through the per-hour
 `Farmer_Implied_Wage` charge on whichever of her 720 hours actually get
 used (see §4). `Fixed_Cost` is the brief's $20,000 alone.
+
+**Kept argument — accounting cost vs. economic cost for the farmer's own
+hours:** the case convention (above) charges her 720 field hours into
+labor at `Farmer_Implied_Wage` and leaves the rest of her $50,000 salary
+out of the model. The alternative this spec originally used — her *whole*
+$50,000 salary as a second fixed cost, her 720 hours free at the margin
+since they're already paid for — is a legitimate economic-cost reading:
+if her salary is a sunk commitment regardless of the planting decision,
+only the *incremental* cost of a bed should count, and her own hours
+aren't incremental. It just isn't the convention the published check
+figures were computed under, so a model built on it can't reach them.
+
+Worth stating precisely what the choice costs, now that the labor formula
+itself is fixed (§4): re-solving under the accounting-cost convention with
+the corrected labor function gives the **same optimal allocation**,
+Tomatoes 10 / Carrots 20 / Mesclun 30 — the reclassification is a pure
+lump-sum shift, so it doesn't change which crops are relatively more
+profitable at the margin. Only the reported profit moves, to **$17,767**
+(down $25,008 from $42,775: +$50,000 fixed cost, −$24,998 no-longer-billed
+labor on her 720 hours, netting to roughly that gap). The two conventions
+disagree on the season's *bottom line*, not on the *planting decision* —
+worth keeping in mind for the Stage 3 memo, where the bottom line is the
+point.
 
 **Open item — the brief's stated $25,000-per-worker lumpy hiring fee:**
 the brief is explicit and repeated that "$25,000 is owed the moment I
@@ -286,13 +316,15 @@ done until every one passes.
 | 4 | **The check figures** (table below). | Everything else, in aggregate. |
 | 5 | **Formulas, not pasted values** — spot-check that `Calculations` cells reference the named inputs in §3, not hardcoded numbers. | A number that's right today and wrong the moment an input changes. |
 
-**Check figures (acceptance targets for check 4):**
+**Check figures (acceptance targets for check 4), each with a tolerance:**
 
-| Check | Value |
-|-------|-------|
-| Optimal mix | Tomatoes 10 · Carrots 20 · Mesclun 30 (60 beds) |
-| Season profit | $42,762 |
-| Standalone P ≈ MC points | Tomatoes ~10 · Carrots ~10 · Mesclun ~6 beds |
+| Check | Value | Tolerance |
+|-------|-------|-----------|
+| Optimal mix | Tomatoes 10 · Carrots 20 · Mesclun 30 (60 beds) | Exact — integer beds, no rounding room |
+| Season profit | $42,762 | ± $50 (the residual from `Carrot_Base_Labor_Hrs_Wk_Bed`'s now-formula-derived precision) |
+| Temp workers needed | ~3.16 (uncapped/unrounded — `(Total_Labor_Hours_Needed − Own_Labor_Hours) / Temp_Worker_Hours`; `Temp_Workers_Hired` itself rounds this up to the integer 4, since you can't hire a fraction of a worker) | ± 0.05 |
+| Standalone P ≈ MC points | Tomatoes ~10 · Carrots ~10 · Mesclun ~6 beds | ± 1 bed each |
+| q = 1 hand check | `Cumulative_Labor_Hrs(tomato,1)` = exactly 99.00 hrs | Exact |
 
 A model that reproduces these numbers with broken formulas fails
 inspection just as surely as one that misses them — check 5 exists
@@ -300,16 +332,16 @@ specifically to catch that. When a check fails, fix the spec and
 regenerate the workbook; don't patch the workbook by hand. A workbook
 that no longer matches its spec is a model nobody can rebuild.
 
-### Audit Findings (2026-09-09)
+### Audit Findings (last updated 2026-09-09)
 
 Ran against the committed `capabilities/marginal-analysis/model.xlsx`,
-recalculated fresh via LibreOffice (1,078 formulas, 0 errors).
+recalculated fresh via LibreOffice (1,080 formulas, 0 errors).
 
 | Check | Result |
 |-------|--------|
 | 1 — q=1 by hand | **Pass.** `Calculations!C5` (tomato bed 1 marginal hours) = 99.0, matching `1 × 2.50 × 36 × 1.10` exactly. |
-| 4 — The check figures | **Pass.** `Summary` shows Tomatoes 10 / Carrots 20 / Mesclun 30 (60 beds), PROFIT $42,775.16 — within $13 of the $42,762 target (residual is `Carrot_Base_Labor_Hrs_Wk_Bed` rounding, 0.833 vs. the likely-exact 5/6). Standalone crossovers on `Calculations`: Tomato bed 10, Carrot bed 10, Mesclun bed 6 (`F26`/`M26`/`T36`) — exactly the ~10/~10/~6 target. |
-| 5 — Formulas, not pasted values | **Pass.** `Calculations` cells reference `Tomato_Base_Labor_Hrs_Wk_Bed`, `Season_Weeks`, `Tomato_Diminishing_Rate`, etc. by name throughout — spot-checked, no hardcoded numbers standing in for a derivable value. |
+| 4 — The check figures | **Pass.** `Summary` shows Tomatoes 10 / Carrots 20 / Mesclun 30 (60 beds), PROFIT $42,768.33 — within the ±$50 tolerance of the $42,762 target (the earlier $13 residual, from `Carrot_Base_Labor_Hrs_Wk_Bed` being a rounded literal, is most of the way closed now that it's a formula — see the defect record below). Temp workers needed, unrounded: `Calculations!D48` = 3.16, matching the ~3.16 target. Standalone crossovers on `Calculations`: Tomato bed 10, Carrot bed 10, Mesclun bed 6 (`F26`/`M26`/`T36`) — exactly the ~10/~10/~6 target. |
+| 5 — Formulas, not pasted values | **Pass.** `Calculations` cells reference `Tomato_Base_Labor_Hrs_Wk_Bed`, `Season_Weeks`, `Tomato_Diminishing_Rate`, etc. by name throughout. `Carrot_Base_Labor_Hrs_Wk_Bed` itself is now a formula (`=Tomato_Base_Labor_Hrs_Wk_Bed/3`) rather than the rounded literal `0.833` it used to be — see below. |
 
 Two more, for completeness:
 
@@ -318,8 +350,42 @@ Two more, for completeness:
 | 2 — Farm Profit Lab cross-check | **Pass.** The lab's displayed "+1 bed" marginal profits (Tomatoes +$4,483, Carrots +$586, Mesclun +$238, from a `farmlab.html` export) match this model's own bed-1 marginal contributions to the cent. |
 | 3 — Two Solver starting points, 0/0/0 and 20/0/0 | **Pass, with a caveat.** 0/0/0 converges (via hill-climbing) to the true optimum, Tomatoes 10/Carrots 20/Mesclun 30. 20/0/0 is infeasible outright — 20 tomato beds alone need ~12,110 labor hours against the 6,480-hour max — which is a real Solver gotcha worth knowing (don't start there), not a defect in the cost model. |
 
-All five checks pass. `Calculations!D152` (greedy walk vs. Solver PROFIT
+All five checks pass. `Calculations!D153` (greedy walk vs. Solver PROFIT
 delta) reads 0 — the two methods agree exactly.
+
+**Defect record — instructor review, [PR #11](https://github.com/jekumura/jennifer-kumura/pull/11):**
+a prior version of this spec (checked against the same five checks, before
+the Farm Profit Lab cross-check existed) had two costing defects an
+instructor review caught that these checks, as they stood then, did not:
+
+1. **Temp labor charged twice** — the old model summed a per-hour temp
+   wage on hours beyond 720 *and* a separate $25,000-per-worker flat fee
+   for the same hours, contradicting its own Notes tab, which called the
+   fee "lumpy... not a per-hour charge." Caught by: nothing at the time —
+   §6 had no published check figures yet, so a $51,000 gap between the
+   model's answer and the case's had nothing to trip against. Fixed by
+   removing the flat fee from the active cost formula entirely (§4) once
+   the Farm Profit Lab confirmed the validated model doesn't charge it.
+2. **Diminishing returns applied to only the newest bed, not the whole
+   crop** — the old formula compounded per-bed (`base × 36 × (1+rate)^(n-1)`,
+   summed down the column) instead of the case's closed form
+   (`q × base × 36 × (1+rate)^q`, applied to all `q` beds at once). At 10
+   tomato beds this was a 900-hour understatement (1,434 vs. 2,334). Caught
+   by: check 1 (q=1 by hand) would have caught it immediately if it had
+   existed then — both formulas agree trivially at `q=1`, so the bug only
+   shows up once you check a real quantity, which is exactly why check 1
+   is specified as a hand-computed value, not just "run it and see." Fixed
+   by swapping in the case's closed-form formula (§4).
+3. **`Carrot_Base_Labor_Hrs_Wk_Bed` entered as a rounded literal** — `0.833`
+   typed in directly, rather than derived from the case's own definition
+   (carrot labor = tomato labor ÷ 3 = 0.8333...). Caught by: check 5
+   (formulas, not pasted values) — a displayed number treated as an exact
+   input is precisely what that check exists to catch, and it should have
+   been checked against §3's own inputs, not just the `Calculations`
+   formulas. Fixed by entering it as `=Tomato_Base_Labor_Hrs_Wk_Bed/3` (§3).
+
+All three are now closed: `model.xlsx` rebuilt from the corrected spec,
+recalculated clean, and all five checks re-run and passing (above).
 
 ---
 
