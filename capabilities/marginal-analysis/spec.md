@@ -4,7 +4,7 @@ capability: marginal-analysis
 engagement: perfect-competition
 date: 2026-09-09
 version: 1.3
-status: draft
+status: committed
 ---
 
 # Spec — Market Garden Bed Allocation
