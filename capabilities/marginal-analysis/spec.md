@@ -3,7 +3,7 @@ type: spec
 capability: marginal-analysis
 engagement: perfect-competition
 date: 2026-09-09
-version: 1.2
+version: 1.3
 status: draft
 ---
 
@@ -16,10 +16,9 @@ status: draft
 Determine, before planting, how many of the 64 beds to allocate to each of
 three crops (tomatoes, carrots, mesclun) and how many temp workers (0–4) to
 hire for the 36-week season — a one-shot decision with no mid-season
-correction. The objective is to maximize total season contribution
-(revenue − labor cost − fertilizer cost) net of temp-worker hiring costs and
-the two fixed-cost lines ($20,000 general + $50,000 farmer salary — see §3).
-Audience: the grower making the planting call.
+correction. The objective is to maximize total season profit (revenue −
+labor cost − fertilizer cost − the $20,000 fixed cost). Audience: the
+grower making the planting call.
 
 ---
 
@@ -58,11 +57,9 @@ table) supplied for this engagement.
 | `Mesclun_Bed_Cap` | Case materials | 30 | beds |
 | `Season_Weeks` | Brief | 36 | weeks |
 | `Fixed_Cost` | Brief | 20,000 | $ |
-| `Farmer_Salary` | Case materials | 50,000 | $/season |
 | `Farmer_Implied_Wage` | Case materials | 34.72 | $/hr |
 | `Own_Labor_Hours` | Brief | 720 | hrs |
 | `Temp_Worker_Max` | Brief | 4 | workers |
-| `Temp_Worker_Flat_Cost` | Brief | 25,000 | $/worker |
 | `Temp_Worker_Hours` | Brief | 1,440 | hrs/worker |
 | `Temp_Wage_Per_Hour` | Case materials | 17.36 | $/hr |
 | `Tomato_Price` | Case materials | 8,800 | $/bed |
@@ -78,15 +75,32 @@ table) supplied for this engagement.
 | `Carrot_Diminishing_Rate` | Case materials | 2.50% | %/bed |
 | `Mesclun_Diminishing_Rate` | Case materials | 1.25% | %/bed |
 
-`Farmer_Salary` and `Farmer_Implied_Wage` describe the farmer's own
-compensation ($50,000/season, half her time in the field = 720 hours,
-implying $34.72/hr across all her working hours — twice the temp wage).
-Since this salary is paid regardless of the planting decision, it's a
-**second fixed-cost line, separate from `Fixed_Cost`** — not a per-hour
-charge against `Own_Labor_Hours` (see §4's marginal-wage logic, unchanged).
-`Farmer_Implied_Wage` is **reference-only context** (it's what makes
-"temp labor at $17.36/hr is a bargain" legible — half her own rate) — it
-does not feed into any formula in §4-§6.
+**Correction (v1.3, per §11's Farm Profit Lab cross-check):** earlier
+drafts of this spec treated `Own_Labor_Hours` as a $0-marginal-cost,
+already-sunk pool (reasoning that her $50,000 season salary was a fixed
+cost paid regardless of the planting decision) and added that $50,000 as
+a second fixed-cost line. **Both of those were wrong.** The validated
+reference model prices the farmer's *first* 720 hours at
+`Farmer_Implied_Wage` ($34.72/hr — the more expensive tier), and only
+hours *beyond* 720 drop to the cheaper `Temp_Wage_Per_Hour` ($17.36/hr).
+There is no $0 tier, and there is no separate `Farmer_Salary` fixed-cost
+line — her compensation is fully captured through the per-hour
+`Farmer_Implied_Wage` charge on whichever of her 720 hours actually get
+used (see §4). `Fixed_Cost` is the brief's $20,000 alone.
+
+**Open item — the brief's stated $25,000-per-worker lumpy hiring fee:**
+the brief is explicit and repeated that "$25,000 is owed the moment I
+hire one, whether I use 100 of their hours or all 1,440." The validated
+Farm Profit Lab's own Season P&L, however, shows no such line item —
+`Temp_Workers_Hired` there is an informational/feasibility count only
+(how many are needed to cover the hours, capped at 4 → 6,480 max hours),
+not a cost driver. §4's active formulas match the validated lab (no
+lumpy fee), since that's what §11's acceptance-criteria check confirms.
+This is a real, unresolved discrepancy between the brief's narrative and
+the reference tool — worth confirming with Adam before treating it as
+settled. If the lumpy fee turns out to be real, `Temp_Worker_Flat_Cost`
+($25,000/worker, from the brief) needs to come back into §4's cost
+formula and the whole optimum re-solved.
 
 **Decision variables** (chosen, not given — no source/value the way data
 inputs above have one; these are the Solver tab's changing cells):
@@ -115,31 +129,42 @@ inputs above have one; these are the Solver tab's changing cells):
   `= {Crop}_Base_Labor_Hrs_Wk_Bed × Season_Weeks × (1 + {Crop}_Diminishing_Rate)^(q-1) × (1 + q × {Crop}_Diminishing_Rate)`
 - **Total labor hours needed (shared pool, across all three crops):**
   `Total_Labor_Hours_Needed = Cumulative_Labor_Hrs(tomato, beds(tomato)) + Cumulative_Labor_Hrs(carrot, beds(carrot)) + Cumulative_Labor_Hrs(mesclun, beds(mesclun))`
-- **Marginal wage (shared-pool, step function):** per the brief's assumption
-  that "an hour is an hour... the relevant marginal wage is whichever
-  source is cheaper at the margin" — evaluated on the **shared, cross-crop
-  running total of hours committed so far, *before* adding the bed being
-  priced** (not each crop's own cumulative, and not including the bed in
-  question):
-  `Marginal_Wage(hours_committed_before_this_bed) = IF(hours_committed_before_this_bed < Own_Labor_Hours, 0, Temp_Wage_Per_Hour)`
-  For the standalone per-crop crossover (§5), where only one crop is being
-  evaluated in isolation, `hours_committed_before_this_bed` is that crop's
-  own cumulative hours through bed `n-1`. For the greedy walk and Solver
-  scenarios (which allocate across all three crops), it's the running
-  `Total_Labor_Hours_Needed` across whichever beds have already been
-  committed at that point in the walk/solve — not any single crop's own
-  cumulative.
-- **Temp-worker hiring cost (lumpy, not per-hour):**
-  `Temp_Workers_Hired = CEILING(MAX(0, Total_Labor_Hours_Needed - Own_Labor_Hours) / Temp_Worker_Hours, 1)`, capped at `Temp_Worker_Max`.
-  `Temp_Hiring_Cost = Temp_Workers_Hired × Temp_Worker_Flat_Cost` — owed in
-  full per worker regardless of hours actually used.
+- **Labor wage tiers (shared pool, two-tier step — corrected in v1.3, see
+  §3 and §11):** per the brief's assumption that "an hour is an hour... the
+  relevant marginal wage is whichever source is cheaper at the margin" —
+  the **first `Own_Labor_Hours` (720) of hours committed, shared across all
+  three crops, are the *expensive* tier** (only the farmer's own time is
+  available for them, priced at `Farmer_Implied_Wage`, $34.72/hr). **Hours
+  beyond that are the *cheap* tier** (temp workers, `Temp_Wage_Per_Hour`,
+  $17.36/hr — cheaper than the farmer's own implied rate). There is no
+  free/$0 tier. Counterintuitively, this means marginal labor cost *falls*
+  once the 720-hour threshold is crossed — a crop that lands its early beds
+  before other crops have used up the shared 720 hours pays the expensive
+  tier for them; a crop allocated later, after other crops have already
+  burned through the 720 hours, gets the cheap tier from its very first
+  bed. This is exactly why the standalone per-crop crossover below (which
+  can only see its *own* hours, never the other two crops') systematically
+  misprices crops relative to the joint/shared-pool reality — see §5.
+  For a bed adding `hours_added` on top of `hours_before` hours already
+  committed (shared total, before this bed):
+  `farmer_portion = MAX(0, MIN(hours_before + hours_added, Own_Labor_Hours) - MIN(hours_before, Own_Labor_Hours))`
+  `temp_portion = hours_added - farmer_portion`
+  `Marginal_Labor_Cost = farmer_portion × Farmer_Implied_Wage + temp_portion × Temp_Wage_Per_Hour`
+  For the standalone per-crop crossover (§5), `hours_before`/`hours_added`
+  are that crop's own cumulative hours in isolation. For the greedy walk
+  and Solver scenarios, they're the running shared `Total_Labor_Hours_Needed`
+  across whichever beds (any crop) have already been committed at that
+  point in the walk/solve.
+- **Temp workers needed (feasibility count, not a cost — see §3's open
+  item on the brief's stated $25,000 lumpy fee):**
+  `Temp_Workers_Hired = CEILING(MAX(0, Total_Labor_Hours_Needed - Own_Labor_Hours) / Temp_Worker_Hours, 1)`, capped at `Temp_Worker_Max`. This
+  is purely informational/a feasibility bound (`Total_Labor_Hours_Needed`
+  must not exceed `Own_Labor_Hours + Temp_Worker_Max × Temp_Worker_Hours`
+  = 6,480 hrs) in the validated model — it does **not** add a cost.
 - **Total labor cost (aggregate, not per-crop):**
-  `Labor_Cost = Temp_Wage_Per_Hour × MAX(0, Total_Labor_Hours_Needed - Own_Labor_Hours)`
-  — the flat per-hour charge on whatever exceeds the free 720 hours; kept
-  as one number across all three crops, per the same shared-pool logic as
-  `Marginal_Wage` above.
+  `Labor_Cost = MIN(Total_Labor_Hours_Needed, Own_Labor_Hours) × Farmer_Implied_Wage + MAX(0, Total_Labor_Hours_Needed - Own_Labor_Hours) × Temp_Wage_Per_Hour`
 - **Marginal cost per bed:**
-  `Marginal_Cost(crop, n) = Marginal_Labor_Hrs(crop, n) × Marginal_Wage(...) + {Crop}_Fertilizer_Per_Bed`
+  `Marginal_Cost(crop, n) = Marginal_Labor_Cost(bed n, per above) + {Crop}_Fertilizer_Per_Bed`
 
 ## 5. Marginal Analysis Formulas
 
@@ -148,7 +173,13 @@ taker), **marginal revenue per bed = `{Crop}_Price`**, constant regardless
 of how many beds of that crop are already planted. So for each crop in
 isolation:
 
-- **Crossover bed** = smallest `n` such that `Marginal_Cost(crop, n) > {Crop}_Price`.
+- **Crossover bed** = smallest `n` such that `Marginal_Cost(crop, n) > {Crop}_Price`
+  — the *first* bed where marginal profit turns negative, not a count of
+  all profitable beds. This distinction matters here: marginal profit
+  isn't monotonic (the tiered wage in §4 makes it dip negative, then jump
+  back positive once that crop's own hours cross 720 and the cheaper temp
+  rate kicks in), so counting every non-negative bed overcounts — see §11
+  for a worked example where this exact bug surfaced during the build.
 - **Standalone optimal beds(crop)** = `crossover bed − 1`, capped at that
   crop's bed cap.
 
@@ -159,11 +190,23 @@ answer, because:
 
 1. All three crops draw from one shared, capped labor pool (6,480 hrs max),
    so a bed that clears its own crossover may still be uneconomical if it
-   displaces a more valuable bed of another crop.
-2. Temp-worker hiring cost is lumpy across the whole allocation, not
-   per-crop — the 3rd or 4th worker's $25,000 has to be justified by the
-   *marginal* value of the hours it unlocks across all three crops
-   combined, not any single crop's curve.
+   displaces a more valuable bed of another crop. Worse, the standalone
+   view gets the *direction* of the error wrong in this specific model: per
+   §4, the shared pool's first 720 hours are the *expensive* tier and hours
+   beyond are *cheap*, so a crop evaluated alone (forced to pay the
+   expensive tier for its own first 720 hours) looks systematically worse
+   than it would if allocated after other crops have already absorbed that
+   expensive tier. This is why mesclun's standalone crossover (~bed 6-7,
+   §11) is nowhere near its joint-optimal 30-bed allocation.
+2. *If* the brief's stated $25,000-per-worker lumpy hiring fee turns out to
+   be part of the real cost model (open item, §3), it would be lumpy across
+   the whole allocation, not per-crop — the 3rd or 4th worker's fee would
+   need to be justified by the marginal value of the hours it unlocks
+   across all three crops combined, not any single crop's curve. The
+   validated reference model (§11) doesn't charge this fee, so it isn't
+   live in §4's active formulas right now — but if it comes back, this
+   reasoning (and the greedy-walk-vs-Solver divergence risk below) applies
+   again.
 
 ### The brief's stated mechanism: a P = MC greedy walk
 
@@ -183,16 +226,21 @@ bed caps, tomatoes taking the remainder).
 
 The model must compute this greedy walk explicitly (as its own labeled
 scenario, separate from both the standalone crossover and the Solver
-optimum) because it is **not guaranteed to match the true joint optimum**:
-a bed-by-bed walk that only compares "is this crop's next bed still
-profitable?" never explicitly weighs the $25,000 lumpy cost of crossing
-into a new temp-worker hour bracket — it only ever "sees" the flat
-`Temp_Wage_Per_Hour` rate per hour, never the fixed hiring fee. A greedy
-walk can therefore keep adding beds well past the point where the *true*,
-fully-costed allocation would stop. Report the greedy walk's resulting
-allocation and its total contribution (correctly re-costed with the actual
-number of temp workers that allocation requires) alongside the Solver
-optimum, so the two can be compared directly.
+optimum) and report it alongside the Solver optimum so the two can be
+compared directly. **Under the validated cost model (§11 — no lumpy
+hiring fee), the greedy walk is confirmed to reach exactly the same
+allocation as the true joint optimum** (Tomatoes 10 / Carrots 20 / Mesclun
+30, $42,775): each bed's marginal cost depends only on the shared running
+total of hours committed so far, which rises smoothly (a two-tier step,
+not a discontinuous jump), so always taking the best available next bed is
+optimal here. This equivalence is *not* guaranteed in general, though —
+if the brief's stated $25,000-per-worker lumpy fee turns out to be real
+(§3's open item), the greedy walk would stop weighing it correctly (it
+only ever "sees" the flat per-hour wage, never a fixed hiring fee it's
+about to trigger) and could diverge from the true optimum again. Keep
+computing both scenarios even though they currently agree, so a future
+change to the cost model surfaces as a visible disagreement rather than a
+silent one.
 
 The actual optimum requires jointly solving beds-per-crop and
 temp-workers-hired via the `Solver` tab (integer/non-linear constraints:
@@ -215,12 +263,12 @@ optimum (§5) — not just to Solver's decision cells.
 - **Per-crop contribution**, for the check cell below — defined as revenue
   minus fertilizer cost only (`beds(crop) × {Crop}_Price − beds(crop) ×
   {Crop}_Fertilizer_Per_Bed`), since labor cost is **not** attributable to
-  a single crop under the shared-pool `Marginal_Wage` logic in §4. Labor
-  cost and temp-hiring cost are each subtracted once, in aggregate, never
-  split across crops.
-- Check cell: `Summary` net profit reconciles to
-  `SUM(per-crop contribution) − Labor_Cost − Temp_Hiring_Cost − Fixed_Cost − Farmer_Salary`
-  computed independently on `Calculations`.
+  a single crop under the shared-pool wage-tier logic in §4. Labor cost is
+  subtracted once, in aggregate, never split across crops.
+- Check cell: `Summary` profit reconciles to
+  `SUM(per-crop contribution) − Labor_Cost − Fixed_Cost`
+  computed independently on `Calculations`. (No `Temp_Hiring_Cost` or
+  `Farmer_Salary` term — see §3/§4's v1.3 correction.)
 
 ---
 
@@ -234,10 +282,10 @@ exhaust the highest marginal profit crops up until their limits") is that
 30 beds (its cap), carrots ~30% = 20 beds (its cap) — with tomatoes taking
 the remaining ~25% (~10 beds), on the combination of high diminishing
 returns, high labor rate, and high fertilizer cost. The stated mechanism is
-the P = MC greedy walk described in §5. The analysis must check each of the
-brief's five falsification conditions directly against Solver's output (and
-against the greedy-walk scenario, since the hypothesis's mechanism and the
-Solver optimum are not guaranteed to agree — see §5):
+the P = MC greedy walk described in §5. Under the validated cost model
+(§11), the greedy walk and the Solver optimum reach the same allocation, so
+the analysis can check the brief's five falsification conditions against
+either (they should agree — see §5 for when that could stop being true):
 
 1. Does carrots end up with **more** beds than mesclun? If so, mesclun's
    price + low-diminishing-returns edge doesn't survive its own curve.
@@ -260,12 +308,15 @@ Solver optimum are not guaranteed to agree — see §5):
 
 ## 8. Constraint Diagnosis
 
-Identify which constraint actually binds at the optimum — a crop's own
-bed cap, the 6,480-hour labor ceiling, or an unrecovered temp-worker fixed
-cost (i.e., hiring the *n*-th worker doesn't pay for itself in added
-contribution) — and report the sensitivity of relaxing each binding
-constraint by one unit (one more bed of cap, one more labor hour, one more
-temp worker). Compute this **manually**: relax the constraint by one unit,
+Identify which constraint actually binds at the optimum — a crop's own bed
+cap, or the 6,480-hour labor ceiling (`Temp_Worker_Max` × `Temp_Worker_Hours`
++ `Own_Labor_Hours`) — and report the sensitivity of relaxing each binding
+constraint by one unit (one more bed of cap, one more labor hour). At the
+validated optimum (Tomatoes 10/Carrots 20/Mesclun 30, §11), it's the two
+bed caps that bind — Carrots and Mesclun both sit at their maximums while
+Tomatoes stops well short of its own (10 of 20) and total labor hours
+(~5,277) stay well under the 6,480 ceiling. Compute sensitivity
+**manually**: relax the constraint by one unit,
 re-solve, and take the difference in `Total_Contribution` — not via
 Excel Solver's built-in Sensitivity Report. That report's shadow prices
 are only well-defined for continuous linear problems, and this model has
@@ -280,8 +331,10 @@ generally refuse to produce a meaningful sensitivity report for it.
   "mesclun-max and carrot-max mix, exhausting the highest-marginal-profit
   crops up to their limits" story.
 - Explicit comparison of the greedy P=MC walk (§5) against the Solver
-  optimum — if they diverge, say by how much and why (the lumpy $25,000
-  temp-worker cost is the leading candidate explanation, per §5).
+  optimum — under the validated cost model they agree exactly (§11); if a
+  future run disagrees, that's a signal the cost model changed (e.g. the
+  brief's lumpy hiring fee coming back into scope, per §3/§5) and needs
+  investigating, not averaging over.
 - Sensitivity notes from §8 (what changes the recommendation if a
   constraint were relaxed).
 
@@ -342,3 +395,44 @@ Adam's materials) actually use for (a) the standalone per-crop P≈MC
 crossover and (b) the joint labor-cost calculation? Once that's confirmed,
 I'll update §4 accordingly, re-run all five checks, and only then rebuild
 `model.xlsx`.
+
+### Round 2 — resolved via a Farm Profit Lab PDF export (2026-09-09)
+
+Given a PDF export of the Farm Profit Lab tool (`adamwstauffer.github.io/ai-lms/farmlab.html`,
+9/8/26 snapshot). Its own on-page formula annotations and Season P&L
+resolve the open question from Round 1 directly:
+
+- **`— farmer (perm): first 720 hrs @ $34.72` / `— temps: rest @ $17.36`**
+  — the tool's own labels. The farmer's hours are the *expensive* tier
+  (not free), temps are the *cheap* tier once 720 hours are exhausted —
+  the exact reverse of Round 1's `$0`-then-`$17.36` assumption.
+- Its "Season P&L" lists `Labor cost` and `Fertilizer` rolling up into
+  `Variable costs`, then `Fixed costs = $20,000` (matching the brief) —
+  **no line item for a $25,000-per-worker hiring fee anywhere.**
+  `Temp workers needed` is shown as a bare count (`0 of 4`), not costed.
+
+Re-ran all three unresolved checks against this corrected model
+(`Labor_Cost` tiered as above, no lumpy fee, no separate `Farmer_Salary`):
+
+| # | Check | Result |
+|---|-------|--------|
+| 2 | Farm Profit Lab cross-check | **Pass.** The lab's displayed "Marginal analysis" for a single bed of each crop from zero — `+1 bed of Tomatoes: +$4,483 profit`, `+1 bed of Carrots: +$586 profit`, `+1 bed of Mesclun: +$238 profit` — matches this spec's formulas exactly: tomato `8,800 − (99.0×34.72 + 880) = $4,482.72`; carrot `2,094 − (30.74×34.72 + 440) = $586.79`; mesclun `2,700 − (45.56×34.72 + 880) = $238.07`. |
+| 3 | Two Solver starting points | **Re-run, now clean.** Under the corrected cost model, hill-climbing from **0/0/0 now converges to the true global optimum, Tomatoes 10/Carrots 20/Mesclun 30 ($42,775)** — no more local-optimum trap, since the cost function no longer has the lumpy fee's discontinuity. **20/0/0 is still infeasible** (that's a pure hours-cap fact, independent of wage tiering: 20 tomato beds alone need ~12,110 hrs against the 6,480 max) — worth keeping as a documented Solver gotcha even though it's no longer evidence of anything wrong with the cost model itself. |
+| 4 | The check figures | **Pass.** Exhaustive search under the corrected model gives **Tomatoes 10 / Carrots 20 / Mesclun 30, $42,775** — matches the $42,762 target to within $13 (residual is rounding in `Carrot_Base_Labor_Hrs_Wk_Bed`, given as 0.833 vs. the likely-exact 5/6: using 5/6 narrows the gap to $6). Standalone P≈MC crossovers, evaluated per crop in isolation with the corrected tiered wage: tomato's marginal profit turns negative at bed 11 (last profitable bed 10), carrot at bed 11 (last profitable bed 10), mesclun at bed 7 (last profitable bed 6) — **exactly Tomatoes ~10 / Carrots ~10 / Mesclun ~6**, matching the target and the lab's own displayed "P ≈ MC at 10 beds" for tomatoes. The greedy P=MC walk (§5) also reaches Tomatoes 10/Carrots 20/Mesclun 30 exactly, confirming §5's updated claim that it matches the Solver optimum under this cost model. |
+| 5 | Formulas, not pasted values | Rebuilt `model.xlsx` from this corrected spec (see commit) and spot-checked: `Calculations` cells reference `Tomato_Base_Labor_Hrs_Wk_Bed`, `Season_Weeks`, `Tomato_Diminishing_Rate`, etc. by name, not hardcoded numbers; recalculated cleanly via LibreOffice. **Building it as live formulas caught a real bug**: my first pass computed each crop's standalone "last profitable bed" as `SUMPRODUCT((marginal contribution >= 0)*1)` — a raw count. That overcounts here, because marginal profit isn't monotonic: it goes negative for several beds, then jumps back positive once the crop's own hours cross 720 and the cheap temp-wage tier kicks in (carrot: positive beds 1-10, negative 11-16, positive again 17-20 — the raw count gave 14, not 10). Fixed with a running-AND helper column (`Still profitable?`) that stops counting at the *first* negative bed, matching the lab's own "the moment it turns negative" definition — now gives exactly 10/10/6. |
+
+**What I did:** fixed §3/§4 (removed the `$0`-tier and `Farmer_Salary` line,
+added the correct `Farmer_Implied_Wage`-first/`Temp_Wage_Per_Hour`-second
+tiering and the shared-pool tier-order effect), updated §5's greedy-walk
+reasoning (now confirmed to match Solver under this cost model), §6's
+check-cell formula, §7's framing, and §8's constraint diagnosis (the two
+bed caps bind, not a labor ceiling or an unrecovered hiring fee) — then
+regenerated `model.xlsx` from the corrected spec, per the "fix the spec
+and regenerate" rule.
+
+**Still open:** the brief's own repeated claim that the $25,000-per-worker
+hiring fee is real, unreconciled with the validated lab showing no such
+cost (§3's open item). The model that reproduces the acceptance criteria
+is the one *without* that fee — worth a direct confirmation with Adam
+before calling this fully settled, since the brief and the lab disagree
+and only one of them was checked against a live acceptance test.
