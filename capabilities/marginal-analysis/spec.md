@@ -362,19 +362,36 @@ the decision doc.
 
 ---
 
-## 11. Validation Findings (2026-09-09)
+## 11. Validation Findings (last re-run 2026-09-09)
 
-Ran the five required checks against the formulas in this spec (§4-§5),
-computed directly in Python — not against the workbook, since `model.xlsx`
-still reflects the pre-formula-swap spec and hasn't been regenerated yet.
-Acceptance criteria: optimal mix Tomatoes 10 / Carrots 20 / Mesclun 30
-(60 beds), season profit $42,762, standalone P≈MC points Tomatoes ~10 /
-Carrots ~10 / Mesclun ~6.
+Re-ran all five required checks against the current spec (v1.3) and the
+built `capabilities/marginal-analysis/model.xlsx`, recalculated fresh via
+LibreOffice (1,078 formulas, 0 errors). **All five pass.** Acceptance
+criteria: optimal mix Tomatoes 10 / Carrots 20 / Mesclun 30 (60 beds),
+season profit $42,762, standalone P≈MC points Tomatoes ~10 / Carrots ~10 /
+Mesclun ~6.
 
-| # | Check | What I found | What I did |
-|---|-------|---------------|------------|
-| 1 | q=1 by hand (tomato) | `Cumulative_Labor_Hrs(tomato,1) = 1×2.5×36×1.10 = 99.0` — matches exactly. | **Pass.** No action. |
-| 2 | Cross-check against the Farm Profit Lab | I don't have access to the Farm Profit Lab (no URL/credentials/export in this repo or given to me). | **Could not run.** Need the tool's output (or access to it) to compare an intermediate marginal cost. |
-| 3 | Two Solver starting points, 0/0/0 and 20/0/0 | Simulated with single-step hill-climbing (since I can't drive Excel Solver's UI directly): **0/0/0 converges to a local optimum at Tomatoes 4/Carrots 0/Mesclun 4, $38,960** — 6.3% below the true global optimum I found by exhaustive search (Tomatoes 6/Carrots 12/Mesclun 13, $41,583). **20/0/0 is infeasible at the start** — 20 tomato beds alone need ~12,110 labor hours, almost double the 6,480-hour max capacity even with all 4 temp workers hired. | **Real finding, not a nuisance, per the check's own framing.** A naive greedy/local search stalls well short of the true optimum, and a plausible-looking starting point (max out the highest-value crop) is infeasible outright. Flagging for the actual Excel Solver run: don't trust a single starting point, and expect GRG Nonlinear to struggle from an infeasible seed. |
-| 4 | The check figures | **Fail, on both figures.** Exhaustively searching the full integer decision space under this spec's current cost model (§4: `Marginal_Wage` = $0 up to 720 shared hours, then $17.36/hr; ≤4 temp workers), the true optimum is **Tomatoes 6 / Carrots 12 / Mesclun 13 ($41,583)** — close to the target profit (within 2.8%) but a substantially different allocation (31 beds, not 60). The stated optimal mix, Tomatoes 10/Carrots 20/Mesclun 30, evaluates to **−$12,226 contribution** under this spec — not $42,762. The standalone P≈MC crossovers also don't reproduce ~10/~10/~6: under the spec's current per-crop `Marginal_Wage` rule (§4 — $0 until that crop's *own* cumulative hours pass 720), tomato crosses around bed 11 (close to ~10), but carrot and mesclun never cross within their caps at all (both stay profitable to 20 and 30 beds respectively) — their own hours never reach 720 in isolation. I also tried the crossover with `Temp_Wage_Per_Hour` (17.36) applied uniformly (no 720 threshold) — tomato still ~11, but carrot and mesclun still never cross. I tried `Farmer_Implied_Wage` (34.72) applied uniformly — that produces crossovers at tomato~6, carrot~11, mesclun~7, which is closer for carrot/mesclun but now tomato is off. No single wage assumption I tested reproduces all three target crossovers together. | **Did not patch the spec.** None of the wage-rate variants I tried (the step function as currently specced, uniform temp wage, uniform farmer wage) reproduce the target numbers, and the close-but-not-exact profit match at a very different bed count (31 vs 60) rules out a simple rounding fix — I checked carrot's rounded 0.833 hrs/wk/bed against the unrounded 5/6 and it barely moves the answer. This needs the actual formula/assumption from the Farm Profit Lab or Adam's materials for the standalone and joint cost calculations before I change anything — see open question below. |
-| 5 | Formulas, not pasted values | Not yet checkable — `model.xlsx` hasn't been regenerated against the current spec (v1.2), so there's nothing to spot-check yet. | **Deferred** until the workbook is rebuilt, which I'm holding off on until check 4 is resolved (rebuilding now would bake in a cost model that already fails its own acceptance criteria). |
+| # | Check | Result |
+|---|-------|--------|
+| 1 | q=1 by hand (tomato) | **Pass.** `Cumulative_Labor_Hrs(tomato,1) = 1×2.5×36×1.10 = 99.0` — matches exactly (`Calculations!C5`). |
+| 2 | Cross-check against the Farm Profit Lab | **Pass.** The lab's own "+1 bed" marginal-profit figures — Tomatoes +$4,483, Carrots +$586, Mesclun +$238 — match this spec's §4 formulas exactly (tomato: `8,800 − (99.0×34.72 + 880) = $4,482.72`; carrot: `$586.79`; mesclun: `$238.07`). |
+| 3 | Two Solver starting points, 0/0/0 and 20/0/0 | **Pass.** Hill-climbing from 0/0/0 converges to the true global optimum, Tomatoes 10/Carrots 20/Mesclun 30 ($42,775) — the cost model is smooth (no lumpy-fee discontinuity), so it doesn't get stuck in a worse local optimum. 20/0/0 is infeasible at the start (20 tomato beds alone need ~12,110 labor hours against the 6,480-hour max) — a real Solver gotcha to flag when running this live, not a cost-model defect. |
+| 4 | The check figures | **Pass.** `model.xlsx`'s Solver optimum: Tomatoes 10 / Carrots 20 / Mesclun 30, **PROFIT $42,775.16** — matches the $42,762 target to within $13 (residual is rounding in `Carrot_Base_Labor_Hrs_Wk_Bed`, given as 0.833 vs. the likely-exact 5/6). Standalone crossovers on `Calculations`: Tomato bed 10, Carrot bed 10, Mesclun bed 6 — exactly ~10/~10/~6. The greedy P=MC walk block reaches the identical Tomatoes 10/Carrots 20/Mesclun 30 allocation (delta vs. Solver: $0). |
+| 5 | Formulas, not pasted values | **Pass.** `Calculations` cells reference `Tomato_Base_Labor_Hrs_Wk_Bed`, `Season_Weeks`, `Tomato_Diminishing_Rate`, etc. by name throughout, not hardcoded numbers; recalculates cleanly. |
+
+**How it got here:** the first pass at this spec's cost model had the wage
+tiers backwards (farmer hours free, temp hours paid), which failed checks
+2-4 outright. A Farm Profit Lab PDF export (the case's own reference
+implementation) showed the correct tiering — farmer's first 720 hours are
+the *expensive* tier ($34.72/hr), temp hours beyond that are *cheaper*
+($17.36/hr) — and confirmed the validated model charges no
+$25,000-per-worker lumpy hiring fee (an unresolved discrepancy against the
+brief, which states one exists — see §3's open item). Rebuilding
+`model.xlsx` from the corrected spec caught one more bug live: a
+standalone-crossover formula that overcounted past a marginal-profit dip
+caused by the wage-tier flip (fixed with the running-AND `Still
+profitable?` helper column on `Calculations` — see §5's note).
+
+**Still open:** the brief's stated $25,000-per-worker hiring fee, which
+the validated Farm Profit Lab doesn't charge (§3). Worth confirming with
+Adam directly before treating as settled.
