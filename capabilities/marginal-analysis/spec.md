@@ -75,7 +75,7 @@ table) supplied for this engagement.
 | `Carrot_Diminishing_Rate` | Case materials | 2.50% | %/bed |
 | `Mesclun_Diminishing_Rate` | Case materials | 1.25% | %/bed |
 
-**Correction (v1.3, per §11's Farm Profit Lab cross-check):** earlier
+**Correction (v1.3, per §6's Farm Profit Lab cross-check):** earlier
 drafts of this spec treated `Own_Labor_Hours` as a $0-marginal-cost,
 already-sunk pool (reasoning that her $50,000 season salary was a fixed
 cost paid regardless of the planting decision) and added that $50,000 as
@@ -95,7 +95,7 @@ Farm Profit Lab's own Season P&L, however, shows no such line item —
 `Temp_Workers_Hired` there is an informational/feasibility count only
 (how many are needed to cover the hours, capped at 4 → 6,480 max hours),
 not a cost driver. §4's active formulas match the validated lab (no
-lumpy fee), since that's what §11's acceptance-criteria check confirms.
+lumpy fee), since that's what §6's acceptance-criteria check confirms.
 This is a real, unresolved discrepancy between the brief's narrative and
 the reference tool — worth confirming with Adam before treating it as
 settled. If the lumpy fee turns out to be real, `Temp_Worker_Flat_Cost`
@@ -130,7 +130,7 @@ inputs above have one; these are the Solver tab's changing cells):
 - **Total labor hours needed (shared pool, across all three crops):**
   `Total_Labor_Hours_Needed = Cumulative_Labor_Hrs(tomato, beds(tomato)) + Cumulative_Labor_Hrs(carrot, beds(carrot)) + Cumulative_Labor_Hrs(mesclun, beds(mesclun))`
 - **Labor wage tiers (shared pool, two-tier step — corrected in v1.3, see
-  §3 and §11):** per the brief's assumption that "an hour is an hour... the
+  §3 and §6):** per the brief's assumption that "an hour is an hour... the
   relevant marginal wage is whichever source is cheaper at the margin" —
   the **first `Own_Labor_Hours` (720) of hours committed, shared across all
   three crops, are the *expensive* tier** (only the farmer's own time is
@@ -178,7 +178,7 @@ isolation:
   all profitable beds. This distinction matters here: marginal profit
   isn't monotonic (the tiered wage in §4 makes it dip negative, then jump
   back positive once that crop's own hours cross 720 and the cheaper temp
-  rate kicks in), so counting every non-negative bed overcounts — see §11
+  rate kicks in), so counting every non-negative bed overcounts — see §6
   for a worked example where this exact bug surfaced during the build.
 - **Standalone optimal beds(crop)** = `crossover bed − 1`, capped at that
   crop's bed cap.
@@ -197,13 +197,13 @@ answer, because:
    expensive tier for its own first 720 hours) looks systematically worse
    than it would if allocated after other crops have already absorbed that
    expensive tier. This is why mesclun's standalone crossover (~bed 6-7,
-   §11) is nowhere near its joint-optimal 30-bed allocation.
+   §6) is nowhere near its joint-optimal 30-bed allocation.
 2. *If* the brief's stated $25,000-per-worker lumpy hiring fee turns out to
    be part of the real cost model (open item, §3), it would be lumpy across
    the whole allocation, not per-crop — the 3rd or 4th worker's fee would
    need to be justified by the marginal value of the hours it unlocks
    across all three crops combined, not any single crop's curve. The
-   validated reference model (§11) doesn't charge this fee, so it isn't
+   validated reference model (§6) doesn't charge this fee, so it isn't
    live in §4's active formulas right now — but if it comes back, this
    reasoning (and the greedy-walk-vs-Solver divergence risk below) applies
    again.
@@ -227,7 +227,7 @@ bed caps, tomatoes taking the remainder).
 The model must compute this greedy walk explicitly (as its own labeled
 scenario, separate from both the standalone crossover and the Solver
 optimum) and report it alongside the Solver optimum so the two can be
-compared directly. **Under the validated cost model (§11 — no lumpy
+compared directly. **Under the validated cost model (§6 — no lumpy
 hiring fee), the greedy walk is confirmed to reach exactly the same
 allocation as the true joint optimum** (Tomatoes 10 / Carrots 20 / Mesclun
 30, $42,775): each bed's marginal cost depends only on the shared running
@@ -270,6 +270,36 @@ optimum (§5) — not just to Solver's decision cells.
   computed independently on `Calculations`. (No `Temp_Hiring_Cost` or
   `Farmer_Salary` term — see §3/§4's v1.3 correction.)
 
+### Acceptance Criteria
+
+AI output is a draft, not a deliverable — these are published on purpose,
+before the build, so they're a test suite the model must pass, not an
+answer key to reverse-engineer into. Run all five whenever the model
+changes (a formula edit, a data update, a rebuild), and don't call a build
+done until every one passes.
+
+| # | Check | What it catches |
+|---|-------|------------------|
+| 1 | **q=1 by hand.** `Cumulative_Labor_Hrs(tomato,1)` should equal `1 × 2.50 × 36 × 1.10 = 99.0` hrs. | A dropped exponent or off-by-one in §4's compounding formula — the single most common structural defect, and invisible downstream. |
+| 2 | **Cross-check against the Farm Profit Lab** (`adamwstauffer.github.io/ai-lms/farmlab.html`) — take at least one intermediate marginal cost and compare. | Anything wrong in the middle of the model. The lab is a separate implementation of this same model, so agreement is real evidence. |
+| 3 | **Two Solver starting points** — 0/0/0 and 20/0/0 (`Beds_Tomato`/`Beds_Carrot`/`Beds_Mesclun`). | A local optimum masquerading as the answer. If they disagree, that's a finding, not a nuisance — and 20/0/0 is infeasible outright (§4/§8), which is itself worth knowing before relying on Solver. |
+| 4 | **The check figures** (table below). | Everything else, in aggregate. |
+| 5 | **Formulas, not pasted values** — spot-check that `Calculations` cells reference the named inputs in §3, not hardcoded numbers. | A number that's right today and wrong the moment an input changes. |
+
+**Check figures (acceptance targets for check 4):**
+
+| Check | Value |
+|-------|-------|
+| Optimal mix | Tomatoes 10 · Carrots 20 · Mesclun 30 (60 beds) |
+| Season profit | $42,762 |
+| Standalone P ≈ MC points | Tomatoes ~10 · Carrots ~10 · Mesclun ~6 beds |
+
+A model that reproduces these numbers with broken formulas fails
+inspection just as surely as one that misses them — check 5 exists
+specifically to catch that. When a check fails, fix the spec and
+regenerate the workbook; don't patch the workbook by hand. A workbook
+that no longer matches its spec is a model nobody can rebuild.
+
 ---
 
 ## Part B — Analysis Specification
@@ -283,7 +313,7 @@ exhaust the highest marginal profit crops up until their limits") is that
 the remaining ~25% (~10 beds), on the combination of high diminishing
 returns, high labor rate, and high fertilizer cost. The stated mechanism is
 the P = MC greedy walk described in §5. Under the validated cost model
-(§11), the greedy walk and the Solver optimum reach the same allocation, so
+(§6), the greedy walk and the Solver optimum reach the same allocation, so
 the analysis can check the brief's five falsification conditions against
 either (they should agree — see §5 for when that could stop being true):
 
@@ -312,7 +342,7 @@ Identify which constraint actually binds at the optimum — a crop's own bed
 cap, or the 6,480-hour labor ceiling (`Temp_Worker_Max` × `Temp_Worker_Hours`
 + `Own_Labor_Hours`) — and report the sensitivity of relaxing each binding
 constraint by one unit (one more bed of cap, one more labor hour). At the
-validated optimum (Tomatoes 10/Carrots 20/Mesclun 30, §11), it's the two
+validated optimum (Tomatoes 10/Carrots 20/Mesclun 30, §6), it's the two
 bed caps that bind — Carrots and Mesclun both sit at their maximums while
 Tomatoes stops well short of its own (10 of 20) and total labor hours
 (~5,277) stay well under the 6,480 ceiling. Compute sensitivity
@@ -331,7 +361,7 @@ generally refuse to produce a meaningful sensitivity report for it.
   "mesclun-max and carrot-max mix, exhausting the highest-marginal-profit
   crops up to their limits" story.
 - Explicit comparison of the greedy P=MC walk (§5) against the Solver
-  optimum — under the validated cost model they agree exactly (§11); if a
+  optimum — under the validated cost model they agree exactly (§6); if a
   future run disagrees, that's a signal the cost model changed (e.g. the
   brief's lumpy hiring fee coming back into scope, per §3/§5) and needs
   investigating, not averaging over.
