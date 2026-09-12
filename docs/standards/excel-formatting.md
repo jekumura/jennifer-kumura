@@ -46,31 +46,18 @@ input through a chain of formulas, it's black and locked. If a cell's value
 came from typing it in — a given price, a case assumption, a driver you're
 testing — it's blue and unlocked.
 
-### Sheet protection (optional)
+### Sheet protection
 
-The color coding above is the baseline and always applies. Sheet protection
-is an optional extra layer on top of it — a hard stop instead of just a
-visual hint — not a requirement. Workbooks in this repo ship **unprotected**
-by default, so every cell stays directly editable for exploring, testing
-inputs, and adjusting Solver decision cells without an unprotect step.
+Not part of the default build — workbooks in this repo ship **unprotected**,
+relying on the color coding above alone to mark what's safe to edit, so
+every cell stays directly editable for exploring, testing inputs, and
+adjusting Solver decision cells without an unprotect step.
 
-If a specific workbook calls for the hard stop (e.g. handing it to someone
-else to fill in, or a model where an accidental overwrite would be costly to
-untangle), turn it on deliberately:
-
-1. Select the entire sheet (Ctrl+A) → `Format Cells` → `Protection` tab →
-   make sure **Locked** is checked. (This is the default for every cell, but
-   confirm it.)
-2. Select only the input cells (the ones that should stay blue/editable) →
-   `Format Cells` → `Protection` → **uncheck** Locked.
-3. `Review` → `Protect Sheet`. Now formula cells physically can't be typed
-   into without unprotecting the sheet first.
-4. Apply the font color (blue for unlocked/input, default black for
-   everything else) as the last step, so it visually matches what's actually
-   locked.
-
-Either way, a reviewer — or you, six weeks later — can tell what's safe to
-change just by glancing at the color, whether or not protection is turned on.
+If a future capability specifically needs the hard stop (e.g. handing a
+workbook to someone else to fill in, or a model where an accidental
+overwrite would be costly to untangle), say so explicitly in that
+capability's `spec.md` — don't assume it by default, and don't add it to a
+build unless the spec calls for it.
 
 ## Documentation
 
