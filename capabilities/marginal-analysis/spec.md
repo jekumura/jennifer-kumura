@@ -2,8 +2,8 @@
 type: spec
 capability: marginal-analysis
 engagement: perfect-competition
-date: 2026-09-09
-version: 1.4
+date: 2026-09-12
+version: 1.5
 status: committed
 ---
 
@@ -49,6 +49,16 @@ Per `docs/standards/excel-formatting.md`:
 All values below are now sourced from the case materials (crop economics
 table) supplied for this engagement.
 
+**Rule:** any input that is itself a computed ratio (a wage per hour
+derived from a salary and an hours figure, a rate derived from another
+rate, etc.) is entered as a formula referencing its component named
+ranges — never as a typed decimal. The case materials' printed number
+(e.g. "$34.72/hr") describes that ratio for a human reader, rounded for
+display; it is not the value to compute with. Typing the rounded, printed
+value in directly loses precision that compounds through every
+downstream formula — see the v1.5 correction below, which follows the
+same pattern as the `Carrot_Base_Labor_Hrs_Wk_Bed` fix (v1.4).
+
 | Named Range | Source | Value | Unit |
 |-------------|--------|-------|------|
 | `Total_Beds` | Brief | 64 | beds |
@@ -57,11 +67,13 @@ table) supplied for this engagement.
 | `Mesclun_Bed_Cap` | Case materials | 30 | beds |
 | `Season_Weeks` | Brief | 36 | weeks |
 | `Fixed_Cost` | Brief | 20,000 | $ |
-| `Farmer_Implied_Wage` | Case materials | 34.72 | $/hr |
+| `Farmer_Season_Salary` | Case materials | 50,000 | $/season |
+| `Farmer_Implied_Wage` | Derived — case materials' own wage derivation | `= Farmer_Season_Salary / 2 / Own_Labor_Hours` (34.7222...) | $/hr |
 | `Own_Labor_Hours` | Brief | 720 | hrs |
 | `Temp_Worker_Max` | Brief | 4 | workers |
 | `Temp_Worker_Hours` | Brief | 1,440 | hrs/worker |
-| `Temp_Wage_Per_Hour` | Case materials | 17.36 | $/hr |
+| `Temp_Worker_Flat_Cost` | Case materials | 25,000 | $/worker |
+| `Temp_Wage_Per_Hour` | Derived — case materials' own wage derivation | `= Temp_Worker_Flat_Cost / Temp_Worker_Hours` (17.3611...) | $/hr |
 | `Tomato_Price` | Case materials | 8,800 | $/bed |
 | `Carrot_Price` | Case materials | 2,094 | $/bed |
 | `Mesclun_Price` | Case materials | 2,700 | $/bed |
@@ -74,6 +86,22 @@ table) supplied for this engagement.
 | `Tomato_Diminishing_Rate` | Case materials | 10.00% | %/bed |
 | `Carrot_Diminishing_Rate` | Case materials | 2.50% | %/bed |
 | `Mesclun_Diminishing_Rate` | Case materials | 1.25% | %/bed |
+
+**Correction (v1.5, per Adam's PR #19 follow-up review):**
+`Farmer_Implied_Wage` and `Temp_Wage_Per_Hour` were previously entered as
+`34.72` and `17.36` — the case materials' displayed, rounded values —
+rather than derived from their own source terms (`$50,000 season salary
+÷ 2 ÷ 720 hours` and `$25,000 ÷ 1,440 hours`, respectively). Same class
+of error as the `Carrot_Base_Labor_Hrs_Wk_Bed` fix immediately below
+(v1.4): a printed number treated as an exact input. This introduces two
+new raw constants, `Farmer_Season_Salary` ($50,000) and
+`Temp_Worker_Flat_Cost` ($25,000), that exist here purely to derive the
+*per-hour wage rate* — `Temp_Worker_Flat_Cost` happens to be the same
+$25,000 figure named in the brief's disputed lumpy-hiring-fee (see the
+"Open item" note below), but it plays no cost-line role here; it only
+feeds this wage-rate ratio. If the lumpy fee is ever confirmed real, it
+is added as its own separate term in §4 — not folded into this
+derivation.
 
 **Correction (v1.4):** `Carrot_Base_Labor_Hrs_Wk_Bed` was previously entered
 as `0.833` — the displayed, rounded value — rather than derived from the
@@ -314,14 +342,14 @@ done until every one passes.
 | 2 | **Cross-check against the Farm Profit Lab** (`adamwstauffer.github.io/ai-lms/farmlab.html`) — take at least one intermediate marginal cost and compare. | Anything wrong in the middle of the model. The lab is a separate implementation of this same model, so agreement is real evidence. |
 | 3 | **Two Solver starting points** — 0/0/0 and 20/0/0 (`Beds_Tomato`/`Beds_Carrot`/`Beds_Mesclun`). | A local optimum masquerading as the answer. If they disagree, that's a finding, not a nuisance — and 20/0/0 is infeasible outright (§4/§8), which is itself worth knowing before relying on Solver. |
 | 4 | **The check figures** (table below). | Everything else, in aggregate. |
-| 5 | **Formulas, not pasted values** — spot-check that `Calculations` cells reference the named inputs in §3, not hardcoded numbers. | A number that's right today and wrong the moment an input changes. |
+| 5 | **Formulas, not pasted values** — spot-check both `Inputs` (any named range that is itself a derived ratio, not a raw case constant) and `Calculations` cells, confirming each references other named ranges in §3 rather than a hardcoded number. | A number that's right today and wrong the moment an input changes — including a derived value sitting on `Inputs` itself, not only a formula on `Calculations`. |
 
 **Check figures (acceptance targets for check 4), each with a tolerance:**
 
 | Check | Value | Tolerance |
 |-------|-------|-----------|
 | Optimal mix | Tomatoes 10 · Carrots 20 · Mesclun 30 (60 beds) | Exact — integer beds, no rounding room |
-| Season profit | $42,762 | ± $50 (the residual from `Carrot_Base_Labor_Hrs_Wk_Bed`'s now-formula-derived precision) |
+| Season profit | $42,761.66 | ± $0.01 (cent-level display rounding only — once §3's v1.5 wage-formula fix is in place, the model should reproduce this exactly; no other slack is justified) |
 | Temp workers needed | ~3.16 (uncapped/unrounded — `(Total_Labor_Hours_Needed − Own_Labor_Hours) / Temp_Worker_Hours`; `Temp_Workers_Hired` itself rounds this up to the integer 4, since you can't hire a fraction of a worker) | ± 0.05 |
 | Standalone P ≈ MC points | Tomatoes ~10 · Carrots ~10 · Mesclun ~6 beds | ± 1 bed each |
 | q = 1 hand check | `Cumulative_Labor_Hrs(tomato,1)` = exactly 99.00 hrs | Exact |
@@ -386,6 +414,45 @@ instructor review caught that these checks, as they stood then, did not:
 
 All three are now closed: `model.xlsx` rebuilt from the corrected spec,
 recalculated clean, and all five checks re-run and passing (above).
+
+**Defect record — instructor review, PR #19 follow-up (2026-09-12):**
+a second review, run after the three fixes above, found one more costing
+defect and two process gaps that let it through unnoticed.
+
+4. **`Farmer_Implied_Wage` and `Temp_Wage_Per_Hour` entered as rounded
+   literals** — `34.72` and `17.36` typed in directly, rather than
+   derived from the case's own wage terms (`$50,000 ÷ 2 ÷ 720 hours` and
+   `$25,000 ÷ 1,440 hours`). This is the same defect class as item 3
+   above, recurring in a different cell — a printed value stood in for a
+   computation. It moved season profit by $6.67 ($42,768.33 vs. the true
+   $42,761.66), small enough to hide inside a tolerance band rather than
+   trip an exact check. Caught by: nothing at the time — check 5 only
+   scanned `Calculations`, and these two literals live on `Inputs`, so
+   there was no check positioned to see them at all. Fixed by entering
+   both as formulas referencing new raw constants `Farmer_Season_Salary`
+   and `Temp_Worker_Flat_Cost` (§3, v1.5).
+5. **Check 4's ±$50 tolerance was added after the check failed, not before
+   it was run** — it existed to let a $13 (later $6.67) known gap pass
+   rather than to accommodate a pre-stated source of imprecision. A
+   tolerance justified only by "the check currently fails without it" is
+   not evidence the model is correct; it's evidence the check was
+   loosened to match the answer. Caught by: nothing internal — an
+   external review had to point out the tolerance had no standing
+   justification. Fixed by removing it: once defect 4 is closed, check 4
+   requires an exact match to the cent (§6 check-figures table).
+6. **Check 5 was scoped only to `Calculations`, structurally unable to see
+   `Inputs`** — the two literals in defect 4 sat on the one sheet the
+   check never looked at. This is the same blind spot as defect 3's
+   "Caught by" note already flagged, but it was never actually fixed in
+   the check's own scope — only the one input it happened to catch was
+   fixed. Caught by: nothing internal, for the same reason as defect 4.
+   Fixed by widening check 5 to explicitly cover `Inputs` (§6).
+
+All six defects are now closed on paper (this spec). `model.xlsx` has not
+yet been regenerated from this version — do that next, then re-run all
+five checks and update the check-figures/Audit Findings results above
+(they currently reflect the pre-v1.5 build and are stale as of this
+edit).
 
 ---
 
