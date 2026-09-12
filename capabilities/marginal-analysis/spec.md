@@ -360,26 +360,28 @@ specifically to catch that. When a check fails, fix the spec and
 regenerate the workbook; don't patch the workbook by hand. A workbook
 that no longer matches its spec is a model nobody can rebuild.
 
-### Audit Findings (last updated 2026-09-09)
+### Audit Findings (last updated 2026-09-12, v1.5 rebuild)
 
 Ran against the committed `capabilities/marginal-analysis/model.xlsx`,
-recalculated fresh via LibreOffice (1,080 formulas, 0 errors).
+rebuilt from spec v1.5 and recalculated fresh via LibreOffice (1,082
+formulas, 0 errors).
 
 | Check | Result |
 |-------|--------|
 | 1 — q=1 by hand | **Pass.** `Calculations!C5` (tomato bed 1 marginal hours) = 99.0, matching `1 × 2.50 × 36 × 1.10` exactly. |
-| 4 — The check figures | **Pass.** `Summary` shows Tomatoes 10 / Carrots 20 / Mesclun 30 (60 beds), PROFIT $42,768.33 — within the ±$50 tolerance of the $42,762 target (the earlier $13 residual, from `Carrot_Base_Labor_Hrs_Wk_Bed` being a rounded literal, is most of the way closed now that it's a formula — see the defect record below). Temp workers needed, unrounded: `Calculations!D48` = 3.16, matching the ~3.16 target. Standalone crossovers on `Calculations`: Tomato bed 10, Carrot bed 10, Mesclun bed 6 (`F26`/`M26`/`T36`) — exactly the ~10/~10/~6 target. |
-| 5 — Formulas, not pasted values | **Pass.** `Calculations` cells reference `Tomato_Base_Labor_Hrs_Wk_Bed`, `Season_Weeks`, `Tomato_Diminishing_Rate`, etc. by name throughout. `Carrot_Base_Labor_Hrs_Wk_Bed` itself is now a formula (`=Tomato_Base_Labor_Hrs_Wk_Bed/3`) rather than the rounded literal `0.833` it used to be — see below. |
+| 4 — The check figures | **Pass, exact.** `Summary` shows Tomatoes 10 / Carrots 20 / Mesclun 30 (60 beds), PROFIT $42,761.664682745 — matches the $42,761.66 target to the cent, no tolerance needed. Temp workers needed, unrounded: `Calculations!D48` = 3.1647, matching the ~3.16 ± 0.05 target. Standalone crossovers on `Calculations`: Tomato bed 10, Carrot bed 10, Mesclun bed 6 (`F26`/`M26`/`T36`) — exactly the ~10/~10/~6 target. |
+| 5 — Formulas, not pasted values | **Pass.** `Calculations` cells reference `Tomato_Base_Labor_Hrs_Wk_Bed`, `Season_Weeks`, `Tomato_Diminishing_Rate`, etc. by name throughout. On `Inputs` itself: `Carrot_Base_Labor_Hrs_Wk_Bed` (`=Tomato_Base_Labor_Hrs_Wk_Bed/3`), `Farmer_Implied_Wage` (`=Farmer_Season_Salary/2/Own_Labor_Hours`), and `Temp_Wage_Per_Hour` (`=Temp_Worker_Flat_Cost/Temp_Worker_Hours`) are all formulas now, not rounded literals — this check's scope now actually covers the sheet where those three lived. |
 
 Two more, for completeness:
 
 | Check | Result |
 |-------|--------|
-| 2 — Farm Profit Lab cross-check | **Pass.** The lab's displayed "+1 bed" marginal profits (Tomatoes +$4,483, Carrots +$586, Mesclun +$238, from a `farmlab.html` export) match this model's own bed-1 marginal contributions to the cent. |
+| 2 — Farm Profit Lab cross-check | **Pass.** The lab's displayed "+1 bed" marginal profits (Tomatoes +$4,483, Carrots +$586, Mesclun +$238, from a `farmlab.html` export) match this model's own bed-1 marginal contributions ($4,482.50, $586.29, $237.97 — `Calculations!F5`/`M5`/`T5`) to the nearest displayed dollar; the lab shows whole-dollar rounding, this model carries the cents. |
 | 3 — Two Solver starting points, 0/0/0 and 20/0/0 | **Pass, with a caveat.** 0/0/0 converges (via hill-climbing) to the true optimum, Tomatoes 10/Carrots 20/Mesclun 30. 20/0/0 is infeasible outright — 20 tomato beds alone need ~12,110 labor hours against the 6,480-hour max — which is a real Solver gotcha worth knowing (don't start there), not a defect in the cost model. |
 
 All five checks pass. `Calculations!D153` (greedy walk vs. Solver PROFIT
-delta) reads 0 — the two methods agree exactly.
+delta) reads 0 — the two methods agree exactly, both landing on
+$42,761.664682745046, the exact published target.
 
 **Defect record — instructor review, [PR #11](https://github.com/jekumura/jennifer-kumura/pull/11):**
 a prior version of this spec (checked against the same five checks, before
@@ -448,11 +450,11 @@ defect and two process gaps that let it through unnoticed.
    fixed. Caught by: nothing internal, for the same reason as defect 4.
    Fixed by widening check 5 to explicitly cover `Inputs` (§6).
 
-All six defects are now closed on paper (this spec). `model.xlsx` has not
-yet been regenerated from this version — do that next, then re-run all
-five checks and update the check-figures/Audit Findings results above
-(they currently reflect the pre-v1.5 build and are stale as of this
-edit).
+All six defects are now closed: `model.xlsx` rebuilt from this v1.5 spec,
+recalculated clean (1,082 formulas, 0 errors), and all five checks
+re-run and passing — including check 4 now landing exactly on
+$42,761.664682745, the published target to the cent, with no tolerance
+required (Audit Findings above).
 
 ---
 
