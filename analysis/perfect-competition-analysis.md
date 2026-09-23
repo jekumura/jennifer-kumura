@@ -56,20 +56,16 @@ Neither is worth paying to relax.
 
 ## 3. The tomato MC dip at ~6 beds
 
-Tomato marginal cost falls from $7,660.86 (bed 5, `Calculations!E9`) to
-$4,906.27 (bed 6, `Calculations!E10`), then resumes climbing to $5,585.71
-(bed 7). Diminishing returns never paused — marginal labor hours keep
-rising every bed (`Calculations!C5:C24`). What changed is the price of the
-marginal hour: cumulative labor hours cross the farmer's own 720-hour pool
-between bed 5 and bed 6 (`Calculations!D9` = 724.73 hrs), so bed 6's hours
-are priced entirely at the cheaper temp wage ($17.36/hr, `Inputs!C17`)
-instead of the farmer's own $34.72/hr (`Inputs!C12`) — a wage-tier drop
-large enough to outweigh one more bed of diminishing returns, for a few
-beds, before the curve wins again (Figure 1).
-
-The general lesson: marginal cost reflects input *prices* as much as
-physical returns. Any cost curve with a step change in an input price will
-show this kind of dip — it isn't tomato-specific.
+Tomato MC drops at bed 6 before increasing again. This appears to be
+caused by the labor-cost structure: the first 720 labor hours are priced
+at the farmer's higher implied wage of $34.72/hour, while hours beyond
+720 are priced at the lower temporary-worker rate of $17.36/hour. In the
+Calculations tab, cumulative tomato labor reaches 724.73 hours at bed 5,
+meaning the 720-hour threshold has already been crossed by bed 5. By bed
+6, cumulative labor reaches 956.64 hours, so the additional labor for bed
+6 falls entirely into the cheaper temporary-worker tier. This lowers the
+marginal cost of bed 6, creating the temporary dip before diminishing
+returns cause marginal cost to increase again (Figure 1).
 
 ## 4. Why grow crops that lose money on their own
 
