@@ -23,6 +23,8 @@ sits between them, so bed 10 is the last one that clears its own cost —
 matching the mechanism the brief named (P = MC), just resolved crop by
 crop rather than assumed (Figure 1).
 
+![Tomato marginal cost vs. $8,800 price, beds 1–20: the wage-tier dip at bed 6 and the P=MC crossover between beds 10 and 11.](figures/tomato-mc-vs-price.png)
+
 ## 2. Which constraints bind — and what relaxing one is worth
 
 Carrots and mesclun both stop at their bed caps (20 and 30) with marginal
@@ -31,6 +33,8 @@ a $2,094 price (`Calculations!L24`, $405/bed of margin left on the table);
 bed 30 mesclun costs $2,420.10 against $2,700 (`Calculations!S34`, $280/bed
 left) — see Figure 2. Economics hasn't ended production for either crop;
 a fence has.
+
+![Carrot and mesclun marginal cost (joint allocation) vs. their prices, beds 1–cap: both curves still under price when their bed caps stop them.](figures/carrot-mesclun-mc-vs-price.png)
 
 Relaxing each cap by one bed and re-solving (holding the other two crops
 at their optimal beds, using the model's own cumulative-hours and tiered-
@@ -118,12 +122,3 @@ on planting order across the whole shared pool, not any one crop's rate."
 A model built only on standalone per-crop curves — which is what the
 hypothesis's reasoning implicitly assumed — would have badly undersold
 mesclun and carrot's real profitability.
-
-## Figures
-
-- `figures/tomato-mc-vs-price.png` — tomato marginal cost vs. $8,800
-  price, beds 1–20: the wage-tier dip at bed 6 and the P=MC crossover
-  between beds 10 and 11.
-- `figures/carrot-mesclun-mc-vs-price.png` — carrot and mesclun marginal
-  cost (joint allocation) vs. their prices, showing both curves still
-  under price when their bed caps stop them.

@@ -1,5 +1,30 @@
 # Prompt Log - running record of AI sessions that mattered.
 
+## 2026-09-25 — Instructor feedback: figures embedded, log correction
+
+Tool: Claude Code. Pasted instructor feedback on the Stage 2/3 submission
+(overall 9.1, five listed fixes) and asked Claude to work through it.
+Embedded both figures as Markdown images in
+`analysis/perfect-competition-analysis.md` where the text already
+referenced them, and removed the closing figure-path list. Corrected the
+2026-09-09 entry below, which had described a $42,775 result as
+"matching" a $42,762 target when it was actually a $13 gap closed by a
+later fix.
+
+Claude also independently verified the feedback's central claim — that
+the AVC sentence in `analysis/perfect-competition-analysis.md` §4
+overclaims, since mesclun's own standalone AVC exceeds its $2,700 price
+at beds 13–14 ($2,716.35 and $2,702.51) — and drafted an AVC column for
+`capabilities/marginal-analysis/model.xlsx` plus a `spec.md` v1.6
+addendum documenting it. Scoped out of this commit at the user's
+instruction (analysis and prompt-log only, this round); that work stays
+uncommitted pending a separate decision.
+
+This round did not touch the AVC sentence itself or the reflection the
+feedback asks for — both are analysis/judgment content reserved for the
+user under this stage's rules; Claude gave cell references and figures
+for the sentence and left it and the reflection for the user to write.
+
 ## 2026-09-23 — MC-dip paragraph rewritten, verified, and swapped into the analysis
 
 Tool: Claude Code. After the structural critique below, asked Claude only
@@ -88,9 +113,13 @@ states one). Fixed §3/§4/§5/§6/§7/§8 accordingly, then rebuilt
 `capabilities/marginal-analysis/model.xlsx` from the corrected spec —
 which caught a second bug live (a naive "count of profitable beds" formula
 overcounted past a marginal-profit dip caused by the wage-tier flip).
-Final validated result: Tomatoes 10 / Carrots 20 / Mesclun 30, $42,775
-profit, matching the $42,762 target; the greedy P=MC walk and the Solver
-optimum now agree exactly.
+Final result at this point: Tomatoes 10 / Carrots 20 / Mesclun 30,
+$42,775 profit — a $13 gap against the $42,762 target, not a match; the
+gap was inside the tolerance band that existed at the time, and was
+fully closed later by the v1.5 wage-formula fix (see the 2026-09-23
+entries above), which brought profit to the exact $42,761.66 target with
+no tolerance needed. The greedy P=MC walk and the Solver optimum already
+agreed exactly at this point, independent of that later fix.
 
 ## 2026-08-24 — Crop economics data filled into the spec
 
