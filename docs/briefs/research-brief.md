@@ -3,7 +3,7 @@ engagement: economic-research
 stage: 1 · Ask
 file: docs/briefs/research-brief.md
 date: 2026-09-25
-status: draft v2 (roles revised to a within-design split + benchmark + control; thesis sharpened to market self-correction; AI-assisted scaffold, rewrite in my own words before push)
+status: draft v1
 scope: United States
 decision-owner: Employers of design and engineering talent, and the professional bodies that shape the pipeline
 question: >
