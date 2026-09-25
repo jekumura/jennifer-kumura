@@ -2,8 +2,8 @@
 type: spec
 capability: marginal-analysis
 engagement: perfect-competition
-date: 2026-09-12
-version: 1.5
+date: 2026-09-25
+version: 1.6
 status: committed
 ---
 
@@ -455,6 +455,38 @@ recalculated clean (1,082 formulas, 0 errors), and all five checks
 re-run and passing — including check 4 now landing exactly on
 $42,761.664682745, the published target to the cent, with no tolerance
 required (Audit Findings above).
+
+**Addition (v1.6, instructor review on the Stage 2 analysis):** the
+analysis text asserted that price stays above average variable cost for
+carrots and mesclun "at every bed count checked" — true at the planted
+quantities (20 carrot beds, 30 mesclun beds) but not true in general:
+mesclun's own standalone AVC rises above its $2,700 price at beds 13–14
+before the wage-tier flip (§5) pulls it back under. Nothing on
+`Calculations` computed AVC directly, so this had never been checked
+against a real series, only inferred from the MC curve. Fixed by adding
+an AVC block to `Calculations` (rows 156–189, one sub-block per crop):
+
+`Cumulative_Variable_Cost(crop, n) = SUM of that crop's own standalone
+Marg. Cost column, beds 1 through n` (a running total, not a separate
+formula — variable cost per bed is exactly what the standalone Marg. Cost
+column already prices, fertilizer plus tiered labor)
+`AVC(crop, n) = Cumulative_Variable_Cost(crop, n) / n`
+
+New check figures (add to §6's acceptance criteria going forward):
+
+| Check | Value |
+|-------|-------|
+| Carrot AVC @ 20 beds | $1,918.45 |
+| Mesclun AVC @ 30 beds | $2,430.74 |
+| Mesclun AVC @ 13 beds | $2,716.35 (above the $2,700 price) |
+| Mesclun AVC @ 14 beds | $2,702.51 (above the $2,700 price) |
+
+All four confirmed by direct computation against the formula above,
+independent of the workbook (this environment's LibreOffice install
+cannot recalculate headless, so the workbook's own cached values for
+these new cells aren't populated until opened in Excel/LibreOffice —
+the formulas are in place and verified correct, but not yet
+Excel-recalculated the way prior versions were).
 
 ---
 
