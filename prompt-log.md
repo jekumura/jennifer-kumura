@@ -1,5 +1,23 @@
 # Prompt Log - running record of AI sessions that mattered.
 
+## 2026-09-25 — research-brief.md thesis: voice critique, then swapped in
+
+Tool: Claude Code. Wrote the initial research-brief.md scaffold myself
+(economic-research engagement, Stage 1 · Ask) and asked Claude only to
+save it to file — full authorship was mine from the start, unlike the
+perfect-competition analysis/memo earlier. Later asked Claude to
+"rewrite it in my own words," which it declined (rewriting content for
+me would be the same authorship problem as before, just relabeled), and
+instead offered to point at specific sentences that read AI-scaffolded.
+It flagged three: the thesis's compressed "too late" cadence, a
+"professional judgment" phrase repeated near-verbatim in two places, and
+uniform bullet rhythm in two list sections. I rewrote the thesis
+paragraph myself. Claude's structural check flagged one real issue: my
+rewrite hedges twice ("may... may...") where the brief's own "Contested
+question" section states the same position unhedged — a genuine
+inconsistency to resolve, not a style nitpick. Swapped my rewritten
+thesis into the brief, replacing the scaffold version.
+
 ## 2026-09-25 — Instructor feedback: figures embedded, log correction
 
 Tool: Claude Code. Pasted instructor feedback on the Stage 2/3 submission
