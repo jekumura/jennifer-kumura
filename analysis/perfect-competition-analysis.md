@@ -93,7 +93,9 @@ its $2,094 price, while mesclun at 30 beds has an AVC of $2,430.74
 rises above price at beds 13–14, reaching $2,716.35 at 13 beds
 (`Calculations!L172`) and $2,702.51 at 14 beds (`Calculations!L173`), but
 this does not affect the plan because the optimum goes to the 30-bed
-cap, where mesclun's AVC is again below price. Every bed contributes
+cap, where mesclun's AVC is again below price (Figures 1 and 2, which
+show every planted bed for all three crops clearing price). Every bed
+contributes
 something toward the $20,000 the farm owes regardless. Each crop "loses
 money" standalone only because it's being asked to carry that whole
 fixed cost alone. This is the short-run shutdown rule in the field, and
