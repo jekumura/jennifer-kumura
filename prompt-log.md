@@ -1,5 +1,25 @@
 # Prompt Log - running record of AI sessions that mattered.
 
+## Reflection
+
+AI helped me build and troubleshoot the model, but I found that its
+outputs still needed to be checked against the underlying assumptions
+and source material. On September 9, the AI-assisted wage-tier formula
+reversed the farmer and temporary-worker wage rates. I caught this by
+comparing the model against the Farm Profit Lab PDF, which specified the
+correct wage treatment, and corrected the formula. Later that same
+session, a formula counting profitable beds continued counting beds past
+the wage-tier dip; I investigated the formula because the resulting
+count did not align with the model's expected behavior and rebuilt the
+calculation. On September 23, I had a different experience: I wrote the
+explanation of the marginal-cost dip myself, and the AI verified my
+reasoning against Calculations!D9 and D10 and the specification's
+formula. That verification confirmed that the reasoning was supported by
+the model rather than identifying an AI error. Together, these
+experiences showed me that AI was most useful as a tool for analysis and
+verification, but I needed to independently check its outputs against
+the model, source material, and underlying formulas.
+
 ## 2026-09-28 — AVC sentence rescoped, then swapped in
 
 Tool: Claude Code. Adam's 2026-09-24 review (PR #26) flagged the AVC
