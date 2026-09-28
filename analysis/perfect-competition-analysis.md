@@ -86,14 +86,19 @@ crops.)
 The resolution is MC vs. AVC, not MC vs. price-including-fixed-cost.
 Fixed costs are paid whether or not a bed is planted, so they have no
 place in the planting decision. Average variable cost (fertilizer +
-labor, no fixed cost) stays below price for carrots and mesclun at every
-bed count checked (e.g. carrot AVC at 20 beds: $1,918.45 vs. $2,094
-price; mesclun AVC at 30 beds: $2,430.74 vs. $2,700 price) — every bed
-contributes something toward the $20,000 the farm owes regardless. Each
-crop "loses money" standalone only because it's being asked to carry that
-whole fixed cost alone. This is the short-run shutdown rule in the field,
-and it's the same reasoning that keeps an airline flying a half-empty
-route: price above average variable cost means fly it anyway.
+labor, no fixed cost) stays below price at the quantities we plant:
+carrot at 20 beds has an AVC of $1,918.45 (`Calculations!H179`) versus
+its $2,094 price, while mesclun at 30 beds has an AVC of $2,430.74
+(`Calculations!L189`) versus its $2,700 price. Mesclun's AVC temporarily
+rises above price at beds 13–14, reaching $2,716.35 at 13 beds
+(`Calculations!L172`) and $2,702.51 at 14 beds (`Calculations!L173`), but
+this does not affect the plan because the optimum goes to the 30-bed
+cap, where mesclun's AVC is again below price. Every bed contributes
+something toward the $20,000 the farm owes regardless. Each crop "loses
+money" standalone only because it's being asked to carry that whole
+fixed cost alone. This is the short-run shutdown rule in the field, and
+it's the same reasoning that keeps an airline flying a half-empty route:
+price above average variable cost means fly it anyway.
 
 ## Against the Stage 1 hypothesis
 

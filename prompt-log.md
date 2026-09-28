@@ -1,5 +1,21 @@
 # Prompt Log - running record of AI sessions that mattered.
 
+## 2026-09-28 — AVC sentence rescoped, then swapped in
+
+Tool: Claude Code. Adam's 2026-09-24 review (PR #26) flagged the AVC
+sentence in analysis.md §4 for overclaiming ("every bed count checked")
+when mesclun's AVC actually exceeds its price at beds 13–14. Claude gave
+cell references from the AVC column added earlier, then — when asked to
+help write the sentence directly — declined and instead asked a
+question ("does the bump ever get planted, and what does it coming back
+under price by bed 30 tell you?") to prompt me to construct the "why it
+doesn't matter" reasoning myself rather than supplying it. I drafted the
+scoped sentence in two passes; Claude's second check went beyond my own
+claim, independently confirming beds 13–14 are the *only* excursion
+above price across all 30 mesclun beds, not just checking the numbers I
+cited. Swapped my sentence into analysis.md, replacing the original
+overclaiming version.
+
 ## 2026-09-25 — research-brief.md thesis: voice critique, then swapped in
 
 Tool: Claude Code. Wrote the initial research-brief.md scaffold myself
