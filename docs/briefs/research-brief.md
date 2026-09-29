@@ -2,8 +2,8 @@
 engagement: economic-research
 stage: 1 · Ask
 file: docs/briefs/research-brief.md
-date: 2026-09-25
-status: draft v1
+date: 2026-09-28
+status: draft v2
 scope: United States
 decision-owner: Employers of design and engineering talent, and the professional bodies that shape the pipeline
 question: >
@@ -37,14 +37,13 @@ AI is not eliminating technology careers so much as disrupting the traditional e
 | **Graphic designers** | Production assets, layouts, variations | Automates | Large decline |
 | **Software developers** (benchmark) | Boilerplate code, tests, simple features | Automates | Large decline; best-documented case |
 | **Web & digital interface designers** | Flows, interaction design, user needs | Mostly augments | Smaller decline |
-| **Low-exposure control** `[CHOOSE from dashboard: e.g., nursing assistants, electricians]` | Hands-on work AI barely touches | Minimal | Roughly flat |
+| **Low-exposure control: Home Health Aide** | Hands-on work AI barely touches | Minimal | Roughly flat |
 
 **Why this design.**
 - **The within-design split is the heart of it.** Graphic designers and interface designers are in the same field, but their junior tasks differ in how automatable they are. If their early-career paths diverge, the mechanism is automatability, not "design is being replaced." This is where my professional judgment adds the most.
 - **Software developers anchor the pattern** in the best-documented case.
 - **The control rules out the boring explanation**, that the job market is simply bad for young people right now. The control is a methodological check, not the thesis.
 
-`[CHECK FIRST: confirm all four occupations have early-career series on the Stanford Canaries Dashboard.]`
 
 ## Economic concepts this touches
 
@@ -77,8 +76,8 @@ This is where the analysis lives.
 
 1. **Descriptive:** an early-career vs. experienced employment index for all four occupations, late 2022 to present.
 2. **Mechanism test:** does the size of the early-career gap follow the automatability ranking?
-3. **Price-signal check:** are wages for experienced workers in these occupations rising yet? `[SOURCE: BLS wage data or the Stanford compensation findings]`
-4. **Pipeline projection (Excel):** a simple cohort model. Juniors hired each year become mid-level after `[N]` years, with an assumed attrition rate. Two named scenarios:
+3. **Price-signal check:** are wages for experienced workers in these occupations rising yet? [SOURCE: the Stanford compensation findings]
+4. **Pipeline projection (Excel):** a simple cohort model. Juniors hired each year become mid-level after 3-5 years, with an assumed attrition rate. Two named scenarios:
    - **Depressed:** junior hiring stays at the current reduced level through 2030.
    - **Recovery:** junior hiring returns to its pre-2022 trend by 2028.
    Output: the projected mid-level gap, and the year a wage signal would plausibly appear versus the year trained people would be needed.
@@ -88,11 +87,10 @@ This is where the analysis lives.
 
 ## Hypotheses
 
-**H1 (mechanism):** since late 2022, the relative early-career employment decline is larger for graphic designers than for web and digital interface designers, by at least `[X]` percentage points. Software developers fall closer to graphic designers, and the control shows no meaningful decline.
+**H1 (mechanism):** since late 2022, the relative early-career employment decline is larger for graphic designers than for web and digital interface designers, by at least 10 percentage points. Software developers fall closer to graphic designers, and the control shows no meaningful decline.
 
-**H2 (timing):** under the depressed scenario, a mid-level shortage emerges by `[YEAR]`, while the time needed to train replacements exceeds the time between the wage signal appearing and the talent being needed.
+**H2 (timing):** under the depressed scenario, a mid-level shortage emerges by 2030, while the time needed to train replacements exceeds the time between the wage signal appearing and the talent being needed.
 
-> Commit `[X]` and `[YEAR]` before pulling data or building the model.
 
 ## How I would know I was wrong
 
