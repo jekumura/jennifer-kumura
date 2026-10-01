@@ -70,7 +70,7 @@ This is where the analysis lives.
 | Early-career employment in AI-exposed occupations has declined relative to experienced workers | Brynjolfsson, Chandar & Chen (Aug 2026). Descriptive, not causal, per the authors |
 | Adjustment so far has come through employment, not wages | Same source. Verify the exact finding in the primary paper |
 | Junior-to-mid-level progression takes about 3–5 years | `[TBD: source, or state as my professional judgment]` |
-| Graphic designers' junior tasks are more automatable than interface designers' | My professional judgment. `[CHECK: occupation- or task-level automation vs. augmentation data]` |
+| Graphic designers' junior tasks are more automatable than interface designers' | Anthropic Economic Index Job Explorer classifies both occupations separately with their own automation/augmentation measures, confirmed by direct check. `[TBD: pull the actual percentages and confirm they support this ranking, not just that the data exists]` |
 | The decline is driven by AI rather than interest rates or the post-2022 tech correction | The control group plus the Stanford controls. **Biggest vulnerability; address it directly** |
 
 ## The analysis I plan to run
@@ -114,7 +114,7 @@ This is where the analysis lives.
 - CPS/IPUMS: employment by age for Graphic Designers (OCC 2634) and Web & Digital Interface Designers (OCC 1032); assess quarterly pooling after checking actual cell sizes
 - Brynjolfsson, Chandar & Chen (2025, revised Aug 2026), "Canaries in the Coal Mine?": cite the primary paper
 - BLS Occupational Employment and Wage Statistics: employment and wages for graphic designers, web & digital interface designers, software developers, and the control
-- Task-level evidence on AI automation vs. augmentation by occupation
+- Anthropic Economic Index, Job Explorer: occupation-specific automation vs. augmentation measures for Graphic Designers and Web & Digital Interface Designers
 - A source for typical junior-to-mid-level progression time
 
 ## Guardrails for the paper
