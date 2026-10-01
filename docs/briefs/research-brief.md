@@ -44,6 +44,7 @@ AI is not eliminating technology careers so much as disrupting the traditional e
 - **Software developers anchor the pattern** in the best-documented case.
 - **The control rules out the boring explanation**, that the job market is simply bad for young people right now. The control is a methodological check, not the thesis.
 
+**Data availability.** The Stanford Canaries Dashboard's public interface has confirmed early-career series for Software Developers and Home Health Aides, but does not expose an equivalent series for Graphic Designers or Web & Digital Interface Designers. Those two occupations will be measured using CPS/IPUMS microdata instead (see "Data to gather"). `[TBD: state in my own words what it means to mix Stanford/ADP payroll data with CPS survey data across the four occupations, and how I'll address that in the paper.]`
 
 ## Economic concepts this touches
 
@@ -109,7 +110,8 @@ This is where the analysis lives.
 
 ## Data to gather
 
-- Stanford Digital Economy Lab, Canaries Dashboard: early-career and experienced series for the four occupations
+- Stanford Digital Economy Lab, Canaries Dashboard: early-career and experienced series for Software Developers and Home Health Aides
+- CPS/IPUMS: employment by age for Graphic Designers (OCC 2634) and Web & Digital Interface Designers (OCC 1032); assess quarterly pooling after checking actual cell sizes
 - Brynjolfsson, Chandar & Chen (2025, revised Aug 2026), "Canaries in the Coal Mine?": cite the primary paper
 - BLS Occupational Employment and Wage Statistics: employment and wages for graphic designers, web & digital interface designers, software developers, and the control
 - Task-level evidence on AI automation vs. augmentation by occupation
