@@ -77,7 +77,7 @@ This is where the analysis lives.
 1. **Descriptive:** an early-career vs. experienced employment index for all four occupations, late 2022 to present.
 2. **Mechanism test:** does the size of the early-career gap follow the automatability ranking?
 3. **Price-signal check:** are wages for experienced workers in these occupations rising yet? [SOURCE: the Stanford compensation findings]
-4. **Pipeline projection (Excel):** a simple cohort model. Juniors hired each year become mid-level after 4 years, with an assumed attrition rate. Two named scenarios:
+4. **Pipeline projection (Excel):** a simple cohort model. Juniors hired each year become mid-level after 5 years, with an assumed attrition rate. Two named scenarios:
    - **Depressed:** junior hiring stays at the current reduced level through 2030.
    - **Recovery:** junior hiring returns to its pre-2022 trend by 2028.
    Output: the projected mid-level gap, and the year a wage signal would plausibly appear versus the year trained people would be needed.
