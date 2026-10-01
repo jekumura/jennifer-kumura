@@ -20,6 +20,37 @@ experiences showed me that AI was most useful as a tool for analysis and
 verification, but I needed to independently check its outputs against
 the model, source material, and underlying formulas.
 
+## 2026-10-01 — research-brief.md: wage mechanism reframed to hiring, seven passages rewritten
+
+Tool: Claude Code. Decided to cut the self-correction/price-signal
+argument from the brief entirely rather than just dropping the wage data
+step; Claude mapped every place in the document the wage mechanism
+touched (thesis, the contested-question section, the analysis plan,
+both figures, H2, one falsification bullet, the obvious-objection line —
+seven spots in total, not one) before any editing started, since the
+scope was larger than initially described. Reframed self-correction
+around junior-hiring recovery instead of wages, consistent with the
+Stanford finding ("adjustment has come through employment, not wages")
+already cited in the brief.
+
+Wrote all seven passages myself, one at a time; Claude's role was
+structural critique only — no content supplied. Two real logical gaps
+were caught and fixed in the process: an early H2 draft referenced
+"junior hiring beginning to recover" inside the Depressed scenario,
+which is self-contradictory since that scenario is defined as hiring
+staying flat; and the "case against self-correction" bullet initially
+reused "adjustment has come through employment, not wages" as evidence
+against recovery, when employment is now the recovery channel itself,
+not just the channel of the original decline — both were caught before
+being committed, not after.
+
+Also revisited N (junior-to-mid-level progression, the pipeline model's
+key parameter) and the shortage year: considered moving to N=5/2035,
+decided against changing the year (2030 matches the Depressed scenario's
+own defined window; 2035 would not), kept N at 5. Swapped all seven
+rewritten passages and the analysis-plan restructure into
+research-brief.md once verified.
+
 ## 2026-09-28 — AVC sentence rescoped, then swapped in
 
 Tool: Claude Code. Adam's 2026-09-24 review (PR #26) flagged the AVC

@@ -16,7 +16,7 @@ question: >
 
 ## Thesis (working)
 
-AI is not eliminating technology careers so much as disrupting the traditional entry point into them. While rising wages for experienced technology professionals may eventually indicate a shortage of skilled talent, the long development cycle for building that expertise means the market may recognize the shortage only after the pipeline of early-career talent has already weakened. To sustain the long-term talent pipeline, firms need to develop mechanisms for collectively investing in the training and development of early-career professionals.
+AI is not eliminating technology careers so much as disrupting the traditional entry point into them. As firms reduce junior hiring, the resulting gap in experienced talent may not become visible until those smaller cohorts would have progressed into mid-level roles, at which point employers may respond by increasing entry-level hiring and training. Because those new hires cannot immediately replace the experienced workers the market lacks, however, hiring can recover only after the pipeline has already weakened. To sustain the long-term talent pipeline, firms need mechanisms for collectively investing in the training and development of early-career professionals.
 
 ## The problem
 
@@ -58,8 +58,8 @@ AI is not eliminating technology careers so much as disrupting the traditional e
 
 This is where the analysis lives.
 
-- **The case for self-correction:** as mid-level talent grows scarce, senior wages rise, and that price signal pushes firms back into training. Or AI shortens the time to competence, so a smaller pipeline is efficient.
-- **The case against:** the price signal arrives years after the hiring decision, and no single firm can capture the return on training, so each waits for others. The Stanford finding that adjustment has come through employment rather than wages suggests the price signal isn't showing up yet.
+- **The case for self-correction:** as the smaller cohorts of junior workers progress through the pipeline, firms may eventually face a shortage of mid-level talent and respond by increasing junior hiring and training. Or AI may shorten the time to competence, making a smaller entry-level pipeline efficient.
+- **The case against:** the hiring response may come only after the shortage becomes visible. Firms can reduce junior hiring immediately when AI makes entry-level tasks less valuable, but increasing junior hiring in response to a future mid-level shortage does not immediately replenish the experienced talent pool. The Stanford finding that recent adjustment has occurred through employment rather than wages is consistent with employment being the relevant adjustment channel, but it does not establish that the recovery phase has begun. The key question is whether junior hiring begins to recover before the resulting cohort gap becomes a shortage of experienced workers.
 - **My position to test:** self-correction fails on *timing*, not on direction.
 
 ## What I am assuming
@@ -75,28 +75,27 @@ This is where the analysis lives.
 ## The analysis I plan to run
 
 1. **Descriptive:** an early-career vs. experienced employment index for all four occupations, late 2022 to present.
-2. **Mechanism test:** does the size of the early-career gap follow the automatability ranking?
-3. **Price-signal check:** are wages for experienced workers in these occupations rising yet? [SOURCE: the Stanford compensation findings]
-4. **Pipeline projection (Excel):** a simple cohort model. Juniors hired each year become mid-level after 5 years, with an assumed attrition rate. Two named scenarios:
+2. **Mechanism and recovery test:** does the size of the early-career employment gap follow the automatability ranking, and does junior employment show any evidence of recovery after its initial decline? Use the same employment series to distinguish the initial hiring contraction from a subsequent corrective response.
+3. **Pipeline projection (Excel):** a simple cohort model. Juniors hired each year become mid-level after 5 years, with an assumed attrition rate. Two named scenarios:
    - **Depressed:** junior hiring stays at the current reduced level through 2030.
    - **Recovery:** junior hiring returns to its pre-2022 trend by 2028.
-   Output: the projected mid-level gap, and the year a wage signal would plausibly appear versus the year trained people would be needed.
+   Output: the projected mid-level gap, and the lag between the recovery in junior hiring and the availability of experienced talent.
 
 **Figure 1 (required):** the early-career employment index for all four occupations over time, on one chart. Graphic and interface designers diverging, with the control flat, is the evidence.
-**Figure 2 (if space allows):** the pipeline projection, showing the gap between when the shortage signals and when the talent is needed.
+**Figure 2 (if space allows):** the pipeline projection, showing the gap between when junior hiring begins to recover and when the talent is needed.
 
 ## Hypotheses
 
 **H1 (mechanism):** since late 2022, the relative early-career employment decline is larger for graphic designers than for web and digital interface designers, by at least 10 percentage points. Software developers fall closer to graphic designers, and the control shows no meaningful decline.
 
-**H2 (timing):** under the depressed scenario, a mid-level shortage emerges by 2030, while the time needed to train replacements exceeds the time between the wage signal appearing and the talent being needed.
+**H2 (timing):** under the depressed scenario, a mid-level shortage emerges by 2030, and the subsequent recovery in junior hiring will not arrive early enough to build the talent pipeline before that talent is needed, given the assumed training time.
 
 
 ## How I would know I was wrong
 
 - **Graphic and interface designers decline by about the same amount.** Automatability isn't the driver; the story becomes general junior-hiring weakness, and the recommendation changes.
 - **The control declines too.** The pattern is a youth labor-market story, not an AI story. The paper would have to say so.
-- **Experienced wages are already rising sharply.** The price signal is working faster than I assume, and self-correction may be viable. My recommendation would shrink to "monitor."
+- **Junior hiring is already recovering sharply.** The hiring signal is working faster than I assume, and self-correction may be viable. My recommendation would shrink to "monitor."
 - **The early-career decline predates late 2022.** The AI explanation weakens; check the pre-trend before building on the data.
 
 ## Recommendation directions (to be decided by the analysis, not before it)
@@ -106,7 +105,7 @@ This is where the analysis lives.
 - **Policy:** extend apprenticeship funding or entry-level hiring credits to design and engineering roles.
 - **Professional associations:** structured pipelines from education to a first job.
 
-**Obvious objection to defend against:** "The market will sort it out: senior wages will rise and firms will start training again." My answer should come from the timing analysis. The signal is real, but it arrives after the window to act has closed.
+**Obvious objection to defend against:** "The market will sort it out: junior hiring will recover and firms will rebuild the pipeline." My answer should come from the timing analysis. Junior hiring may eventually recover, but the recovery will arrive after the window to build the pipeline has closed.
 
 ## Data to gather
 
