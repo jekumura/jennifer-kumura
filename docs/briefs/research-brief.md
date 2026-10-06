@@ -40,11 +40,9 @@ AI is not eliminating technology careers so much as disrupting the traditional e
 | **Low-exposure control: Home Health Aide** | Hands-on work AI barely touches | Minimal | Roughly flat |
 
 **Why this design.**
-- **The within-design split is the heart of it.** Graphic designers and interface designers are in the same field, but their junior tasks differ in how automatable they are. If their early-career paths diverge, the mechanism is automatability, not "design is being replaced." This is where my professional judgment adds the most.
-- **Software developers anchor the pattern** in the best-documented case.
-- **The control rules out the boring explanation**, that the job market is simply bad for young people right now. The control is a methodological check, not the thesis.
-
-**Data availability.** The Stanford Canaries Dashboard's public interface has confirmed early-career series for Software Developers and Home Health Aides, but does not expose an equivalent series for Graphic Designers or Web & Digital Interface Designers. Those two occupations will be measured using CPS/IPUMS microdata instead (see "Data to gather"). `[TBD: state in my own words what it means to mix Stanford/ADP payroll data with CPS survey data across the four occupations, and how I'll address that in the paper.]`
+- **Software developers anchor the pattern** in the best-documented case, providing a useful benchmark for what an AI-disrupted early-career occupation can look like.
+- **The GD–interface-designer split is where my professional judgment adds the most.** Both occupations come from CPS, allowing me to test whether differences in AI exposure correspond to different early-career employment patterns within the same data source.
+- **The control provides a benchmark for broader labor-market conditions**, helping distinguish an AI-related effect from a general deterioration in employment for young workers. The Stanford Canaries Dashboard's public interface confirms early-career series for Software Developers and Home Health Aides but not for Graphic Designers or Web & Digital Interface Designers, so those two occupations are measured using CPS/IPUMS microdata instead (see "Data to gather"). One limitation is that ADP captures payroll records at ADP-client firms, while CPS captures self-reported employment across employer types. The age bands match exactly (22–25), so the issue is coverage, not age. This affects the control comparison and Figure 1, but not the within-CPS mechanism test. I retain the ADP control because its externally documented evidence provides a valuable benchmark; I therefore treat the cross-source comparison as contextual evidence, not a like-for-like control.
 
 ## Economic concepts this touches
 
