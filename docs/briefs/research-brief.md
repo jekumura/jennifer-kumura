@@ -48,7 +48,7 @@ AI is not eliminating technology careers so much as disrupting the traditional e
 
 - **Externalities (Session 4).** Training a junior creates value the training firm doesn't fully capture, because trained workers can leave. That's an unpriced positive externality, so the market underproduces training. This is the core mechanism.
 - **Tragedy of the commons (Session 4).** The industry's pool of experienced talent is a shared resource that each firm draws from without replenishing.
-- **Short-run vs. long-run elasticity (Session 2).** Firms cut junior hiring immediately, but mid-level supply can't respond for years. When quantity can't adjust, price does.
+- **Short-run vs. long-run elasticity (Session 2).** Firms can cut junior hiring immediately, but mid-level supply cannot respond as quickly because developing experienced talent takes years. Hiring quantity eventually adjusts — but only after that development lag, creating a pipeline gap in the interim.
 - **Specificity rule (Sessions 4 and 7).** The root cause is the lost training subsidy, not AI itself, so the fix should target training, not slow adoption.
 - **Who gained and who paid (Session 2).** Firms and seniors gain; juniors lose access to the ladder.
 - **Macro link (Session 7; Ch. 14–15).** Human capital formation and long-run productivity growth; headline employment that hides a cohort-specific decline.
