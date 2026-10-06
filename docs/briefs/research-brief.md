@@ -24,7 +24,7 @@ AI is not eliminating technology careers so much as disrupting the traditional e
 
 **Who it affects.**
 - Early-career designers and engineers: they can't get the first job.
-- Employers: next year's cost savings become a shortage of mid-level talent in three to five years.
+- Employers: next year's cost savings become a shortage of mid-level talent in about three years.
 - Senior practitioners: short-run winners, whose scarcity raises their value.
 - The profession: thinner succession and less diversity of background in the pipeline.
 
@@ -67,7 +67,7 @@ This is where the analysis lives.
 |---|---|
 | Early-career employment in AI-exposed occupations has declined relative to experienced workers | Brynjolfsson, Chandar & Chen (Aug 2026). Descriptive, not causal, per the authors |
 | Adjustment so far has come through employment, not wages | Same source. Verify the exact finding in the primary paper |
-| Junior-to-mid-level progression takes about 3–5 years | `[TBD: source, or state as my professional judgment]` |
+| Junior-to-mid-level progression takes about three years | My professional judgment about the development period relevant to this pipeline — a modeling assumption, not an externally established benchmark. Tested at five years as a sensitivity case. |
 | Graphic designers' junior tasks are more automatable than interface designers' | Anthropic Economic Index Job Explorer classifies both occupations separately with their own automation/augmentation measures, confirmed by direct check. `[TBD: pull the actual percentages and confirm they support this ranking, not just that the data exists]` |
 | The decline is driven by AI rather than interest rates or the post-2022 tech correction | The control group plus the Stanford controls. **Biggest vulnerability; address it directly** |
 
@@ -75,7 +75,7 @@ This is where the analysis lives.
 
 1. **Descriptive:** an early-career vs. experienced employment index for all four occupations, late 2022 to present.
 2. **Mechanism and recovery test:** does the size of the early-career employment gap follow the automatability ranking, and does junior employment show any evidence of recovery after its initial decline? Use the same employment series to distinguish the initial hiring contraction from a subsequent corrective response.
-3. **Pipeline projection (Excel):** a simple cohort model. Juniors hired each year become mid-level after 5 years, with an assumed attrition rate. Two named scenarios:
+3. **Pipeline projection (Excel):** a simple cohort model. Juniors hired each year become mid-level after three years (primary case), with an assumed attrition rate; a five-year transition is tested as a sensitivity case. Two named scenarios:
    - **Depressed:** junior hiring stays at the current reduced level through 2030.
    - **Recovery:** junior hiring returns to its pre-2022 trend by 2028.
    Output: the projected mid-level gap, and the lag between the recovery in junior hiring and the availability of experienced talent.
@@ -87,7 +87,7 @@ This is where the analysis lives.
 
 **H1 (mechanism):** since late 2022, the relative early-career employment decline is larger for graphic designers than for web and digital interface designers, by at least 10 percentage points. Software developers fall closer to graphic designers, and the control shows no meaningful decline.
 
-**H2 (timing):** under the depressed scenario, a mid-level shortage emerges by 2030, and the subsequent recovery in junior hiring will not arrive early enough to build the talent pipeline before that talent is needed, given the assumed training time.
+**H2 (timing):** under the depressed scenario, a mid-level shortage emerges by 2030, and the subsequent recovery in junior hiring will not arrive early enough to build the talent pipeline before that talent is needed, given the assumed training time. `[PROVISIONAL: this claim predates the pipeline model build. The primary training-time assumption just moved from five years to three, which changes the cohort math — re-verify against the model once built, under both the three-year primary case and the five-year sensitivity case.]`
 
 
 ## How I would know I was wrong
