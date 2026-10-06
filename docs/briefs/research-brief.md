@@ -5,7 +5,7 @@ file: docs/briefs/research-brief.md
 date: 2026-09-28
 status: draft v2
 scope: United States
-decision-owner: Employers of design and engineering talent, and the professional bodies that shape the pipeline
+decision-owner: Employers and industry leaders responsible for developing early-career talent; professional associations and industry groups as potential coordinators
 question: >
   AI is removing the entry-level tasks junior designers and engineers used to
   learn on. Will the market correct the resulting training shortfall on its own
@@ -99,10 +99,19 @@ This is where the analysis lives.
 
 ## Recommendation directions (to be decided by the analysis, not before it)
 
-- **Shared training pools or apprenticeship consortia:** firms co-fund training so no single firm bears the cost others capture. This is the most direct fix for the externality.
-- **Redesigned junior roles:** juniors direct, review, and correct AI output instead of producing what AI now does.
-- **Policy:** extend apprenticeship funding or entry-level hiring credits to design and engineering roles.
-- **Professional associations:** structured pipelines from education to a first job.
+The disruption of entry-level roles is not only an individual firm's problem but a
+collective training problem: firms have less incentive to invest when they may not
+capture the full return on that investment. The most direct response is collective
+action among firms.
+
+- **Shared training pools or apprenticeship consortia:** firms co-fund training so no
+  single firm bears the cost others capture — the most direct fix for the externality,
+  with professional associations and industry groups serving as potential coordinators.
+- **Other directions, in support rather than in place of firm-level action:** redesigned
+  junior roles (juniors direct, review, and correct AI output instead of producing what
+  AI now does); policy support such as apprenticeship funding or entry-level hiring
+  credits. Policymakers have a supporting role, but they are not the primary actor in
+  this argument.
 
 **Obvious objection to defend against:** "The market will sort it out: junior hiring will recover and firms will rebuild the pipeline." My answer should come from the timing analysis. Junior hiring may eventually recover, but the recovery will arrive after the window to build the pipeline has closed.
 
