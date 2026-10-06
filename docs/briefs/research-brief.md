@@ -2,8 +2,8 @@
 engagement: economic-research
 stage: 1 · Ask
 file: docs/briefs/research-brief.md
-date: 2026-09-28
-status: draft v2
+date: 2026-10-06
+status: draft v3
 scope: United States
 decision-owner: Employers and industry leaders responsible for developing early-career talent; professional associations and industry groups as potential coordinators
 question: >
