@@ -46,12 +46,9 @@ AI is not eliminating technology careers so much as disrupting the traditional e
 
 ## Economic concepts this touches
 
-- **Externalities (Session 4).** Training a junior creates value the training firm doesn't fully capture, because trained workers can leave. That's an unpriced positive externality, so the market underproduces training. This is the core mechanism.
-- **Tragedy of the commons (Session 4).** The industry's pool of experienced talent is a shared resource that each firm draws from without replenishing.
-- **Short-run vs. long-run elasticity (Session 2).** Firms can cut junior hiring immediately, but mid-level supply cannot respond as quickly because developing experienced talent takes years. Hiring quantity eventually adjusts — but only after that development lag, creating a pipeline gap in the interim.
-- **Specificity rule (Sessions 4 and 7).** The root cause is the lost training subsidy, not AI itself, so the fix should target training, not slow adoption.
-- **Who gained and who paid (Session 2).** Firms and seniors gain; juniors lose access to the ladder.
-- **Macro link (Session 7; Ch. 14–15).** Human capital formation and long-run productivity growth; headline employment that hides a cohort-specific decline.
+- **Externalities (Session 4).** Training a junior creates value the training firm doesn't fully capture, because trained workers can leave. That's an unpriced positive externality, so the market underproduces training. This is the core mechanism — it explains why firms underinvest, and it's why firms are this brief's decision-owner.
+- **Short-run vs. long-run elasticity (Session 2).** Firms can cut junior hiring immediately, but mid-level supply cannot respond as quickly because developing experienced talent takes years. Hiring quantity eventually adjusts — but only after that development lag, creating a pipeline gap in the interim. H2 tests this mechanism quantitatively.
+- **Specificity rule (Sessions 4 and 7).** The root cause is the lost training subsidy, not AI itself, so the fix should target training, not slow adoption. This is the bridge from evidence to recommendation.
 
 ## The contested question — will the market fix it?
 
@@ -80,8 +77,8 @@ This is where the analysis lives.
    - **Recovery:** junior hiring returns to its pre-2022 trend by 2028.
    Output: the projected mid-level gap, and the lag between the recovery in junior hiring and the availability of experienced talent.
 
-**Figure 1 (required):** the early-career employment index for all four occupations over time, on one chart. Graphic and interface designers diverging, with the control flat, is the evidence.
-**Figure 2 (if space allows):** the pipeline projection, showing the gap between when junior hiring begins to recover and when the talent is needed.
+**Figure 1 (required, main body):** the early-career employment index for all four occupations over time, on one chart. Graphic and interface designers diverging, with the control flat, is the evidence that this pattern is happening.
+**Figure 2 (appendix candidate):** the pipeline projection, showing the gap between when junior hiring begins to recover and when the talent is needed. Figure 1 establishes the pattern; Figure 2 translates it into what the lag could mean for the future. If main-body space is tight, the detailed chart moves to the appendix — but the H2/pipeline-model finding it's based on still belongs in the recommendation, not just the appendix.
 
 ## Hypotheses
 
