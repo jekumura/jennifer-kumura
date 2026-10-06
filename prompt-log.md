@@ -20,6 +20,105 @@ experiences showed me that AI was most useful as a tool for analysis and
 verification, but I needed to independently check its outputs against
 the model, source material, and underlying formulas.
 
+## 2026-10-06 — research-brief.md: four items from Adam's 2026-10-01 review resolved
+
+Tool: Claude Code. Worked through the four ordered items from Adam's
+2026-10-01 pre-deadline review in sequence.
+
+**Mixed-source TBD.** Claude researched the actual age-band definitions
+behind the Stanford/ADP and CPS series (both use 22-25, confirmed via
+the primary paper) and worked out a rough CPS cell-size estimate for
+the two design occupations (roughly 13-20 respondents per quarter,
+back-of-envelope) against the two large occupations' far larger cells.
+I weighed switching all four occupations to CPS for source consistency
+against keeping the mixed design for the ADP figure's external,
+citable backing, and chose to keep ADP. Wrote the "Why this design"
+rewrite myself in two drafted passes; Claude caught a real
+inconsistency between my first draft's hedged "contextual evidence"
+framing and the section's pre-existing unhedged "the control rules out
+the boring explanation" line, which I resolved by softening the
+control's claim. Decided to cut the "software developers anchor the
+pattern" bullet, then restored it with new framing before the edit
+landed.
+
+**Decision-owner.** Claude pointed out that the thesis's own wording
+("firms need mechanisms for collectively investing...") already
+implied firms as the owner, even though the frontmatter listed two
+co-equal actors and the recommendation directions spread across four.
+I decided firms are the decision-owner and professional associations
+are the coordinating vehicle, not a separate actor, and wrote the
+frontmatter and Recommendation-directions rewrite myself.
+
+**Progression-time reconciliation.** Claude searched for a citable
+source for junior-to-mid-level progression time and found none that
+met the brief's own citable-source guardrail (only career-blog
+aggregators), but surfaced that those sources distinguish a shorter
+junior-to-mid timeline from a longer junior-to-senior one. I decided on
+three years as my professional-judgment primary assumption, with five
+years as a sensitivity case, reversing which number the pipeline model
+treats as primary. Claude flagged H2's "shortage by 2030" claim as
+provisional, since no pipeline model has actually been built yet and
+the claim predates this change.
+
+**Elasticity bullet.** Claude identified that the bullet's closing
+clause ("when quantity can't adjust, price does") was a leftover from
+the self-correction/price mechanism I'd already cut in the 2026-10-01
+wage-to-hiring reframe below, and asked what actually adjusts in the
+current story. I wrote the replacement myself, describing hiring
+quantity adjusting with a multi-year lag instead of price substituting.
+
+**Page-budget triage.** Claude mapped which of the six listed economic
+concepts were actually tested by one of my three planned analyses
+versus along for the ride, and which of the two figures Adam's own
+"if Figure 1 needs the room" question pointed at. I decided to cut
+tragedy of the commons, who gained and who paid, and the macro link
+(none tested by an analysis), keeping externalities, elasticity, and
+the specificity rule — each now stating the job it does in the
+argument. Designated Figure 2 (the pipeline projection) as the
+appendix candidate, keeping Figure 1 as the required main-body
+evidence.
+
+All five decisions above are mine; Claude's role was limited to
+research (age-band and source-type facts, cell-size and citation
+checks), pointing out structural inconsistencies, and mechanically
+placing wording I supplied once I'd decided. Delivered as PR #38.
+
+## 2026-10-01 — research-brief.md: Anthropic Job Explorer citation confirmed
+
+Tool: Claude Code. I checked the Anthropic Economic Index Job Explorer
+directly and confirmed it classifies Graphic Designers and Web &
+Digital Interface Designers separately, each with its own
+automation/augmentation measure. Claude recorded that confirmed finding
+in the assumptions table and "Data to gather," replacing the earlier
+`[CHECK: occupation- or task-level automation vs. augmentation data]`
+placeholder, and scoped a narrower `[TBD]` for the one thing still
+unconfirmed: the actual percentages behind the automatability ranking,
+not just that the data exists. Delivered as PR #35.
+
+## 2026-10-01 — research-brief.md: Stanford data-availability finding and CPS/IPUMS fallback plan recorded
+
+Tool: Claude Code. After evaluating and rejecting Lightcast and the
+LinkedIn Economic Graph on licensing/access grounds, I checked the
+Stanford Canaries Dashboard directly and confirmed its public interface
+exposes early-career series for Software Developers and Home Health
+Aides but not for Graphic Designers or Web & Digital Interface
+Designers. Decided to measure the two design occupations via CPS/IPUMS
+microdata instead, preserving the four-occupation design rather than
+narrowing the comparison. Created an IPUMS account and asked Claude to
+check extract cell sizes and consider quarterly pooling.
+
+Claude verified the CPS occupation-code boundary before I built on it:
+Web & Digital Interface Designers was merged with Web Developers under
+one code through 2019 and only split cleanly into its own code (1032)
+from 2020 onward, which matters because the brief's "late 2022 to
+present" window needed to fall entirely inside the clean-separation
+period to avoid a real measurement-precision error — it does. Claude
+recorded the data-availability finding and the fallback plan in the
+brief and left the mixed-source implication as a `[TBD]` bracket,
+matching the brief's existing convention, since that's a judgment call
+for me to make, not a fact to record (resolved in the 2026-10-06 entry
+above). Delivered as PR #34.
+
 ## 2026-10-01 — research-brief.md: wage mechanism reframed to hiring, seven passages rewritten
 
 Tool: Claude Code. Decided to cut the self-correction/price-signal

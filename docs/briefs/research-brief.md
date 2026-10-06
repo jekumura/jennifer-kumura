@@ -2,10 +2,10 @@
 engagement: economic-research
 stage: 1 · Ask
 file: docs/briefs/research-brief.md
-date: 2026-09-28
-status: draft v2
+date: 2026-10-06
+status: draft v3
 scope: United States
-decision-owner: Employers of design and engineering talent, and the professional bodies that shape the pipeline
+decision-owner: Employers and industry leaders responsible for developing early-career talent; professional associations and industry groups as potential coordinators
 question: >
   AI is removing the entry-level tasks junior designers and engineers used to
   learn on. Will the market correct the resulting training shortfall on its own
@@ -24,7 +24,7 @@ AI is not eliminating technology careers so much as disrupting the traditional e
 
 **Who it affects.**
 - Early-career designers and engineers: they can't get the first job.
-- Employers: next year's cost savings become a shortage of mid-level talent in three to five years.
+- Employers: next year's cost savings become a shortage of mid-level talent in about three years.
 - Senior practitioners: short-run winners, whose scarcity raises their value.
 - The profession: thinner succession and less diversity of background in the pipeline.
 
@@ -40,20 +40,15 @@ AI is not eliminating technology careers so much as disrupting the traditional e
 | **Low-exposure control: Home Health Aide** | Hands-on work AI barely touches | Minimal | Roughly flat |
 
 **Why this design.**
-- **The within-design split is the heart of it.** Graphic designers and interface designers are in the same field, but their junior tasks differ in how automatable they are. If their early-career paths diverge, the mechanism is automatability, not "design is being replaced." This is where my professional judgment adds the most.
-- **Software developers anchor the pattern** in the best-documented case.
-- **The control rules out the boring explanation**, that the job market is simply bad for young people right now. The control is a methodological check, not the thesis.
-
-**Data availability.** The Stanford Canaries Dashboard's public interface has confirmed early-career series for Software Developers and Home Health Aides, but does not expose an equivalent series for Graphic Designers or Web & Digital Interface Designers. Those two occupations will be measured using CPS/IPUMS microdata instead (see "Data to gather"). `[TBD: state in my own words what it means to mix Stanford/ADP payroll data with CPS survey data across the four occupations, and how I'll address that in the paper.]`
+- **Software developers anchor the pattern** in the best-documented case, providing a useful benchmark for what an AI-disrupted early-career occupation can look like.
+- **The GD–interface-designer split is where my professional judgment adds the most.** Both occupations come from CPS, allowing me to test whether differences in AI exposure correspond to different early-career employment patterns within the same data source.
+- **The control provides a benchmark for broader labor-market conditions**, helping distinguish an AI-related effect from a general deterioration in employment for young workers. The Stanford Canaries Dashboard's public interface confirms early-career series for Software Developers and Home Health Aides but not for Graphic Designers or Web & Digital Interface Designers, so those two occupations are measured using CPS/IPUMS microdata instead (see "Data to gather"). One limitation is that ADP captures payroll records at ADP-client firms, while CPS captures self-reported employment across employer types. The age bands match exactly (22–25), so the issue is coverage, not age. This affects the control comparison and Figure 1, but not the within-CPS mechanism test. I retain the ADP control because its externally documented evidence provides a valuable benchmark; I therefore treat the cross-source comparison as contextual evidence, not a like-for-like control.
 
 ## Economic concepts this touches
 
-- **Externalities (Session 4).** Training a junior creates value the training firm doesn't fully capture, because trained workers can leave. That's an unpriced positive externality, so the market underproduces training. This is the core mechanism.
-- **Tragedy of the commons (Session 4).** The industry's pool of experienced talent is a shared resource that each firm draws from without replenishing.
-- **Short-run vs. long-run elasticity (Session 2).** Firms cut junior hiring immediately, but mid-level supply can't respond for years. When quantity can't adjust, price does.
-- **Specificity rule (Sessions 4 and 7).** The root cause is the lost training subsidy, not AI itself, so the fix should target training, not slow adoption.
-- **Who gained and who paid (Session 2).** Firms and seniors gain; juniors lose access to the ladder.
-- **Macro link (Session 7; Ch. 14–15).** Human capital formation and long-run productivity growth; headline employment that hides a cohort-specific decline.
+- **Externalities (Session 4).** Training a junior creates value the training firm doesn't fully capture, because trained workers can leave. That's an unpriced positive externality, so the market underproduces training. This is the core mechanism — it explains why firms underinvest, and it's why firms are this brief's decision-owner.
+- **Short-run vs. long-run elasticity (Session 2).** Firms can cut junior hiring immediately, but mid-level supply cannot respond as quickly because developing experienced talent takes years. Hiring quantity eventually adjusts — but only after that development lag, creating a pipeline gap in the interim. H2 tests this mechanism quantitatively.
+- **Specificity rule (Sessions 4 and 7).** The root cause is the lost training subsidy, not AI itself, so the fix should target training, not slow adoption. This is the bridge from evidence to recommendation.
 
 ## The contested question — will the market fix it?
 
@@ -69,7 +64,7 @@ This is where the analysis lives.
 |---|---|
 | Early-career employment in AI-exposed occupations has declined relative to experienced workers | Brynjolfsson, Chandar & Chen (Aug 2026). Descriptive, not causal, per the authors |
 | Adjustment so far has come through employment, not wages | Same source. Verify the exact finding in the primary paper |
-| Junior-to-mid-level progression takes about 3–5 years | `[TBD: source, or state as my professional judgment]` |
+| Junior-to-mid-level progression takes about three years | My professional judgment about the development period relevant to this pipeline — a modeling assumption, not an externally established benchmark. Tested at five years as a sensitivity case. |
 | Graphic designers' junior tasks are more automatable than interface designers' | Anthropic Economic Index Job Explorer classifies both occupations separately with their own automation/augmentation measures, confirmed by direct check. `[TBD: pull the actual percentages and confirm they support this ranking, not just that the data exists]` |
 | The decline is driven by AI rather than interest rates or the post-2022 tech correction | The control group plus the Stanford controls. **Biggest vulnerability; address it directly** |
 
@@ -77,19 +72,19 @@ This is where the analysis lives.
 
 1. **Descriptive:** an early-career vs. experienced employment index for all four occupations, late 2022 to present.
 2. **Mechanism and recovery test:** does the size of the early-career employment gap follow the automatability ranking, and does junior employment show any evidence of recovery after its initial decline? Use the same employment series to distinguish the initial hiring contraction from a subsequent corrective response.
-3. **Pipeline projection (Excel):** a simple cohort model. Juniors hired each year become mid-level after 5 years, with an assumed attrition rate. Two named scenarios:
+3. **Pipeline projection (Excel):** a simple cohort model. Juniors hired each year become mid-level after three years (primary case), with an assumed attrition rate; a five-year transition is tested as a sensitivity case. Two named scenarios:
    - **Depressed:** junior hiring stays at the current reduced level through 2030.
    - **Recovery:** junior hiring returns to its pre-2022 trend by 2028.
    Output: the projected mid-level gap, and the lag between the recovery in junior hiring and the availability of experienced talent.
 
-**Figure 1 (required):** the early-career employment index for all four occupations over time, on one chart. Graphic and interface designers diverging, with the control flat, is the evidence.
-**Figure 2 (if space allows):** the pipeline projection, showing the gap between when junior hiring begins to recover and when the talent is needed.
+**Figure 1 (required, main body):** the early-career employment index for all four occupations over time, on one chart. Graphic and interface designers diverging, with the control flat, is the evidence that this pattern is happening.
+**Figure 2 (appendix candidate):** the pipeline projection, showing the gap between when junior hiring begins to recover and when the talent is needed. Figure 1 establishes the pattern; Figure 2 translates it into what the lag could mean for the future. If main-body space is tight, the detailed chart moves to the appendix — but the H2/pipeline-model finding it's based on still belongs in the recommendation, not just the appendix.
 
 ## Hypotheses
 
 **H1 (mechanism):** since late 2022, the relative early-career employment decline is larger for graphic designers than for web and digital interface designers, by at least 10 percentage points. Software developers fall closer to graphic designers, and the control shows no meaningful decline.
 
-**H2 (timing):** under the depressed scenario, a mid-level shortage emerges by 2030, and the subsequent recovery in junior hiring will not arrive early enough to build the talent pipeline before that talent is needed, given the assumed training time.
+**H2 (timing):** under the depressed scenario, a mid-level shortage emerges by 2030, and the subsequent recovery in junior hiring will not arrive early enough to build the talent pipeline before that talent is needed, given the assumed training time. `[PROVISIONAL: this claim predates the pipeline model build. The primary training-time assumption just moved from five years to three, which changes the cohort math — re-verify against the model once built, under both the three-year primary case and the five-year sensitivity case.]`
 
 
 ## How I would know I was wrong
@@ -101,10 +96,19 @@ This is where the analysis lives.
 
 ## Recommendation directions (to be decided by the analysis, not before it)
 
-- **Shared training pools or apprenticeship consortia:** firms co-fund training so no single firm bears the cost others capture. This is the most direct fix for the externality.
-- **Redesigned junior roles:** juniors direct, review, and correct AI output instead of producing what AI now does.
-- **Policy:** extend apprenticeship funding or entry-level hiring credits to design and engineering roles.
-- **Professional associations:** structured pipelines from education to a first job.
+The disruption of entry-level roles is not only an individual firm's problem but a
+collective training problem: firms have less incentive to invest when they may not
+capture the full return on that investment. The most direct response is collective
+action among firms.
+
+- **Shared training pools or apprenticeship consortia:** firms co-fund training so no
+  single firm bears the cost others capture — the most direct fix for the externality,
+  with professional associations and industry groups serving as potential coordinators.
+- **Other directions, in support rather than in place of firm-level action:** redesigned
+  junior roles (juniors direct, review, and correct AI output instead of producing what
+  AI now does); policy support such as apprenticeship funding or entry-level hiring
+  credits. Policymakers have a supporting role, but they are not the primary actor in
+  this argument.
 
 **Obvious objection to defend against:** "The market will sort it out: junior hiring will recover and firms will rebuild the pipeline." My answer should come from the timing analysis. Junior hiring may eventually recover, but the recovery will arrive after the window to build the pipeline has closed.
 
