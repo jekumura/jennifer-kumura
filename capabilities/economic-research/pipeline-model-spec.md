@@ -143,3 +143,34 @@ level (148,201 vs. 198,603 at `End_Year`) — never the gap, which is what
 H2 actually asks about. So Pass 2's gap numbers were already H2's answer;
 they just hadn't been labeled that way. Pass 3 confirms it rather than
 changing it.
+
+## 6. Cross-occupation extension (Figure 2)
+
+Figure 2 runs the same recursion (N=3, the primary case only) separately
+for three occupations, each with its own real inputs:
+
+| Occupation | `Baseline_Annual_Hires` | `Depressed_Hiring_Pct` | `Base_MidLevel_Stock` |
+|---|---|---|---|
+| Graphic Designers | 20,000 (BLS OOH) | 0.855 (Quintile 4, −14.5%, Table 1 Panel A) | 98,685 (IPUMS, age 26-35) |
+| Software Developers | 134,600 (BLS OOH, **2018–28 cycle** — older vintage than the other two occupations' current-cycle figures; flagged, not reconciled) | 0.82 (Quintile 5, −18%, Table 1 Panel A, primary 2018-balanced sample — same specification as Graphic Designers' figure) | 758,181 (IPUMS, age 26-35, N=2,630) |
+| Home Health Aides | 765,800 (BLS OOH, current cycle) | 1.0 — **inferred, not read off a table cell.** Home Health Aides is Quintile 1 (lowest exposure, confirmed via Table A.2). The paper's text discusses "the least-exposed quintile" only as a comparison group and never gives it its own coefficient, consistent with Quintile 1 being the omitted regression reference category (coefficient = 0 by construction). This is a reasonable inference, not a confirmed figure — worth checking against an explicit statement in the paper if one is ever found. | 108,974 (IPUMS, age 26-35, N=329) |
+
+`Transition_Rate` (0.80) and `Attrition_Rate` (0.05) are unchanged across
+all three — Jennifer's judgment calls, not occupation-specific, same as
+the single-occupation model.
+
+Quintile assignments for Software Developers and Home Health Aides came
+from the paper's Table A.5/A.6 appendix (top-50-occupations-by-ADP-
+employment lists, one per quintile) — Interface Designers was checked
+against all five quintile tables and doesn't appear in any of them, so
+no `Depressed_Hiring_Pct` could be sourced for it and it's excluded from
+Figure 2.
+
+Because Software Developers' hiring volume is roughly 6-7x Graphic
+Designers', the gap is reported as a percentage of each occupation's own
+baseline-scenario stock rather than raw headcount — plotting absolute
+counts together would make Graphic Designers' line nearly invisible next
+to Software Developers'. At N=3: Graphic Designers peaks at ~8.9% (2035,
+Depressed), Software Developers at ~10.7%, and Home Health Aides stays
+at 0% throughout (a direct consequence of the `Depressed_Hiring_Pct` = 1.0
+assumption above, not an independent finding).
