@@ -93,7 +93,7 @@ This is where the analysis lives.
 ## How I would know I was wrong
 
 - **Graphic and interface designers decline by about the same amount.** Automatability isn't the driver; the story becomes general junior-hiring weakness, and the recommendation changes.
-- **The control declines too.** The pattern is a youth labor-market story, not an AI story. The paper would have to say so.
+- **The decline isn't entry-level-specific.** If experienced workers decline alongside early-career workers within the same occupations, the pattern is not concentrated at the entry level and weakens the AI-specific interpretation. The same concern applies if the CPS-pulled Home Health Aide control shows a comparable decline.
 - **Junior hiring is already recovering sharply.** The hiring signal is working faster than I assume, and self-correction may be viable. My recommendation would shrink to "monitor."
 - **The early-career decline predates late 2022.** The AI explanation weakens; check the pre-trend before building on the data.
 
