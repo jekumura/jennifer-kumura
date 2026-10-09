@@ -36,12 +36,10 @@ logic itself was independently verified against a plain-Python simulation
 of the same recursion before this file was written (see `prompt-log.md`,
 2026-10-09 entry); see `spec.md` for the verification result.
 
-Four of the five `Inputs` values are now real or confirmed: hiring volume
-and the decline magnitude come from BLS and the primary paper, transition
-and attrition rates are Jennifer's confirmed judgment calls. Only
-`Base_MidLevel_Stock` is still a placeholder, held there deliberately
-pending the real IPUMS extract for Graphic Designers — see `spec.md` §2
-for sourcing on each value and §5 for why mixing a real hiring flow with
-that one placeholder stock currently produces meaningless magnitude
-numbers (the onset-year timing is still informative; the gap sizes are
-not, yet).
+All five `Inputs` values are now real or confirmed: hiring volume and the
+decline magnitude come from BLS and the primary paper, transition and
+attrition rates are Jennifer's confirmed judgment calls, and
+`Base_MidLevel_Stock` is the real weighted mid-level headcount for Graphic
+Designers from the IPUMS extract — see `spec.md` §2 for sourcing on each
+value and §5 for the verification run (and a correction to an earlier,
+wrong claim about which numbers the stock anchor actually affects).
