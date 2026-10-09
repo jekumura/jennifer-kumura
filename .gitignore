@@ -22,6 +22,9 @@ $RECYCLE.BIN/
 .vscode/
 .idea/
 
+# Scratch work — genuine throwaway, never committed (per the research-paper assignment)
+scratch/
+
 # Credentials and environment files
 .env
 .env.*
