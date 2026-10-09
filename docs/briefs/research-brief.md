@@ -119,6 +119,7 @@ action among firms.
 
 - Stanford Digital Economy Lab, Canaries Dashboard: early-career and experienced series for Software Developers and Home Health Aides
 - CPS/IPUMS: employment by age for Graphic Designers (OCC 2634) and Web & Digital Interface Designers (OCC 1032); assess quarterly pooling after checking actual cell sizes
+- CPS/IPUMS: employment by age for Home Health Aides (OCC 3601, 2018 scheme onward) — same-source control for the two CPS design occupations; verify the exact code against the primary IPUMS table before building the extract
 - Brynjolfsson, Chandar & Chen (2025, revised Aug 2026), "Canaries in the Coal Mine?": cite the primary paper
 - BLS Occupational Employment and Wage Statistics: employment and wages for graphic designers, web & digital interface designers, software developers, and the control
 - Anthropic Economic Index, Job Explorer: occupation-specific automation vs. augmentation measures for Graphic Designers and Web & Digital Interface Designers
