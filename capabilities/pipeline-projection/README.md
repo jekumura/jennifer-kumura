@@ -36,6 +36,12 @@ logic itself was independently verified against a plain-Python simulation
 of the same recursion before this file was written (see `prompt-log.md`,
 2026-10-09 entry); see `spec.md` for the verification result.
 
-Every value on the `Inputs` tab is a placeholder — illustrative round
-numbers chosen only so the formulas have something to compute with, not
-derived from data or decided as the paper's actual assumptions.
+Four of the five `Inputs` values are now real or confirmed: hiring volume
+and the decline magnitude come from BLS and the primary paper, transition
+and attrition rates are Jennifer's confirmed judgment calls. Only
+`Base_MidLevel_Stock` is still a placeholder, held there deliberately
+pending the real IPUMS extract for Graphic Designers — see `spec.md` §2
+for sourcing on each value and §5 for why mixing a real hiring flow with
+that one placeholder stock currently produces meaningless magnitude
+numbers (the onset-year timing is still informative; the gap sizes are
+not, yet).
