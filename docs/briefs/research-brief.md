@@ -134,7 +134,6 @@ action among firms, supported by a legally enforceable, sector-wide funding mech
 - Brynjolfsson, Chandar & Chen (2025, revised Aug 2026), "Canaries in the Coal Mine?": cite the primary paper
 - BLS Occupational Employment and Wage Statistics: employment and wages for graphic designers, web & digital interface designers, software developers, and the control
 - Anthropic Economic Index, Job Explorer: occupation-specific automation vs. augmentation measures for Graphic Designers and Web & Digital Interface Designers
-- A source for typical junior-to-mid-level progression time
 
 ## Guardrails for the paper
 
