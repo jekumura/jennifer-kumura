@@ -20,6 +20,42 @@ experiences showed me that AI was most useful as a tool for analysis and
 verification, but I needed to independently check its outputs against
 the model, source material, and underlying formulas.
 
+## 2026-10-09 — capabilities/pipeline-projection built; a pasted spreadsheet design declined, then sanity-checked
+
+Tool: Claude Code. Working through loose end 4 of the 2026-10-06 review
+("when the cohort model is built, answer in H2 which year the shortage
+appears at three years and at five"), I pasted a fully-structured
+spreadsheet design from another AI tool — assumptions layout, a
+cohort-tracking formula, a recommendation to keep N=5 as primary. Claude
+flagged the formatting (raw LaTeX sitting next to a garbled rendering of
+itself) as a tell this wasn't typed directly, the same pattern as the
+"Claim 1-5" chain earlier this session, and asked before engaging with it
+as a plan. I confirmed it was pasted and asked for a sanity check only, not
+adoption.
+
+The sanity check caught two real issues, not just style: the core
+`MidSupply` formula named attrition as an input but never actually used it
+— no year-over-year decay was wired into the math, so the stock as written
+would only ever grow. And the suggestion to keep N=5 as the "original
+committed assumption" with N=3 as a sensitivity test was stale — it didn't
+know I'd already formally decided the reverse several rounds earlier, so
+following it would have quietly reverted a decision already recorded in
+the brief.
+
+We then derived the corrected recursive formula together from scratch:
+`Graduates[t,s,N] = Hire[t-N,s] x Transition_Rate`, with `MidSupply`
+properly recursive and attrition applied after the new cohort joins the
+stock (my choice, after Claude asked whether I wanted it before or after).
+Claude built the actual workbook — `capabilities/pipeline-projection/`
+(`spec.md`, `model.xlsx`, `README.md`) — from those exact formulas,
+following `docs/standards/excel-formatting.md`, and independently verified
+the formula logic against a plain-Python simulation before writing it
+into Excel, since this environment can't recalculate the workbook itself
+(same known limitation as `capabilities/marginal-analysis/model.xlsx`).
+Every Inputs-tab value is an explicitly-labeled placeholder; the real
+assumption values, and the actual H2 answer at N=3 versus N=5, are mine to
+supply and read once I have real figures to put in.
+
 ## 2026-10-06 — research-brief.md: four items from Adam's 2026-10-01 review resolved
 
 Tool: Claude Code. Worked through the four ordered items from Adam's
