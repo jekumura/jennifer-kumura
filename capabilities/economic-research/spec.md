@@ -64,16 +64,36 @@ Both figures are still unbuilt as rendered chart images — the underlying data/
 
 ## 4. Success Criteria
 
-> Decided before the result is known — what a finished analysis has to
-> show to count as support, as non-support, or as inconclusive. This is
-> the section that keeps a null result from quietly becoming "the data
-> were too noisy to tell."
+**H1 (mechanism — Graphic Designers vs. Interface Designers)**
+
+- *Supported* if the 95% CI on the GD−ID decline gap excludes zero, with GD's decline the larger one (gap positive).
+- *Contrary* if the CI excludes zero in the opposite direction (ID declined more).
+- *Inconclusive* if the CI includes zero — the cells are too small to distinguish.
+- **Actual result:** inconclusive, and the point estimate ran opposite the predicted direction (gap −13.0pp, 95% CI −38.6 to +12.6). See the brief's `[CELL-SIZE NOTE]`.
+
+*Falsification conditions carried over from the brief:* GD and ID decline by about the same amount (automatability isn't the driver); experienced workers decline alongside early-career workers in the same occupations, or the Home Health Aide control shows a comparable decline (pattern isn't entry-level-specific — this one already triggered, at 22.3%); the early-career decline predates late 2022 (AI explanation weakens).
+
+**H2 (timing — pipeline shortage)**
+
+- *Supported* if, under the Depressed scenario, the shortage (Gap > 0) emerges before 2030 at both N=3 and N=5, and the Recovery scenario's gap does not fully close by `End_Year`.
+- *Not supported* if the shortage emerges after 2030, or Recovery fully closes the gap well before the talent is needed.
+- **Actual result:** supported — onset 2026 (N=3) / 2028 (N=5), both before 2030; Recovery's gap persists through 2035.
+
+*Falsification condition:* junior hiring is already recovering sharply — self-correction may be viable, recommendation shrinks to "monitor."
 
 ## 5. Validation Rules
 
-> Internal consistency checks to run before trusting a number — e.g. do
-> an independent calculation and a model's formula agree; does a
-> weighted total move the way an unweighted count says it should.
+**For the CPS/IPUMS employment index (H1):**
+
+- Unweighted respondent counts must match before and after any filter change for the right reason — when the EMPSTAT employed-only filter was added, counts dropped by exactly the number of non-employed rows identified separately (confirms the filter logic, not a silent data change).
+- A weighted total (`sum(WTFINL)`) should never return `NA` for an employed-only block; if it does, that's a missing-weight bug, not a real zero — resolve the cause before adding `na.rm = TRUE`, don't just suppress it.
+- Quarterly cell counts should be continuous across the pooled window with no isolated gaps or spikes — a break usually means a sample-vintage mixup (e.g. an ASEC supplement accidentally pulled alongside Basic Monthly samples), not a real data discontinuity.
+- Any occupation code must be checked against the primary IPUMS codebook for the scheme vintage in use, not a secondary source (forum post, aggregator) alone.
+
+**For the pipeline cohort model (H2):**
+
+- The Excel formulas must match an independent plain-Python simulation of the same recursion before the result is trusted — this is how a real error gets caught (see `pipeline-model-spec.md` §5, where this check also caught and corrected an earlier wrong claim about which numbers `Base_MidLevel_Stock` actually affects).
+- Re-running the simulation with a changed input should move only the outputs that input can structurally affect — e.g. changing `Base_MidLevel_Stock` should move the absolute baseline level but not the Gap, since all three scenarios share the same seed and decay.
 
 ## 6. Output Format
 
