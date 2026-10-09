@@ -67,7 +67,7 @@ This is where the analysis lives.
 | Adjustment so far has come through employment, not wages | Same source. Verify the exact finding in the primary paper |
 | Junior-to-mid-level progression takes about three years | My professional judgment about the development period relevant to this pipeline — a modeling assumption, not an externally established benchmark. Tested at five years as a sensitivity case. |
 | Graphic designers' junior tasks are more automatable than interface designers' | Anthropic Economic Index Job Explorer classifies both occupations separately with their own automation/augmentation measures, confirmed by direct check. `[TBD: pull the actual percentages and confirm they support this ranking, not just that the data exists]` |
-| The decline is driven by AI rather than interest rates or the post-2022 tech correction | The control group plus the Stanford controls. **Biggest vulnerability; address it directly** |
+| The decline is driven by AI rather than interest rates or the post-2022 tech correction | The primary protection against a general labor-market or occupation-specific downturn is the within-occupation early-career-versus-experienced comparison, supplemented by a CPS-based Home Health Aide control using the same data source as the two design occupations. The Stanford/ADP Home Health Aide series remains as an additional cross-source control. **Biggest vulnerability; address it directly** |
 
 ## The analysis I plan to run
 
