@@ -43,6 +43,7 @@ AI is not eliminating technology careers so much as disrupting the traditional e
 - **Software developers anchor the pattern** in the best-documented case, providing a useful benchmark for what an AI-disrupted early-career occupation can look like.
 - **The GD–interface-designer split is where my professional judgment adds the most.** Both occupations come from CPS, allowing me to test whether differences in AI exposure correspond to different early-career employment patterns within the same data source.
 - **The control provides a benchmark for broader labor-market conditions**, helping distinguish an AI-related effect from a general deterioration in employment for young workers. The Stanford Canaries Dashboard's public interface confirms early-career series for Software Developers and Home Health Aides but not for Graphic Designers or Web & Digital Interface Designers, so those two occupations are measured using CPS/IPUMS microdata instead (see "Data to gather"). One limitation is that ADP captures payroll records at ADP-client firms, while CPS captures self-reported employment across employer types. The age bands match exactly (22–25), so the issue is coverage, not age. This affects the control comparison and Figure 1, but not the within-CPS mechanism test. I retain the ADP control because its externally documented evidence provides a valuable benchmark; I therefore treat the cross-source comparison as contextual evidence, not a like-for-like control.
+- **The early-career-versus-experienced employment index already planned for all four occupations serves a second purpose** for the two CPS-sourced occupations: it tests whether the decline is concentrated among younger workers rather than reflecting a broad occupation-wide downturn. A general downturn should affect experienced workers as well; an AI-specific effect should be more concentrated among workers at the entry level, where AI can substitute for the tasks through which workers traditionally build experience.
 
 ## Economic concepts this touches
 
@@ -66,7 +67,7 @@ This is where the analysis lives.
 | Adjustment so far has come through employment, not wages | Same source. Verify the exact finding in the primary paper |
 | Junior-to-mid-level progression takes about three years | My professional judgment about the development period relevant to this pipeline — a modeling assumption, not an externally established benchmark. Tested at five years as a sensitivity case. |
 | Graphic designers' junior tasks are more automatable than interface designers' | Anthropic Economic Index Job Explorer classifies both occupations separately with their own automation/augmentation measures, confirmed by direct check. `[TBD: pull the actual percentages and confirm they support this ranking, not just that the data exists]` |
-| The decline is driven by AI rather than interest rates or the post-2022 tech correction | The control group plus the Stanford controls. **Biggest vulnerability; address it directly** |
+| The decline is driven by AI rather than interest rates or the post-2022 tech correction | The primary protection against a general labor-market or occupation-specific downturn is the within-occupation early-career-versus-experienced comparison, supplemented by a CPS-based Home Health Aide control using the same data source as the two design occupations. The Stanford/ADP Home Health Aide series remains as an additional cross-source control. **Biggest vulnerability; address it directly** |
 
 ## The analysis I plan to run
 
@@ -82,7 +83,9 @@ This is where the analysis lives.
 
 ## Hypotheses
 
-**H1 (mechanism):** since late 2022, the relative early-career employment decline is larger for graphic designers than for web and digital interface designers, by at least 10 percentage points. Software developers fall closer to graphic designers, and the control shows no meaningful decline.
+**H1 (mechanism):** since late 2022, **graphic designers decline more than Web & Digital Interface Designers.** Because these estimates come from relatively small CPS/IPUMS cells, the comparison will be evaluated using the 95% confidence interval for the estimated difference; the result supports the hypothesis if the interval excludes zero in the predicted direction. Software developers fall closer to graphic designers, and the control shows no meaningful decline.
+
+`[CELL-SIZE NOTE: pooling the full late-2022-to-present window into two ~8-quarter blocks (baseline, current) gives roughly 128 CPS respondents per occupation per block. At that size, each block's estimate carries a standard error of roughly 4.4 percentage points; the between-occupation comparison's standard error is roughly 8.8 points, and the resulting 95% confidence interval on the gap is roughly ±17 points wide. These are order-of-magnitude estimates — a simple-random-sample approximation, not a design-based CPS calculation — and should be replaced with the actual figures once the IPUMS extract is built.]`
 
 **H2 (timing):** under the depressed scenario, a mid-level shortage emerges by 2030, and the subsequent recovery in junior hiring will not arrive early enough to build the talent pipeline before that talent is needed, given the assumed training time. `[PROVISIONAL: this claim predates the pipeline model build. The primary training-time assumption just moved from five years to three, which changes the cohort math — re-verify against the model once built, under both the three-year primary case and the five-year sensitivity case.]`
 
@@ -90,7 +93,7 @@ This is where the analysis lives.
 ## How I would know I was wrong
 
 - **Graphic and interface designers decline by about the same amount.** Automatability isn't the driver; the story becomes general junior-hiring weakness, and the recommendation changes.
-- **The control declines too.** The pattern is a youth labor-market story, not an AI story. The paper would have to say so.
+- **The decline isn't entry-level-specific.** If experienced workers decline alongside early-career workers within the same occupations, the pattern is not concentrated at the entry level and weakens the AI-specific interpretation. The same concern applies if the CPS-pulled Home Health Aide control shows a comparable decline.
 - **Junior hiring is already recovering sharply.** The hiring signal is working faster than I assume, and self-correction may be viable. My recommendation would shrink to "monitor."
 - **The early-career decline predates late 2022.** The AI explanation weakens; check the pre-trend before building on the data.
 
@@ -99,16 +102,27 @@ This is where the analysis lives.
 The disruption of entry-level roles is not only an individual firm's problem but a
 collective training problem: firms have less incentive to invest when they may not
 capture the full return on that investment. The most direct response is collective
-action among firms.
+action among firms, supported by a legally enforceable, sector-wide funding mechanism.
 
-- **Shared training pools or apprenticeship consortia:** firms co-fund training so no
-  single firm bears the cost others capture — the most direct fix for the externality,
-  with professional associations and industry groups serving as potential coordinators.
-- **Other directions, in support rather than in place of firm-level action:** redesigned
-  junior roles (juniors direct, review, and correct AI output instead of producing what
-  AI now does); policy support such as apprenticeship funding or entry-level hiring
-  credits. Policymakers have a supporting role, but they are not the primary actor in
-  this argument.
+- **Establish a mandatory sector-wide training levy.** Require firms within the defined
+  sector to contribute to a shared fund for early-career training, with contributions
+  backed by legislation or regulation rather than voluntary association membership.
+  Because the obligation applies sector-wide, firms cannot opt out of contributing while
+  benefiting from the talent pipeline other firms help fund. The fund would support
+  shared training infrastructure, early-career development, and the next generation of
+  skilled workers. Participation in funding would be mandatory; firms and the sector
+  body would retain a role in shaping training priorities and delivery.
+- **Policymakers provide the legal foundation and oversight.** Government must establish
+  and enforce the levy through an appropriate statutory or regulatory framework. Its role
+  therefore extends beyond general support for industry coordination, but it need not
+  direct day-to-day training decisions: firms and the sector body remain responsible for
+  identifying workforce needs, setting priorities, and coordinating delivery.
+- **Complement the levy with targeted apprenticeship funding or entry-level hiring
+  credits.** These measures can reduce the immediate cost and risk to employers of
+  hiring and training junior workers, complementing the levy's longer-term investment
+  in shared training capacity.
+- **Redesigned junior roles:** juniors direct, review, and correct AI output instead of
+  producing what AI now does.
 
 **Obvious objection to defend against:** "The market will sort it out: junior hiring will recover and firms will rebuild the pipeline." My answer should come from the timing analysis. Junior hiring may eventually recover, but the recovery will arrive after the window to build the pipeline has closed.
 
@@ -116,10 +130,10 @@ action among firms.
 
 - Stanford Digital Economy Lab, Canaries Dashboard: early-career and experienced series for Software Developers and Home Health Aides
 - CPS/IPUMS: employment by age for Graphic Designers (OCC 2634) and Web & Digital Interface Designers (OCC 1032); assess quarterly pooling after checking actual cell sizes
+- CPS/IPUMS: employment by age for Home Health Aides (OCC 3601, 2018 scheme onward) — same-source control for the two CPS design occupations; verify the exact code against the primary IPUMS table before building the extract
 - Brynjolfsson, Chandar & Chen (2025, revised Aug 2026), "Canaries in the Coal Mine?": cite the primary paper
 - BLS Occupational Employment and Wage Statistics: employment and wages for graphic designers, web & digital interface designers, software developers, and the control
 - Anthropic Economic Index, Job Explorer: occupation-specific automation vs. augmentation measures for Graphic Designers and Web & Digital Interface Designers
-- A source for typical junior-to-mid-level progression time
 
 ## Guardrails for the paper
 
