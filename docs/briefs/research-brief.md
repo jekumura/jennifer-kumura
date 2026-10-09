@@ -102,16 +102,27 @@ This is where the analysis lives.
 The disruption of entry-level roles is not only an individual firm's problem but a
 collective training problem: firms have less incentive to invest when they may not
 capture the full return on that investment. The most direct response is collective
-action among firms.
+action among firms, supported by a legally enforceable, sector-wide funding mechanism.
 
-- **Shared training pools or apprenticeship consortia:** firms co-fund training so no
-  single firm bears the cost others capture — the most direct fix for the externality,
-  with professional associations and industry groups serving as potential coordinators.
-- **Other directions, in support rather than in place of firm-level action:** redesigned
-  junior roles (juniors direct, review, and correct AI output instead of producing what
-  AI now does); policy support such as apprenticeship funding or entry-level hiring
-  credits. Policymakers have a supporting role, but they are not the primary actor in
-  this argument.
+- **Establish a mandatory sector-wide training levy.** Require firms within the defined
+  sector to contribute to a shared fund for early-career training, with contributions
+  backed by legislation or regulation rather than voluntary association membership.
+  Because the obligation applies sector-wide, firms cannot opt out of contributing while
+  benefiting from the talent pipeline other firms help fund. The fund would support
+  shared training infrastructure, early-career development, and the next generation of
+  skilled workers. Participation in funding would be mandatory; firms and the sector
+  body would retain a role in shaping training priorities and delivery.
+- **Policymakers provide the legal foundation and oversight.** Government must establish
+  and enforce the levy through an appropriate statutory or regulatory framework. Its role
+  therefore extends beyond general support for industry coordination, but it need not
+  direct day-to-day training decisions: firms and the sector body remain responsible for
+  identifying workforce needs, setting priorities, and coordinating delivery.
+- **Complement the levy with targeted apprenticeship funding or entry-level hiring
+  credits.** These measures can reduce the immediate cost and risk to employers of
+  hiring and training junior workers, complementing the levy's longer-term investment
+  in shared training capacity.
+- **Redesigned junior roles:** juniors direct, review, and correct AI output instead of
+  producing what AI now does.
 
 **Obvious objection to defend against:** "The market will sort it out: junior hiring will recover and firms will rebuild the pipeline." My answer should come from the timing analysis. Junior hiring may eventually recover, but the recovery will arrive after the window to build the pipeline has closed.
 
