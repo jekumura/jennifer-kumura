@@ -20,6 +20,150 @@ experiences showed me that AI was most useful as a tool for analysis and
 verification, but I needed to independently check its outputs against
 the model, source material, and underlying formulas.
 
+## 2026-10-09 — Figure 1 built; an eyeballed approximation replaced by real CPS data, which surfaced a discrepancy
+
+Tool: Claude Code. Asked Claude to build Figure 1 (the required early-career
+index chart). It flagged first that what I actually had was two pooled
+block averages per occupation (baseline vs. current), not a real quarterly
+series — the brief's original "over time, diverging" framing needed more
+granularity than that. I chose to go back to R for a real quarterly pull
+rather than ship a flatter two-point chart.
+
+Software Developers was the open fourth line — I don't have a CPS pull for
+it, only the primary paper's own published chart. I pasted screenshots of
+that chart's Figure 1 (several panels, including Software Developers and
+Customer Service by age band) so Claude could read approximate values off
+the Early Career (22-25) line. Before building with those approximated
+values, I asked whether I should just get the real number from CPS instead.
+Claude's case for doing so was that it would likely cost almost nothing,
+since CPS extracts aren't occupation-filtered at build time — Software
+Developers' records were probably already sitting in the extract I'd
+already downloaded. I ran a one-line row count to check (`filter(OCC ==
+1021) %>% nrow()`) before trusting that claim, and it came back with
+35,753 rows — confirming it. No new extract needed.
+
+That real pull surfaced something worth keeping: the CPS-based decline for
+Software Developers was only about 1.6%, nowhere near the ~18% shown in the
+primary paper's own chart for the same occupation and age band. Claude
+flagged this as a real discrepancy rather than smoothing it into the
+"benchmark" framing already in the draft. I decided to keep that framing
+but wrote the paragraph reporting the gap myself and chose not to guess at
+why the two estimates differ (different data source and methodology is a
+plausible explanation, but neither of us verified it). Claude built the
+final chart (`analysis/figures/figure1-early-career-index.png`) with real
+data for all four series, including a visual flag on Interface Designers'
+thin quarterly cells (as low as N=1) rather than drawing a smooth line
+through noise the data can't actually support.
+
+## 2026-10-09 — First full draft written; Claude's attack pass caught a logic gap between H1 and H2
+
+Tool: Claude Code. Per the research-paper assignment's own rule (checked
+directly against the actual assignment page, not assumed), drafts are the
+same as the brief and spec: mine to write, with Claude attacking afterward
+rather than drafting first. I wrote the full first draft
+(`drafts/2026-10-09-draft.md`) — challenge, economics, analysis, figure,
+policy recommendation.
+
+Claude's attack pass found three real issues, not style notes. The biggest:
+my Analysis section's transition from H1 (inconclusive) to H2 (supports
+the timing hypothesis) read as if H2 partially rescued H1's null result.
+Claude pointed out that H2's Depressed scenario assumption comes from the
+primary paper's broader cross-occupation finding, not from my own GD-vs-ID
+test — so H2 never actually answers the question H1 left open, it answers
+a different, conditional one. The other two: the policy section needed to
+say plainly that it doesn't rest on H1 having established an AI-specific
+cause (since it doesn't), and the Figure 1 paragraph claimed the chart
+would show something (early-career vs. experienced employment) that it
+wasn't actually scoped to show. I wrote all three revisions myself; Claude
+only placed the text I wrote into the file and checked the numbers I used
+against the real computed results.
+
+## 2026-10-09 — capabilities/economic-research/spec.md built collaboratively, after Claude caught itself overstepping
+
+Tool: Claude Code. Asked Claude to fill in a spec for the paper based on
+the brief and the actual research-paper assignment page. I pasted the
+assignment page's text directly after Claude's search for it kept failing
+(the course site is on a domain this environment can't reach). Reading it
+together, Claude caught something important on its own: the page lists
+"Writing the brief and the spec (human-first, exactly as in the cases)"
+under the things that are mine alone to do — not Claude's to draft, the
+same rule that's governed the brief all along. Claude flagged that it had
+already written full prose for `capabilities/economic-research/README.md`
+and `spec.md` before catching this, and I told it to discard both.
+
+We rebuilt `spec.md` properly from there: Claude set up a bare section
+skeleton (Scope & Objective, Data Sources, Models & Figures, Success
+Criteria, Validation Rules, Output Format, References) with no sentences
+written, and I wrote the first section (Scope & Objective) myself. For the
+rest, Claude proposed compiled tables of already-decided facts from the
+brief — data sources, which models and figures already exist, the
+pre-specified success criteria for H1 and H2 — and I confirmed each before
+it went in, the same pattern as reviewing a cited figure rather than
+dictating prose. Also decided, partway through, that `capabilities/
+economic-research` should be the one capability folder for the whole
+paper rather than keeping `pipeline-projection` separate — Claude moved
+those files in and fixed the cross-references.
+
+## 2026-10-09 — research-brief.md renamed to dated filename; OCC 3601 confirmed against the primary IPUMS codebook
+
+Tool: Claude Code. Asked for the brief's filename to match the dated
+convention used elsewhere in the repo (`docs/briefs/2026-10-09-research-
+brief.md`); Claude handled the rename and fixed the file's own internal
+`file:` reference and the two live links to it.
+
+Separately, closed an open flag from the "Data to gather" section: Claude
+had only confirmed the Home Health Aide occupation code (OCC 3601) against
+a secondary forum source before. It searched again and found IPUMS CPS's
+own codebook page listing OCC 3601 as "Home health aides" in the 2020+
+scheme — a stronger source, though Claude flagged that it couldn't open
+that page directly itself (network policy blocks `cps.ipums.org` in this
+environment) and what it has is a search engine's indexed snippet of the
+page, not a page it opened and read. Good enough to mark the brief's flag
+resolved, with that caveat on record.
+
+## 2026-10-09 — pipeline model: Base_MidLevel_Stock sourced from the real IPUMS extract; H2 answered at both training lags
+
+Tool: Claude Code. Picked the age band for "mid-level" myself (26-35) after
+Claude proposed age 26+ with no upper bound as the mechanically consistent
+default, since the model's `MidSupply` recursion has no separate exit tier
+for "senior." Claude gave me the R script to pull the real weighted
+mid-level headcount for Graphic Designers from the same extract (98,685,
+averaged across 2022's twelve monthly samples), which replaced the last
+placeholder in the pipeline model.
+
+Re-running the independent verification with all five Inputs real caught
+something Claude had gotten wrong in an earlier session: the write-up had
+claimed the Pass-2 gap magnitudes (computed against the placeholder stock)
+weren't meaningful yet. Comparing Pass 2 against the new Pass 3 showed that
+claim was false — the gap numbers were identical in both passes, because
+`Base_MidLevel_Stock` cancels out of the `Gap` formula algebraically (all
+three scenarios share the same seed and decay). Claude corrected this in
+`spec.md` rather than quietly fixing it. With the real answer in hand, H2
+is confirmed at both training lags: the shortage emerges in 2026 (N=3) or
+2028 (N=5), both before 2030, and the Recovery scenario's gap never fully
+closes by 2035.
+
+## 2026-10-09 — H1's real result: the data ran opposite the predicted direction
+
+Tool: Claude Code. Finished the weighted CPS/IPUMS computation for H1 that
+had stalled on an `NA` bug. Claude diagnosed it as a missing-weight issue
+tied to a real pipeline gap it hadn't caught earlier: the extract was never
+filtered to employed respondents (`EMPSTAT`), so unemployed/NILF people
+carrying an old occupation code were inflating the raw counts, and some of
+those rows' weights were the source of the `NA`s. I added the fix and
+reran.
+
+The real result: Graphic Designers declined 38.3%, Interface Designers
+51.3% — the opposite ranking from what H1 predicted — with a 95% CI
+(-38.6 to +12.6 points) that includes zero. By H1's own pre-specified
+test, this doesn't support the hypothesis. I asked Claude to rewrite H1 to
+report the actual result rather than the predicted one; it also caught,
+independently, that my existing H1 text claimed "the control shows no
+meaningful decline" when the real Home Health Aide figure is 22.3% —
+flagged as a separate fact-check catch rather than silently folded into
+the same edit, since it was content I'd written that the new data
+contradicted. I decided how to rewrite both.
+
 ## 2026-10-09 — pipeline-projection: real values sourced for four of five Inputs, one deliberately left open
 
 Tool: Claude Code. Decided to tie the pipeline model to Graphic Designers
