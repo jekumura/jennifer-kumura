@@ -5,16 +5,15 @@ I plan to run," item 3. Resolves loose end 4 of the 2026-10-06 instructor
 review: "when the cohort model is built, answer in H2 which year the
 shortage appears at three years and at five."
 
-**Status:** structure and formulas built. Four of five Inputs values are now
+**Status:** structure and formulas built. All five Inputs values are now
 real or confirmed: `Baseline_Annual_Hires` and `Depressed_Hiring_Pct` are
 sourced from BLS and the primary paper, `Transition_Rate` and
-`Attrition_Rate` are Jennifer's confirmed judgment calls (see §2 below for
-sourcing on each). `Base_MidLevel_Stock` is still a placeholder — Jennifer
-is holding it there until the IPUMS extract gives a real mid-level
-headcount for Graphic Designers, rather than guessing. Formula correctness
-was verified against an independent plain-Python simulation (below); the
-workbook itself has not been recalculated in Excel (see "Known limitation"
-in `README.md`).
+`Attrition_Rate` are Jennifer's confirmed judgment calls, and
+`Base_MidLevel_Stock` is now the real weighted mid-level headcount for
+Graphic Designers from the IPUMS extract (see §2 below for sourcing on
+each). Formula correctness was verified against an independent plain-Python
+simulation (below); the workbook itself has not been recalculated in Excel
+(see "Known limitation" in `README.md`).
 
 ## 1. What the model does
 
@@ -38,11 +37,9 @@ close it, and does the answer change between N=3 and N=5.
 | `Attrition_Rate` | 0.05 | Jennifer's professional judgment. No occupation-specific source found. |
 | `N_Primary` | 3 | The brief's primary training-lag assumption. |
 | `N_Sensitivity` | 5 | The brief's sensitivity case. |
-| `Base_MidLevel_Stock` | 500 | **Still a placeholder.** Mid-level headcount anchor in `Base_Year`. Held here deliberately pending the real IPUMS extract for Graphic Designers, rather than guessed. |
+| `Base_MidLevel_Stock` | 98,685 | IPUMS CPS Basic Monthly, OCC 2634 (Graphic Designers), employed (EMPSTAT 10/12), age 26-35, 2022. Weighted headcount averaged across the 12 monthly samples (range 77,280-117,161 month to month; unweighted N=350 across the year, roughly 23-68 respondents/month). Age band chosen as the complement to the 22-25 early-career band already used for H1, since the model's `MidSupply` recursion has no separate exit tier for "senior" — attrition is the only way out of the stock, so "mid-level" is simply everyone employed in the occupation who isn't early-career. |
 
-Four of the five values above are now real or confirmed; only
-`Base_MidLevel_Stock` remains an illustrative round number pending the
-IPUMS extract.
+All five Inputs values are now real or confirmed.
 
 ## 3. Derived formulas (`Calculations` tab)
 
@@ -114,21 +111,35 @@ can recalculate the file in this environment (it currently cannot — see
 | Onset year (Recovery) | 2026 | 2028 |
 | Max gap (Recovery) | ~9,972 | ~9,972 |
 
-Both passes confirm the same qualitative pattern: N=3's onset (2026) is
-`Base_Year+1+N` = 2023+3; N=5's onset (2028) is 2023+5 — shorter training
-lag means the shortage shows up sooner, not later, under otherwise
-identical hiring assumptions. That onset-timing result is now meaningful,
-since it comes from real inputs except the stock anchor, which doesn't
-affect *when* the gap turns positive (only its size).
+**Pass 3 (re-run with all five values real/confirmed — `Base_MidLevel_Stock`
+now 98,685, replacing the 500 placeholder; the other four unchanged from
+Pass 2):**
 
-**The magnitude numbers in Pass 2 are not meaningful, and that's worth
-flagging plainly.** With a real 20,000/year hiring flow compounding against
-the still-placeholder 500-person starting stock, the baseline stock balloons
-to ~148,000 by 2035 — an obvious scale artifact of mixing a real flow with
-a placeholder stock, not a real finding about the Graphic Designer pipeline.
-This is itself useful confirmation that `Base_MidLevel_Stock` isn't optional
-to leave blank indefinitely: once it's real, Pass 2's gap magnitudes will
-mean something; until then, only the onset-year pattern should be read as
-informative. **Neither table is H2's final answer** — replacing the last
-placeholder with a real mid-level headcount for Graphic Designers, then
-reading the actual `Summary` tab, is what answers H2 at both training lags.
+| | N=3 | N=5 |
+|---|---|---|
+| Onset year (Depressed) | 2026 | 2028 |
+| Max gap (Depressed) | ~17,688 | ~14,836 |
+| Baseline stock at 2035 | ~198,603 | ~198,603 |
+| Onset year (Recovery) | 2026 | 2028 |
+| Max gap (Recovery) | ~9,972 | ~9,972 |
+
+All three passes confirm the same onset-timing pattern: N=3's onset (2026)
+is `Base_Year+1+N` = 2023+3; N=5's onset (2028) is 2023+5 — shorter
+training lag means the shortage shows up sooner, not later, under otherwise
+identical hiring assumptions.
+
+**Correction to what Pass 2 claimed about the gap magnitudes.** Pass 2's
+writeup said the gap numbers were "not meaningful" because they were
+computed against the placeholder stock. Comparing Pass 2 and Pass 3
+directly shows that claim was wrong: every `Max gap` figure is identical
+between the two passes, even though `Base_MidLevel_Stock` changed from 500
+to 98,685. This isn't a coincidence — it falls out of the model's own
+structure. `Gap[t,s,N] = MidSupply[t,Baseline,N] - MidSupply[t,s,N]`, and
+all three scenarios share the same seed value in `Base_Year` and the same
+attrition decay each year; that shared term cancels exactly out of the
+subtraction, leaving the gap a function of the hiring-flow differences
+alone. `Base_MidLevel_Stock` only ever affected the *absolute* baseline
+level (148,201 vs. 198,603 at `End_Year`) — never the gap, which is what
+H2 actually asks about. So Pass 2's gap numbers were already H2's answer;
+they just hadn't been labeled that way. Pass 3 confirms it rather than
+changing it.
