@@ -66,7 +66,7 @@ This is where the analysis lives.
 | Early-career employment in AI-exposed occupations has declined relative to experienced workers | Brynjolfsson, Chandar & Chen (Aug 2026). Descriptive, not causal, per the authors |
 | Adjustment so far has come through employment, not wages | Same source. Verify the exact finding in the primary paper |
 | Junior-to-mid-level progression takes about three years | My professional judgment about the development period relevant to this pipeline — a modeling assumption, not an externally established benchmark. Tested at five years as a sensitivity case. |
-| Graphic designers' junior tasks are more automatable than interface designers' | Anthropic Economic Index Job Explorer classifies both occupations separately with their own automation/augmentation measures, confirmed by direct check. `[TBD: pull the actual percentages and confirm they support this ranking, not just that the data exists]` |
+| Graphic designers' junior tasks are more automatable than interface designers' | Anthropic Economic Index Job Explorer (June 2026 "Cadences" release), confirmed by direct check: Graphic Designers ≈37% automated / 26% augmented / 37% not captured in the data; Web & Digital Interface Designers ≈17% automated / 20% augmented / 63% not captured. Figures are my own count of the tool's task-level grid, not an officially published aggregate — the interactive tool shows per-task breakdowns, not a single occupation-level percentage. |
 | The decline is driven by AI rather than interest rates or the post-2022 tech correction | The primary protection against a general labor-market or occupation-specific downturn is the within-occupation early-career-versus-experienced comparison, supplemented by a CPS-based Home Health Aide control using the same data source as the two design occupations. The Stanford/ADP Home Health Aide series remains as an additional cross-source control. **Biggest vulnerability; address it directly** |
 
 ## The analysis I plan to run
@@ -133,7 +133,7 @@ action among firms, supported by a legally enforceable, sector-wide funding mech
 - CPS/IPUMS: employment by age for Home Health Aides (OCC 3601, 2018 scheme onward) — same-source control for the two CPS design occupations; verify the exact code against the primary IPUMS table before building the extract
 - Brynjolfsson, Chandar & Chen (2025, revised Aug 2026), "Canaries in the Coal Mine?": cite the primary paper
 - BLS Occupational Employment and Wage Statistics: employment and wages for graphic designers, web & digital interface designers, software developers, and the control
-- Anthropic Economic Index, Job Explorer: occupation-specific automation vs. augmentation measures for Graphic Designers and Web & Digital Interface Designers
+- Anthropic Economic Index, Job Explorer (June 2026 "Cadences" release): task-level automation/augmentation grid for Graphic Designers and Web & Digital Interface Designers, confirmed directly — aggregate counts and illustrative task examples (e.g., archiving vs. client-facing design judgment) recorded in the assumptions table
 
 ## Guardrails for the paper
 
