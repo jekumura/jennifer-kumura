@@ -82,7 +82,9 @@ This is where the analysis lives.
 
 ## Hypotheses
 
-**H1 (mechanism):** since late 2022, the relative early-career employment decline is larger for graphic designers than for web and digital interface designers, by at least 10 percentage points. Software developers fall closer to graphic designers, and the control shows no meaningful decline.
+**H1 (mechanism):** since late 2022, **graphic designers decline more than Web & Digital Interface Designers.** Because these estimates come from relatively small CPS/IPUMS cells, the comparison will be evaluated using the 95% confidence interval for the estimated difference; the result supports the hypothesis if the interval excludes zero in the predicted direction. Software developers fall closer to graphic designers, and the control shows no meaningful decline.
+
+`[CELL-SIZE NOTE: pooling the full late-2022-to-present window into two ~8-quarter blocks (baseline, current) gives roughly 128 CPS respondents per occupation per block. At that size, each block's estimate carries a standard error of roughly 4.4 percentage points; the between-occupation comparison's standard error is roughly 8.8 points, and the resulting 95% confidence interval on the gap is roughly ±17 points wide. These are order-of-magnitude estimates — a simple-random-sample approximation, not a design-based CPS calculation — and should be replaced with the actual figures once the IPUMS extract is built.]`
 
 **H2 (timing):** under the depressed scenario, a mid-level shortage emerges by 2030, and the subsequent recovery in junior hiring will not arrive early enough to build the talent pipeline before that talent is needed, given the assumed training time. `[PROVISIONAL: this claim predates the pipeline model build. The primary training-time assumption just moved from five years to three, which changes the cohort math — re-verify against the model once built, under both the three-year primary case and the five-year sensitivity case.]`
 
