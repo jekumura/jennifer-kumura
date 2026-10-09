@@ -5,12 +5,16 @@ I plan to run," item 3. Resolves loose end 4 of the 2026-10-06 instructor
 review: "when the cohort model is built, answer in H2 which year the
 shortage appears at three years and at five."
 
-**Status:** structure and formulas built; every `Inputs` value is a
-placeholder pending Jennifer's actual assumption choices (real hiring
-decline, transition rate, attrition rate, base-year mid-level headcount).
-Formula correctness was verified against an independent plain-Python
-simulation (below); the workbook itself has not been recalculated in Excel
-(see "Known limitation" in `README.md`).
+**Status:** structure and formulas built. Four of five Inputs values are now
+real or confirmed: `Baseline_Annual_Hires` and `Depressed_Hiring_Pct` are
+sourced from BLS and the primary paper, `Transition_Rate` and
+`Attrition_Rate` are Jennifer's confirmed judgment calls (see §2 below for
+sourcing on each). `Base_MidLevel_Stock` is still a placeholder — Jennifer
+is holding it there until the IPUMS extract gives a real mid-level
+headcount for Graphic Designers, rather than guessing. Formula correctness
+was verified against an independent plain-Python simulation (below); the
+workbook itself has not been recalculated in Excel (see "Known limitation"
+in `README.md`).
 
 ## 1. What the model does
 
@@ -23,22 +27,22 @@ close it, and does the answer change between N=3 and N=5.
 
 ## 2. Data inputs (named ranges, `Inputs` tab)
 
-| Named range | Placeholder value | What it is |
+| Named range | Value | What it is |
 |---|---|---|
 | `Base_Year` | 2022 | First year of the model; mid-level stock in this year is the seed. |
 | `End_Year` | 2035 | Last year modeled. |
-| `Baseline_Annual_Hires` | 100 | Juniors hired per year under the pre-2022 trend. **Placeholder.** |
-| `Depressed_Hiring_Pct` | 0.70 | Hiring as a share of baseline under Depressed, from `Base_Year`+1 onward. **Placeholder.** |
+| `Baseline_Annual_Hires` | 20,000 | BLS Occupational Outlook Handbook, Graphic Designers (2024–2034 projections): ~20,000 average annual openings. Bundles growth and replacement openings — not specifically junior hires. |
+| `Depressed_Hiring_Pct` | 0.855 | 1 − 0.145. Brynjolfsson, Chandar & Chen (revised Aug 2026), Table 1 Panel A: AI-exposure Quintile 4 (Graphic Designers' quintile per Table A.5) shows a −14.5% employment coefficient for ages 22–25 vs. Quintile 1, primary 2018-balanced sample. A regression coefficient on employment stock, not a literal hiring-rate reduction — used as a proxy per the paper's Fact 4 (decline operates through reduced hiring, not separations). |
 | `Recovery_Start_Year` | 2028 | Matches the brief: hiring returns to baseline by this year under Recovery. |
-| `Transition_Rate` | 0.80 | Share of a hired cohort that survives to become mid-level after N years. **Placeholder.** |
-| `Attrition_Rate` | 0.05 | Annual attrition applied to the mid-level stock. **Placeholder.** |
+| `Transition_Rate` | 0.80 | Jennifer's professional judgment. No occupation-specific source found. |
+| `Attrition_Rate` | 0.05 | Jennifer's professional judgment. No occupation-specific source found. |
 | `N_Primary` | 3 | The brief's primary training-lag assumption. |
 | `N_Sensitivity` | 5 | The brief's sensitivity case. |
-| `Base_MidLevel_Stock` | 500 | Mid-level headcount anchor in `Base_Year`, shared across all scenarios/N since none have diverged yet. **Placeholder.** |
+| `Base_MidLevel_Stock` | 500 | **Still a placeholder.** Mid-level headcount anchor in `Base_Year`. Held here deliberately pending the real IPUMS extract for Graphic Designers, rather than guessed. |
 
-Values marked **Placeholder** are illustrative round numbers only — they
-make the formulas computable, not assumptions Jennifer has decided on or
-sourced. Replacing them with real figures is her task, not this build's.
+Four of the five values above are now real or confirmed; only
+`Base_MidLevel_Stock` remains an illustrative round number pending the
+IPUMS extract.
 
 ## 3. Derived formulas (`Calculations` tab)
 
@@ -85,29 +89,46 @@ has closed or still persists at the end of the window.
 ## 5. Independent verification (pre-Excel)
 
 Before writing the workbook, the same recursion was run as a plain-Python
-simulation using the placeholder values above, to catch logic errors
-independent of whether Excel/LibreOffice can recalculate the file in this
-environment (it currently cannot — see `README.md`). Result:
+simulation, to catch logic errors independent of whether Excel/LibreOffice
+can recalculate the file in this environment (it currently cannot — see
+`README.md`). Two passes:
+
+**Pass 1 (illustrative placeholders, before real values were sourced):**
 
 | | N=3 | N=5 |
 |---|---|---|
 | Onset year (Depressed) | 2026 | 2028 |
 | Max gap (Depressed) | 183.0 | 153.5 |
-| Gap at 2035 (Depressed) | 183.0 | 153.5 (still growing, never closes under these placeholders) |
 | Onset year (Recovery) | 2026 | 2028 |
 | Max gap (Recovery) | 103.2 | 103.2 |
-| Gap at 2035 (Recovery) | 79.8 (narrowing) | 88.4 (narrowing) |
 
-This matches the qualitative reasoning from the research-brief conversation
-exactly: N=3's onset (2026) is `Base_Year+1+N` = 2023+3; N=5's onset (2028)
-is 2023+5 — shorter training lag means the shortage shows up sooner, not
-later, under otherwise identical hiring assumptions. The Recovery scenario's
-gap visibly narrows relative to Depressed's once hiring rebounds in 2028,
-confirming the recovery mechanic is doing something, though under these
-illustrative placeholders it narrows without fully closing by 2035 at
-either N — a result about this spec's own placeholder values, not a
-finding about the real world. **This table is not H2's answer** — it
-confirms the formulas behave as designed, using numbers nobody has claimed
-are real. Replacing the placeholder inputs with Jennifer's actual chosen
-assumptions, then reading the real `Summary` tab, is what actually answers
-H2 at both training lags.
+**Pass 2 (re-run with the four real/confirmed values — `Baseline_Annual_Hires`
+20,000; `Depressed_Hiring_Pct` 0.855; `Transition_Rate` 0.80; `Attrition_Rate`
+0.05 — while `Base_MidLevel_Stock` stays at its placeholder, 500):**
+
+| | N=3 | N=5 |
+|---|---|---|
+| Onset year (Depressed) | 2026 | 2028 |
+| Max gap (Depressed) | ~17,688 | ~14,836 |
+| Baseline stock at 2035 | ~148,201 | ~148,201 |
+| Onset year (Recovery) | 2026 | 2028 |
+| Max gap (Recovery) | ~9,972 | ~9,972 |
+
+Both passes confirm the same qualitative pattern: N=3's onset (2026) is
+`Base_Year+1+N` = 2023+3; N=5's onset (2028) is 2023+5 — shorter training
+lag means the shortage shows up sooner, not later, under otherwise
+identical hiring assumptions. That onset-timing result is now meaningful,
+since it comes from real inputs except the stock anchor, which doesn't
+affect *when* the gap turns positive (only its size).
+
+**The magnitude numbers in Pass 2 are not meaningful, and that's worth
+flagging plainly.** With a real 20,000/year hiring flow compounding against
+the still-placeholder 500-person starting stock, the baseline stock balloons
+to ~148,000 by 2035 — an obvious scale artifact of mixing a real flow with
+a placeholder stock, not a real finding about the Graphic Designer pipeline.
+This is itself useful confirmation that `Base_MidLevel_Stock` isn't optional
+to leave blank indefinitely: once it's real, Pass 2's gap magnitudes will
+mean something; until then, only the onset-year pattern should be read as
+informative. **Neither table is H2's final answer** — replacing the last
+placeholder with a real mid-level headcount for Graphic Designers, then
+reading the actual `Summary` tab, is what answers H2 at both training lags.

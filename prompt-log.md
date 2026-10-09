@@ -20,6 +20,36 @@ experiences showed me that AI was most useful as a tool for analysis and
 verification, but I needed to independently check its outputs against
 the model, source material, and underlying formulas.
 
+## 2026-10-09 — pipeline-projection: real values sourced for four of five Inputs, one deliberately left open
+
+Tool: Claude Code. Decided to tie the pipeline model to Graphic Designers
+specifically rather than keep it illustrative, which changed what each
+Inputs-tab value needed. Claude found real, citable figures for two of
+the four remaining placeholders and flagged two as genuine judgment
+calls with no occupation-specific source: `Baseline_Annual_Hires` from
+the BLS Occupational Outlook Handbook's ~20,000 average annual openings
+for Graphic Designers (with the bundled-openings caveat flagged), and
+`Depressed_Hiring_Pct` from the primary paper's own Table A.5, which
+places Graphic Designers in AI-exposure Quintile 4 — giving a direct,
+occupation-relevant regression coefficient (-14.5%, the paper's primary
+2018-balanced sample) rather than the generic aggregate figures offered
+earlier. I set Transition_Rate (0.80) and Attrition_Rate (0.05) myself,
+with no source Claude could find for either.
+
+Decided to hold `Base_MidLevel_Stock` at its placeholder rather than
+guess, since the real figure needs the age-based IPUMS extract I
+haven't built yet. Claude re-ran the independent Python verification
+with the four real values in place and caught something worth knowing
+before I look at the Summary tab's numbers: with a real 20,000/year
+hiring flow compounding against the still-placeholder 500-person stock,
+the baseline stock balloons to an obviously unrealistic ~148,000 by
+2035 — confirmation that the stock anchor isn't optional to leave
+blank, not a real finding. The onset-year pattern (2026 at N=3, 2028 at
+N=5) held steady across both the illustrative and real-input runs, so
+that part of the result is meaningful now; the gap magnitudes aren't,
+yet. Updated model.xlsx, spec.md, and README.md to record the sourcing
+and this caveat.
+
 ## 2026-10-09 — capabilities/pipeline-projection built; a pasted spreadsheet design declined, then sanity-checked
 
 Tool: Claude Code. Working through loose end 4 of the 2026-10-06 review
