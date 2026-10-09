@@ -104,9 +104,15 @@ not a judgment call, copied here for reference:
 - Typed, double-spaced, 12-point Times New Roman, one-inch margins
 - Title page: name, date, course title, assignment title — the only page with identifying information
 - At least one graph, chart, or diagram
-- Citations in APA, MLA, or Chicago, with a separate bibliography page
+- Citations in **APA** (chosen format), with a separate bibliography page
 - The repository URL never appears anywhere in the paper (double-anonymous peer review)
 
 ## References
 
-> Sources used to write this spec itself (not the paper's bibliography).
+Sources used to write this spec itself (not the paper's bibliography):
+
+- `docs/briefs/2026-10-09-research-brief.md` — the brief this spec is built from
+- Stauffer, A. (n.d.). *Research paper assignment*. AI + LMS course site. https://adamwstauffer.github.io/ai-lms/research-paper.html — assignment requirements, workflow stages, and Output Format constraints
+- `docs/templates/spec-template.md` — the template this spec adapts (sections 6-10 and the ratio-specific sections dropped as not applicable)
+- `capabilities/economic-research/pipeline-model-spec.md` — source for the H2 model/figure details and the independent-verification checks in §5
+- IPUMS CPS occupation codes, 2020+ scheme. https://cps.ipums.org/cps/codes/occ_2020_codes.shtml — OCC 3601 code confirmation, carried into §2
