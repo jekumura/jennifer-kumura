@@ -23,7 +23,7 @@ assumption.
   junior hiring, and does a later recovery in hiring arrive early enough to
   avoid it, under a 3-year training lag (the brief's primary assumption)
   and a 5-year lag (its sensitivity case).
-  [Brief](../../docs/briefs/research-brief.md) · [Spec](./spec.md) ·
+  [Brief](../../docs/briefs/2026-10-09-research-brief.md) · [Spec](./spec.md) ·
   [Model](./model.xlsx)
 
 ## Known limitation
