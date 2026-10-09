@@ -1,6 +1,6 @@
 # Pipeline Projection — spec
 
-**Supports:** `docs/briefs/research-brief.md`, H2 (timing) and "The analysis
+**Supports:** `docs/briefs/2026-10-09-research-brief.md`, H2 (timing) and "The analysis
 I plan to run," item 3. Resolves loose end 4 of the 2026-10-06 instructor
 review: "when the cohort model is built, answer in H2 which year the
 shortage appears at three years and at five."

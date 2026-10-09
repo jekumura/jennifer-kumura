@@ -1,7 +1,7 @@
 ---
 engagement: economic-research
 stage: 1 · Ask
-file: docs/briefs/research-brief.md
+file: docs/briefs/2026-10-09-research-brief.md
 date: 2026-10-06
 status: draft v3
 scope: United States
