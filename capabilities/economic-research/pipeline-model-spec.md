@@ -30,16 +30,16 @@ close it, and does the answer change between N=3 and N=5.
 |---|---|---|
 | `Base_Year` | 2022 | First year of the model; mid-level stock in this year is the seed. |
 | `End_Year` | 2035 | Last year modeled. |
-| `Baseline_Annual_Hires` | 20,000 | BLS Occupational Outlook Handbook, Graphic Designers (2024–2034 projections): ~20,000 average annual openings. Bundles growth and replacement openings — not specifically junior hires. |
+| `Baseline_Annual_Hires` | 16,000 | BLS Employment Projections, Table 1.10 (2025–35 cycle), Graphic Designers (SOC 27-1024): "Occupational openings, annual average" = 16,000. Replaces an earlier 20,000 figure drawn from the 2024–2034 cycle — updated for vintage consistency with the other two occupations in §6. Bundles growth and replacement openings — not specifically junior hires. |
 | `Depressed_Hiring_Pct` | 0.855 | 1 − 0.145. Brynjolfsson, Chandar & Chen (revised Aug 2026), Table 1 Panel A: AI-exposure Quintile 4 (Graphic Designers' quintile per Table A.5) shows a −14.5% employment coefficient for ages 22–25 vs. Quintile 1, primary 2018-balanced sample. A regression coefficient on employment stock, not a literal hiring-rate reduction — used as a proxy per the paper's Fact 4 (decline operates through reduced hiring, not separations). |
 | `Recovery_Start_Year` | 2028 | Matches the brief: hiring returns to baseline by this year under Recovery. |
 | `Transition_Rate` | 0.80 | Jennifer's professional judgment. No occupation-specific source found. |
-| `Attrition_Rate` | 0.05 | Jennifer's professional judgment. No occupation-specific source found. |
+| `Attrition_Rate` | 0.065 | BLS Employment Projections, Table 1.10 (2025–35 cycle), Graphic Designers (SOC 27-1024): "Total occupational separations rate, annual average" = 6.5% (2.2% labor-force exit + 4.4% occupational transfer). Replaces the earlier uniform 0.05 judgment call — no occupation-specific source had been found at the time. |
 | `N_Primary` | 3 | The brief's primary training-lag assumption. |
 | `N_Sensitivity` | 5 | The brief's sensitivity case. |
 | `Base_MidLevel_Stock` | 98,685 | IPUMS CPS Basic Monthly, OCC 2634 (Graphic Designers), employed (EMPSTAT 10/12), age 26-35, 2022. Weighted headcount averaged across the 12 monthly samples (range 77,280-117,161 month to month; unweighted N=350 across the year, roughly 23-68 respondents/month). Age band chosen as the complement to the 22-25 early-career band already used for H1, since the model's `MidSupply` recursion has no separate exit tier for "senior" — attrition is the only way out of the stock, so "mid-level" is simply everyone employed in the occupation who isn't early-career. |
 
-All five Inputs values are now real or confirmed.
+All five Inputs values are now real or confirmed. `Baseline_Annual_Hires` and `Attrition_Rate` were updated 2026-10-10 to the current (2025–35) BLS Employment Projections cycle — see §7 for the resulting Pass 4 recomputation.
 
 ## 3. Derived formulas (`Calculations` tab)
 
@@ -144,33 +144,67 @@ H2 actually asks about. So Pass 2's gap numbers were already H2's answer;
 they just hadn't been labeled that way. Pass 3 confirms it rather than
 changing it.
 
+**Pass 4 (2026-10-10, `Baseline_Annual_Hires` and `Attrition_Rate` updated
+to the real 2025–35 BLS Employment Projections cycle — 16,000 and 0.065
+respectively, replacing the 20,000/0.05 values Pass 2–3 used; the other
+three inputs unchanged):**
+
+| | N=3 | N=5 |
+|---|---|---|
+| Onset year (Depressed) | 2026 | 2028 |
+| Max gap (Depressed) | ~13,065 | ~11,103 |
+| Onset year (Recovery) | 2026 | 2028 |
+| Max gap (Recovery) | ~7,620 | ~7,620 |
+
+Onset years are unchanged from Pass 1–3, confirming the earlier structural
+point: onset timing is fixed by `Base_Year+1+N` alone and doesn't depend on
+`Baseline_Annual_Hires` or `Attrition_Rate`. Gap magnitudes did shift —
+smaller than Pass 2–3's, since both the lower hires figure and the higher
+attrition rate pull the Depressed scenario's shortfall down relative to
+Baseline. This is the version reported in the paper and in Figure 2.
+
 ## 6. Cross-occupation extension (Figure 2)
 
 Figure 2 runs the same recursion (N=3, the primary case only) separately
 for three occupations, each with its own real inputs:
 
-| Occupation | `Baseline_Annual_Hires` | `Depressed_Hiring_Pct` | `Base_MidLevel_Stock` |
-|---|---|---|---|
-| Graphic Designers | 20,000 (BLS OOH) | 0.855 (Quintile 4, −14.5%, Table 1 Panel A) | 98,685 (IPUMS, age 26-35) |
-| Software Developers | 134,600 (BLS OOH, **2018–28 cycle** — older vintage than the other two occupations' current-cycle figures; flagged, not reconciled) | 0.82 (Quintile 5, −18%, Table 1 Panel A, primary 2018-balanced sample — same specification as Graphic Designers' figure) | 758,181 (IPUMS, age 26-35, N=2,630) |
-| Home Health Aides | 765,800 (BLS OOH, current cycle) | 1.0 — **inferred, not read off a table cell.** Home Health Aides is Quintile 1 (lowest exposure, confirmed via Table A.2). The paper's text discusses "the least-exposed quintile" only as a comparison group and never gives it its own coefficient, consistent with Quintile 1 being the omitted regression reference category (coefficient = 0 by construction). This is a reasonable inference, not a confirmed figure — worth checking against an explicit statement in the paper if one is ever found. | 108,974 (IPUMS, age 26-35, N=329) |
+| Occupation | `Baseline_Annual_Hires` | `Depressed_Hiring_Pct` | `Attrition_Rate` | `Base_MidLevel_Stock` |
+|---|---|---|---|---|
+| Graphic Designers | 16,000 (BLS Employment Projections, Table 1.10, 2025–35 cycle, SOC 27-1024) | 0.855 (Quintile 4, −14.5%, Table 1 Panel A) | 0.065 (BLS Table 1.10, total occupational separations rate, SOC 27-1024) | 98,685 (IPUMS, age 26-35) |
+| Software Developers | 95,300 (BLS Employment Projections, Table 1.10, 2025–35 cycle, SOC 15-1252 — replaces an earlier 134,600 figure from the 2018–28 cycle) | 0.82 (Quintile 5, −18%, Table 1 Panel A, primary 2018-balanced sample — same specification as Graphic Designers' figure) | 0.043 (BLS Table 1.10, total occupational separations rate, SOC 15-1252) | 758,181 (IPUMS, age 26-35, N=2,630) |
+| Construction Laborers | 120,000 (BLS Employment Projections, Table 1.10, 2025–35 cycle, SOC 47-2061) | 0.982 (1 − 0.0183) — set from this paper's own first-test-style result: Construction Laborers' weighted CPS/IPUMS early-career employment decline (ages 22-25, same baseline/current windows as the first test) was 1.83% (weighted: 5,547,385 baseline → 5,445,936 current; n=1,486 baseline / 1,255 current). Sourced the same way as the other two occupations, not inferred. | 0.071 (BLS Table 1.10, total occupational separations rate, SOC 47-2061) | 6,384,548 (IPUMS, age 26-35, N=1,768) |
 
-`Transition_Rate` (0.80) and `Attrition_Rate` (0.05) are unchanged across
-all three — Jennifer's judgment calls, not occupation-specific, same as
-the single-occupation model.
+`Baseline_Annual_Hires` and `Attrition_Rate` are on the same BLS Employment
+Projections cycle (2025–35, Table 1.10) across all three occupations, and
+`Attrition_Rate` is each occupation's own real total-separations rate
+(labor-force exits + occupational transfers), not a uniform judgment call.
+`Transition_Rate` (0.80) remains Jennifer's judgment call, unchanged — no
+occupation-specific source has been found for it.
 
-Quintile assignments for Software Developers and Home Health Aides came
-from the paper's Table A.5/A.6 appendix (top-50-occupations-by-ADP-
-employment lists, one per quintile) — Interface Designers was checked
-against all five quintile tables and doesn't appear in any of them, so
-no `Depressed_Hiring_Pct` could be sourced for it and it's excluded from
-Figure 2.
+**Construction Laborers replaced Home Health Aides as the control,
+2026-10-10.** Home Health Aides was originally chosen as Figure 2's third
+occupation because it's Quintile 1 (lowest AI exposure) in the primary
+paper's Table A.2. But H1's real CPS/IPUMS result found Home Health Aides
+declined 22.3% over the same window — not flat, as a control was expected
+to be — so it wasn't actually behaving like a low-impact comparison point
+once real data replaced the inference. Construction Laborers is also
+confirmed Quintile 1 (Table A.2, rank 11) and its real measured decline
+(1.83%) is much closer to flat, making it a more defensible control. Home
+Health Aides' 22.3% finding is still real and still reported in the first
+test's own text — it just isn't used as Figure 2's control input anymore.
 
-Because Software Developers' hiring volume is roughly 6-7x Graphic
+Quintile assignment for Software Developers came from the paper's Table
+A.5 appendix (top-50-occupations-by-ADP-employment list for Quintile 5);
+Construction Laborers' Quintile 1 assignment came directly from Table A.2.
+Interface Designers was checked against all five quintile tables and
+doesn't appear in any of them, so no `Depressed_Hiring_Pct` could be
+sourced for it and it's excluded from Figure 2.
+
+Because Software Developers' hiring volume is roughly 6x Graphic
 Designers', the gap is reported as a percentage of each occupation's own
 baseline-scenario stock rather than raw headcount — plotting absolute
 counts together would make Graphic Designers' line nearly invisible next
-to Software Developers'. At N=3: Graphic Designers peaks at ~8.9% (2035,
-Depressed), Software Developers at ~10.7%, and Home Health Aides stays
-at 0% throughout (a direct consequence of the `Depressed_Hiring_Pct` = 1.0
-assumption above, not an independent finding).
+to Software Developers'. At N=3: Graphic Designers peaks at ~8.8% (2035,
+Depressed), Software Developers at ~9.3%, and Construction Laborers stays
+near flat throughout (~0.4% at its peak) — the control behavior originally
+expected of this third line.
