@@ -1,6 +1,16 @@
 # Prompt Log - running record of AI sessions that mattered.
 
-## Reflection
+## Reflection — The Missing Rung: AI and the Entry-Level Tech Pipeline (2026-10-09)
+
+This project reinforced that economic analysis is not simply a matter of testing a hypothesis, but of determining what the available evidence can reasonably support. One of the most important moments was the inconclusive result for H1. The estimated difference between employment declines for Graphic Designers and Web & Digital Interface Designers was −13.0 percentage points, but its 95% confidence interval included zero. Although the point estimate ran contrary to the expected direction, the evidence was insufficient to establish a statistically meaningful difference. Rather than treating the result as proof that AI has no differential effect, I had to distinguish between a hypothesis that was not supported and a mechanism that had been disproven.
+
+A second challenge was the discrepancy between the CPS and ADP employment results for Software Developers. The CPS estimate showed a much smaller decline than the primary ADP series, raising questions about how much confidence to place in comparisons across datasets. Investigating this discrepancy highlighted that apparently similar measures can reflect different populations and data-collection methods. Rather than force the estimates into agreement, I treated the discrepancy as a limitation of the analysis and made the distinction explicit. This reinforced the importance of transparency when data availability requires compromises in research design.
+
+Working with AI also required careful judgment about the boundary between analytical assistance and authorship. AI was useful for developing arguments, examining alternative interpretations, and identifying weaknesses in the analysis. However, its suggestions sometimes extended beyond the established specification, requiring me to verify assumptions and correct the direction of the work. This made clear that analytical rigor depends not only on the tools used, but also on the researcher's willingness to question their outputs and retain responsibility for methodological decisions.
+
+Ultimately, the project shifted my understanding of a successful analysis away from confirming an initial hypothesis and toward producing a defensible conclusion. The findings do not establish every link in the proposed causal mechanism, but they help clarify where the evidence is strong, where uncertainty remains, and why the policy problem may still warrant attention. The most valuable outcome was learning to preserve that distinction rather than make the results appear more conclusive than they were.
+
+## Reflection — Perfect Competition / Marginal Analysis (Farm Case)
 
 AI helped me build and troubleshoot the model, but I found that its
 outputs still needed to be checked against the underlying assumptions
